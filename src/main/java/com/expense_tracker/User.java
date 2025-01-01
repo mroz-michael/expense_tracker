@@ -24,7 +24,7 @@ public class User {
 
         }
 
-        public User deleteUser(String usernameToDelete) {
+        public User deleteUser(User userToDelete) {
             if (!getUserType().equals("admin")) {
                 System.out.println(getUsername() + " does not have authorization to perform this operation.");
                 return null;
