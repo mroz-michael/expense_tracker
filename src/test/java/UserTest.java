@@ -7,8 +7,8 @@ public class UserTest {
 
     @Test
     public void testDeleteUser_As_Non_Admin() {
-        User regUser = new User("regular user");
-        User toDelete = new User("I wont be deleted by a non-admin");
+        User regUser = new User("regular user", false);
+        User toDelete = new User("I wont be deleted by a non-admin", false);
         assertNull("attempting to delete a user as a non-admin should return null", regUser.deleteUser(toDelete));
     }
 
@@ -16,6 +16,8 @@ public class UserTest {
         @Test
         public void testDeleteUser_As_Admin() {
         }
+
+        add another test for admin being unable to delete other admin
      */
 
 }
