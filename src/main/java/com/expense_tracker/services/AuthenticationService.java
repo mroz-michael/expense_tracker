@@ -8,9 +8,9 @@ public class AuthenticationService {
     public User login(String[] credentials) {
         String pw = credentials[1];
         //call QueryExecutor to get User from db based on username and then compare
-        User tempPlaceholder = new User("aaaa");
+        User tempPlaceholder = new User("aaaa", false);
         if (passwordValid(tempPlaceholder, pw)) {
-            return new User("this will be a user object returned by the QueryExecutor");
+            return new User("this will be a user object returned by the QueryExecutor", false);
         } else {
             System.out.println("Invalid username or password.");
             return null;
