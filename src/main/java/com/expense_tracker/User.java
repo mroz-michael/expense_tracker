@@ -61,8 +61,8 @@ public class User {
             System.out.print("Are you sure you want to change your username? This is a non-reversible action");
             System.out.println("Y/N");
             Scanner inputScan = new Scanner(System.in);
-            String userAgrees = inputScan.next();
-            if (userAgrees.toUpperCase().equals("Y") || userAgrees.toUpperCase().equals("YES")) {
+            String userAgreement = inputScan.next();
+            if (userAgreement.toUpperCase().equals("Y") || userAgreement.toUpperCase().equals("YES")) {
                 //send existing and new username to db to confirm uniqueness and update
                 return;
             }
@@ -70,7 +70,7 @@ public class User {
         }
 
         public User deleteUser(User userToDelete) {
-            if (!getUserType().equals("admin")) {
+            if (! (getUserType().equals("admin") || getUserType().equals("owner")) ) {
                 System.out.println(getUsername() + " does not have authorization to perform this operation.");
                 return null;
             }

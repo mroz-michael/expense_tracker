@@ -22,7 +22,7 @@ public class AuthenticationService {
 
     public static boolean validatePassword(String username, String plaintextUserPassword) {
         //call queryExecutor to get user's pw hash, compare with plaintxtpw
-        String existingPwHash = QueryExecutor.getUser(username).getPwHash();
+        String existingPwHash = QueryExecutor.getUser(username, "users").getPwHash();
         return BCrypt.checkpw(plaintextUserPassword, existingPwHash);
     }
 }

@@ -11,11 +11,20 @@ import com.expense_tracker.db.DBConnector;
 
         private static final String PATH_TO_CONFIG = "..\\expense_tracker\\src\\main\\java\\com\\expense_tracker\\resources\\config.properties";
 
+        public static Connection connectToDB() {
+            try {
+                Connection mySql = DBConnector.connect(PATH_TO_CONFIG);
+                return mySql;
+            } catch (IOException | SQLException e) {
+                System.out.println(e.getMessage());
+                return null;
+            }
+        }
         @Test
         public void testConnection() {
 
             try {
-                Connection mySql = DBConnector.connect(PATH_TO_CONFIG);
+                Connection mySql = connectToDB();
                 Statement stmt = mySql.createStatement();
                 PreparedStatement createTable = mySql.prepareStatement("create table if not exists Testing ( testcol varchar(10))");
                 createTable.executeUpdate();
@@ -29,7 +38,7 @@ import com.expense_tracker.db.DBConnector;
                 assertEquals("DB connection was unable to create new table and insert into it", "test", colValue);
 
 
-            } catch (SQLException | IOException e) {
+            } catch (SQLException e) {
                 fail("Unexpected exception: " + e.getMessage());
             }
 

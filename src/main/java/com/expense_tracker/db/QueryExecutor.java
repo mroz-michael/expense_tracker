@@ -13,15 +13,16 @@ public class QueryExecutor {
     //use prepared statements!
 
     public static void main(String[] args) {
-        User test = getUser("admin");
+        User test = getUser("admin", "users");
         System.out.println(test);
     }
 
-    public static User getUser(String username) {
+    public static User getUser(String username, String dbName) {
 
         try {
             Connection mySql = DBConnector.connect("");
-            String getUserQuery = "SELECT username, password_hash, role from users where username = ? ";
+            String database = dbName.equals("") ? "users" : dbName;
+            String getUserQuery = "SELECT username, password_hash, role from " + dbName + " where username = ? ";
             PreparedStatement fetchUser = mySql.prepareStatement(getUserQuery);
             fetchUser.setString(1, username);
             ResultSet res = fetchUser.executeQuery();
@@ -33,6 +34,7 @@ public class QueryExecutor {
                 dbPwHash = res.getString(2);
                 dbRole = res.getString(3);
             }
+
             if (dbUsername.isEmpty() || dbPwHash.isEmpty() || dbRole.isEmpty()) {
                 System.out.println("Error retrieving " + username + "from database. Aborting.");
                 return null;
