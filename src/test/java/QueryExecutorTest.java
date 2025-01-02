@@ -8,14 +8,14 @@ import static org.junit.Assert.*;
 
 public class QueryExecutorTest {
 
-    private final static String DB_NAME = "UserTest";
+    private final static String TEST_DB_NAME = "UserTest";
 
     @Test
     public void getUserTest_Exists() {
         Connection mySql = DbTestHelper.prepareTestDb();
         DbTestHelper.insertTestUser(mySql, "Test_User", "pw");
 
-        User fetchedUser = QueryExecutor.getUser("Test_User", DB_NAME);
+        User fetchedUser = QueryExecutor.getUser("Test_User", TEST_DB_NAME);
 
         if (fetchedUser == null) {
             fail("QueryExecutor.getUser() returned Null instead of expected User");
@@ -30,7 +30,7 @@ public class QueryExecutorTest {
     public void getUserTest_DoesNotExist() {
         Connection mySql = DbTestHelper.prepareTestDb();
         DbTestHelper.insertTestUser(mySql, "something", "pw");
-        User nonUser = QueryExecutor.getUser("!something", DB_NAME);
+        User nonUser = QueryExecutor.getUser("!something", TEST_DB_NAME);
         assertNull("getUser() did not return null when given a username not in the db", nonUser);
     }
 
@@ -38,11 +38,11 @@ public class QueryExecutorTest {
     public void updateUserTest_Exists() {
         Connection mySql = DbTestHelper.prepareTestDb();
         DbTestHelper.insertTestUser(mySql, "beforeUpdate", "pw");
-        User originalUser = QueryExecutor.getUser("beforeUpdate", DB_NAME);
+        User originalUser = QueryExecutor.getUser("beforeUpdate", TEST_DB_NAME);
         originalUser.setUsername("afterUpdate");
-        boolean userUpdated = QueryExecutor.updateUser(originalUser, DB_NAME);
+        boolean userUpdated = QueryExecutor.updateUser(originalUser, TEST_DB_NAME);
         assertTrue("Query Executor did not update the User", userUpdated);
-        User updatedUser = QueryExecutor.getUser("afterUpdate", DB_NAME);
+        User updatedUser = QueryExecutor.getUser("afterUpdate", TEST_DB_NAME);
         String newName = updatedUser.getUsername();
         assertEquals("updateUser() did not properly update username", newName,"afterUpdate");
     }
@@ -52,8 +52,19 @@ public class QueryExecutorTest {
         Connection mySql = DbTestHelper.prepareTestDb();
         DbTestHelper.insertTestUser(mySql, "beforeUpdate", "pw");
         User notInDB = new User();
-        boolean userUpdated = QueryExecutor.updateUser(notInDB, DB_NAME);
+        boolean userUpdated = QueryExecutor.updateUser(notInDB, TEST_DB_NAME);
         assertFalse("Query Executor returned true to update user not in db", userUpdated);
     }
 
+    @Test
+    public void createUserTest() {
+        Connection mySql = DbTestHelper.prepareTestDb();
+        User newUser = QueryExecutor.createUser("firstUser", "pw", "admin", TEST_DB_NAME);
+
+    }
+
+    @Test
+    public void deleteUserTest() {
+        //todo
+    }
 }

@@ -29,10 +29,11 @@ public class User {
     }
 
     //constructor used when getting user from DB:
-    public User(int id, String username, String pwHash, String userRole) {
+    public User(int id, String username, String pwHash, Date createdAt, String userRole) {
         this.id = id;
         this.username = username;
         this.pwHash = pwHash;
+        this.dateJoined = createdAt;
         this.userType = userRole;
     }
 

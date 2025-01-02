@@ -8,9 +8,7 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/expense_tracker/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/expense_tracker/User.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/expense_tracker/db/QueryExecutor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/expense_tracker/db/QueryExecutor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/expense_tracker/services/AuthenticationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/expense_tracker/services/AuthenticationService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/QueryExecutorTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/QueryExecutorTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/UserTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/UserTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -52,6 +50,7 @@
     "JUnit.QueryExecutorTest.getUserTest_Exists.executor": "Run",
     "JUnit.QueryExecutorTest.updateUserTest_Exists.executor": "Run",
     "JUnit.QueryExecutorTest.updateUserTest_Not_Exists.executor": "Run",
+    "JUnit.java in expense_tracker.executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
@@ -62,11 +61,11 @@
     "project.structure.side.proportion": "0.2"
   }
 }]]></component>
-  <component name="RunManager" selected="JUnit.QueryExecutorTest.updateUserTest_Not_Exists">
-    <configuration name="DBConnectorTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="JUnit.java in expense_tracker">
+    <configuration name="QueryExecutorTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="expense_tracker" />
       <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="DBConnectorTest" />
+      <option name="MAIN_CLASS_NAME" value="QueryExecutorTest" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -77,16 +76,6 @@
       <option name="PACKAGE_NAME" value="" />
       <option name="MAIN_CLASS_NAME" value="QueryExecutorTest" />
       <option name="METHOD_NAME" value="getUserTest_DoesNotExist" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="QueryExecutorTest.getUserTest_Exists" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="expense_tracker" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="QueryExecutorTest" />
-      <option name="METHOD_NAME" value="getUserTest_Exists" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -112,13 +101,21 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="java in expense_tracker" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="expense_tracker" />
+      <option name="TEST_OBJECT" value="directory" />
+      <dir value="$PROJECT_DIR$/src/test/java" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.java in expense_tracker" />
+        <item itemvalue="JUnit.QueryExecutorTest" />
         <item itemvalue="JUnit.QueryExecutorTest.updateUserTest_Not_Exists" />
         <item itemvalue="JUnit.QueryExecutorTest.updateUserTest_Exists" />
         <item itemvalue="JUnit.QueryExecutorTest.getUserTest_DoesNotExist" />
-        <item itemvalue="JUnit.QueryExecutorTest.getUserTest_Exists" />
-        <item itemvalue="JUnit.DBConnectorTest" />
       </list>
     </recent_temporary>
   </component>
