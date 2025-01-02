@@ -25,4 +25,17 @@ public class DbTestHelper {
         }
     }
 
+    public static void insertTestUser(Connection mySql, String username, String pw) {
+
+        try {
+            PreparedStatement addUser = mySql.prepareStatement("insert into UserTest (username, password_hash) values( ?, ? );");
+            addUser.setString(1, username);
+            addUser.setString(2, pw);
+            addUser.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+    }
+
 }
