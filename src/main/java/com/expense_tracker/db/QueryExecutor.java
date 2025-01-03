@@ -33,7 +33,6 @@ public class QueryExecutor {
             String database = dbName.equals("") ? "users" : dbName;
             String createUserQuery = "Insert into " + database + "(username, password_hash, role) " +
                     "VALUES(?, ?, ?);";
-            //String[] generatedCols = {"ID", "username", "password_hash", "date_created", "role"};
             PreparedStatement newUser = mySql.prepareStatement(createUserQuery, PreparedStatement.RETURN_GENERATED_KEYS);
             newUser.setString(1, username);
             newUser.setString(2, pwHash);
@@ -145,5 +144,29 @@ public class QueryExecutor {
             System.out.println(e.getMessage());
             return false;
         }
+    }
+
+    public static boolean deleteUser(User toDelete, String dbName) {
+
+        if (toDelete == null) { return false; }
+
+        try {
+
+            Connection mySql = DBConnector.connect("");
+            String database = dbName.equals("") ? "users" : dbName;
+            String deleteUserQuery = "delete from " + database + " where id = ? ";
+            PreparedStatement removeUser = mySql.prepareStatement(deleteUserQuery);
+            removeUser.setInt(1, toDelete.getId());
+            int rowsEffected = removeUser.executeUpdate();
+
+
+            return rowsEffected == 1;
+
+        } catch (SQLException | IOException e) {
+            System.out.println("Error attempting to delete user: " + e.getMessage());
+        }
+
+        System.out.println("Unexpected error trying to delete user from database.");
+        return false;
     }
 }

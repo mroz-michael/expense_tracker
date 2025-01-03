@@ -65,6 +65,11 @@ public class QueryExecutorTest {
 
     @Test
     public void deleteUserTest() {
-        //todo
+        Connection mySql = DbTestHelper.prepareTestDb();
+        DbTestHelper.insertTestUser(mySql, "deleteMe", "pw");
+        User toDelete = QueryExecutor.findUserByName("deleteMe", TEST_DB_NAME);
+        QueryExecutor.deleteUser(toDelete, TEST_DB_NAME);
+        assertNull("User that should have been deleted was found",
+                QueryExecutor.findUserByName("deleteMe", TEST_DB_NAME));
     }
 }

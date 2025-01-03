@@ -15,10 +15,9 @@ public class Main {
             while(rs.next()) {
                 String id = rs.getString(1);
                 String user = rs.getString(2);
-                String email = rs.getString(3);
-                String pw = rs.getString(4);
-                String dateCreated = rs.getString(5);
-                String role = rs.getString(6);
+                String pw = rs.getString(3);
+                String dateCreated = rs.getString(4);
+                String role = rs.getString(5);
                 System.out.println(id + " | " + user + " | " + pw + " | " + dateCreated);
             }
 
