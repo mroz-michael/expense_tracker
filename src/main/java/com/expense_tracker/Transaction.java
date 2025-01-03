@@ -7,7 +7,7 @@ public class Transaction {
     private double amount;
     private String description;
     private String category;
-    private User user;
+    private int userId;
 
     private int id;
 
@@ -15,16 +15,17 @@ public class Transaction {
 
     private Date date;
 
-    public Transaction(int id, double amount, User user) {
-        this(id, amount, "", "Miscellaneous", user, false, null);
+    public Transaction(int id, double amount, int userId) {
+        this(id, amount, "", "Miscellaneous", userId, false, null);
     }
 
-    public Transaction(int id, double amount, String description, String category, User user, boolean isIncome, Date date) {
+
+    public Transaction(int id, double amount, String description, String category, int userId, boolean isIncome, Date date) {
         this.id = id;
         this.amount = amount;
         this.description = description;
         this.category = category;
-        this.user = user;
+        this.userId = userId;
         this.isIncome = isIncome;
         this.date = date;
     }
@@ -57,12 +58,12 @@ public class Transaction {
         this.category = category;
     }
 
-    public User getUser() {
-        return user;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUser(int userId) {
+        this.userId = userId;
     }
 
     public Date getDate() {

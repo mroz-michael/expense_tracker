@@ -1,5 +1,7 @@
 package com.expense_tracker.services;
 
-//perform CRUD operations on transactions
+import com.expense_tracker.db.TransactionQueryExecutor;
+
+//perform CRUD operations on transactions by calling Query Executor
 public class TransactionService {
 }

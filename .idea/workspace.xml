@@ -7,11 +7,12 @@
     <list default="true" id="842b38f1-eb8c-481b-8c1c-715f01132b6a" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/expense_tracker/Transaction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/expense_tracker/Transaction.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/expense_tracker/db/DBConnector.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/expense_tracker/db/DBConnector.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/expense_tracker/db/QueryExecutor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/expense_tracker/db/UserQueryExecutor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/expense_tracker/services/AuthenticationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/expense_tracker/services/AuthenticationService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/expense_tracker/db/TransactionQueryExecutor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/expense_tracker/db/TransactionQueryExecutor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/expense_tracker/db/UserQueryExecutor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/expense_tracker/db/UserQueryExecutor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/expense_tracker/services/TransactionService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/expense_tracker/services/TransactionService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/DbTestHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/DbTestHelper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/QueryExecutorTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/UserQueryExecutorTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/TransactionQueryExecutorTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/TransactionQueryExecutorTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/UserQueryExecutorTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/UserQueryExecutorTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -58,6 +59,7 @@
     "JUnit.QueryExecutorTest.updateUserTest_Exists.executor": "Run",
     "JUnit.QueryExecutorTest.updateUserTest_Not_Exists.executor": "Run",
     "JUnit.TransactionQueryExecutorTest.executor": "Run",
+    "JUnit.TransactionQueryExecutorTest.getTransactionTest_Exists.executor": "Run",
     "JUnit.UserQueryExecutorTest.executor": "Run",
     "JUnit.java in expense_tracker.executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
@@ -70,22 +72,22 @@
     "project.structure.side.proportion": "0.2"
   }
 }]]></component>
-  <component name="RunManager" selected="JUnit.UserQueryExecutorTest">
+  <component name="RunManager" selected="JUnit.TransactionQueryExecutorTest.getTransactionTest_Exists">
+    <configuration name="TransactionQueryExecutorTest.getTransactionTest_Exists" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="expense_tracker" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="TransactionQueryExecutorTest" />
+      <option name="METHOD_NAME" value="getTransactionTest_Exists" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="UserQueryExecutorTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="expense_tracker" />
       <option name="PACKAGE_NAME" value="" />
       <option name="MAIN_CLASS_NAME" value="UserQueryExecutorTest" />
       <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="UserQueryExecutorTest.deleteUserTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="expense_tracker" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="UserQueryExecutorTest" />
-      <option name="METHOD_NAME" value="deleteUserTest" />
-      <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -122,11 +124,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.TransactionQueryExecutorTest.getTransactionTest_Exists" />
         <item itemvalue="JUnit.UserQueryExecutorTest" />
         <item itemvalue="JUnit.UserQueryExecutorTest.findUserByNameTest_Exists" />
         <item itemvalue="JUnit.UserQueryExecutorTest.findUserByNameTest_Not_Exists" />
         <item itemvalue="JUnit.UserQueryExecutorTest.updateUserTest_Exists" />
-        <item itemvalue="JUnit.UserQueryExecutorTest.deleteUserTest" />
       </list>
     </recent_temporary>
   </component>

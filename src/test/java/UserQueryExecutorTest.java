@@ -23,7 +23,7 @@ public class UserQueryExecutorTest {
 
         String fetchedUsername = fetchedUser.getUsername();
         assertEquals("UserQueryExecutor.getUser() did not return expected User",
-                "Test_User", fetchedUser.getUsername());
+                "Test_User", fetchedUsername);
     }
 
     @Test
@@ -42,7 +42,6 @@ public class UserQueryExecutorTest {
         assertNotNull("findUserByName returned null when given a valid username", firstUser);
         String username = firstUser.getUsername();
         assertEquals("findUserByName did not return user with expected username", "first user", username);
-
     }
 
     @Test

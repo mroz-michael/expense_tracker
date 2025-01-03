@@ -13,7 +13,7 @@ public class TransactionQueryExecutorTest {
         @Test
         public void getTransactionTest_Exists() {
             Connection mySql = DbTestHelper.prepareTransactionsTestTable();
-            //DbTestHelper.insertTestTransaction(mySql, "test_transaction", "pw");
+            DbTestHelper.insertTestTransaction(mySql, 42, "testing");
 
             Transaction fetchedTransaction = TransactionQueryExecutor.getTransaction(1, IS_TEST);
 
@@ -23,7 +23,7 @@ public class TransactionQueryExecutorTest {
 
             String fetchedTransactionDescription = fetchedTransaction.getDescription();
             assertEquals("TransactionQueryExecutor.getTransaction() did not return expected transaction",
-                    "test_transaction", fetchedTransactionDescription);
+                    "testing", fetchedTransactionDescription);
         }
 
         @Test
@@ -51,7 +51,7 @@ public class TransactionQueryExecutorTest {
         public void updateTransactionTest_Not_Exists() {
             Connection mySql = DbTestHelper.prepareTransactionsTestTable();
             //todo: add this method => DbTestHelper.insertTestTransaction(mySql, "beforeUpdate", "pw");
-            Transaction notInDB = new Transaction(2, 777, new User());
+            Transaction notInDB = new Transaction(2, 777, 1);
             Transaction transactionUpdated = TransactionQueryExecutor.updateTransaction(1, notInDB, IS_TEST);
             assertNull("Query Executor did not return null to update transaction not in db", transactionUpdated);
         }
@@ -62,14 +62,15 @@ public class TransactionQueryExecutorTest {
             Connection mySql = DbTestHelper.prepareTransactionsTestTable();
             DbTestHelper.insertTestUser(mySql, "test", "pw");
             User user = UserQueryExecutor.findUserByName("test", IS_TEST);
-            Transaction newtransaction = TransactionQueryExecutor.createTransaction(123, user, "test", "test", IS_TEST);
-            assertEquals("first transaction created should be given id=1 by db", 1, newtransaction.getId());
+            Transaction newTransaction = TransactionQueryExecutor.createTransaction(123,
+                    "test", "test", user.getId(), false, IS_TEST);
+            assertEquals("first transaction created should be given id=1 by db", 1, newTransaction.getId());
         }
 
         @Test
         public void deleteTransactionTest() {
             Connection mySql = DbTestHelper.prepareTransactionsTestTable();
-            DbTestHelper.insertTestTransaction(mySql);
+            DbTestHelper.insertTestTransaction(mySql, 404, "delete_transaction");
             User user = new User();
             Transaction toDelete = TransactionQueryExecutor.getTransaction(1, IS_TEST);
             TransactionQueryExecutor.deleteTransaction(toDelete.getId(), user, IS_TEST);

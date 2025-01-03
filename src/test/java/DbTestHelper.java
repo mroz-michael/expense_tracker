@@ -42,7 +42,7 @@ public class DbTestHelper {
                     "    date TIMESTAMP DEFAULT CURRENT_TIMESTAMP," +
                     "    user_id int," +
                     "    is_income tinyint default 0," +
-                    "    category VARCHAR(50) DEFAULT 'Miscellaneous'" +
+                    "    category VARCHAR(50) DEFAULT 'Miscellaneous'," +
                     "    FOREIGN KEY (user_id) REFERENCES users_test(id) on delete cascade);");
             createTable.executeUpdate();
             return mySql;
@@ -64,6 +64,16 @@ public class DbTestHelper {
         }
     }
 
-    public static void insertTestTransaction(Connection mySql){};//todo: add args & method body
+    public static void insertTestTransaction(Connection mySql, double amnt, String description){
+        try {
+            PreparedStatement addUser = mySql.prepareStatement(
+                    "insert into transactions_test (amount, description) values( ?, ? );");
+            addUser.setDouble(1, amnt);
+            addUser.setString(2, description);
+            addUser.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    };
 
 }

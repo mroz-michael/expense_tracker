@@ -13,9 +13,16 @@ import java.util.Date;
 public class UserQueryExecutor {
     //use prepared statements!
 
+    private final static String TEST_DB = "users_test";
+    private final static String REG_DB = "users";
+
     public static void main(String[] args) {
         User test = getUser(1, false);
         System.out.println(test);
+    }
+
+    public static String getTableName(boolean isTest) {
+        return isTest ? TEST_DB : REG_DB;
     }
 
     /**
@@ -30,8 +37,8 @@ public class UserQueryExecutor {
 
         try {
             Connection mySql = DBConnector.connect("");
-            String database = isTest ? "users_test" : "test";
-            String createUserQuery = "Insert into " + database + "(username, password_hash, role) " +
+            String tableName = getTableName(isTest);
+            String createUserQuery = "Insert into " + tableName + "(username, password_hash, role) " +
                     "VALUES(?, ?, ?);";
             PreparedStatement newUser = mySql.prepareStatement(createUserQuery, PreparedStatement.RETURN_GENERATED_KEYS);
             newUser.setString(1, username);
@@ -45,7 +52,6 @@ public class UserQueryExecutor {
             }
 
             User createdUser = getUser(id, isTest);
-
             return createdUser;
 
         } catch (SQLException | IOException e) {
@@ -57,8 +63,8 @@ public class UserQueryExecutor {
     public static User findUserByName(String username, boolean isTest) {
         try {
             Connection mySql = DBConnector.connect("");
-            String database = isTest ? "users_test" : "user";
-            String getUserQuery = "SELECT id, username, password_hash, date_created, role from " + database + " where username = ? ";
+            String tableName = getTableName(isTest);
+            String getUserQuery = "SELECT id, username, password_hash, date_created, role from " + tableName + " where username = ? ";
             PreparedStatement fetchUser = mySql.prepareStatement(getUserQuery);
             fetchUser.setString(1, username);
             ResultSet res = fetchUser.executeQuery();
@@ -93,8 +99,8 @@ public class UserQueryExecutor {
 
         try {
             Connection mySql = DBConnector.connect("");
-            String database = isTest ? "users_test" : "users";
-            String getUserQuery = "SELECT id, username, password_hash, date_created, role from " + database + " where id = ? ";
+            String tableName = getTableName(isTest);
+            String getUserQuery = "SELECT id, username, password_hash, date_created, role from " + tableName + " where id = ? ";
             PreparedStatement fetchUser = mySql.prepareStatement(getUserQuery);
             fetchUser.setInt(1, userID);
             ResultSet res = fetchUser.executeQuery();
@@ -131,8 +137,8 @@ public class UserQueryExecutor {
             Connection mySql = DBConnector.connect("");
             String newUsername = updatedUser.getUsername();
             String newPwHash = updatedUser.getPwHash();
-            String database = isTest ? "users_test" : "users";
-            String updateUserQuery = "update " + database + " " + "set username = ? , password_hash = ? where id= ?";
+            String tableName = getTableName(isTest);
+            String updateUserQuery = "update " + tableName + " " + "set username = ? , password_hash = ? where id= ?";
             PreparedStatement updateUser = mySql.prepareStatement(updateUserQuery);
             updateUser.setString(1, newUsername);
             updateUser.setString(2, newPwHash);
@@ -153,8 +159,8 @@ public class UserQueryExecutor {
         try {
 
             Connection mySql = DBConnector.connect("");
-            String database = isTest ? "users_test" : "users";
-            String deleteUserQuery = "delete from " + database + " where id = ? ";
+            String tableName = getTableName(isTest);
+            String deleteUserQuery = "delete from " + tableName + " where id = ? ";
             PreparedStatement removeUser = mySql.prepareStatement(deleteUserQuery);
             removeUser.setInt(1, toDelete.getId());
             int rowsEffected = removeUser.executeUpdate();
