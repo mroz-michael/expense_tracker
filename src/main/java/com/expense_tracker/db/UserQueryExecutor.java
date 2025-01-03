@@ -10,11 +10,11 @@ import java.sql.SQLException;
 
 import java.util.Date;
 
-public class QueryExecutor {
+public class UserQueryExecutor {
     //use prepared statements!
 
     public static void main(String[] args) {
-        User test = getUser(1, "users");
+        User test = getUser(1, false);
         System.out.println(test);
     }
 
@@ -23,14 +23,14 @@ public class QueryExecutor {
      * @param username username
      * @param pwHash hashed password
      * @param role owner | admin | user
-     * @param dbName used to specify name of test db, if left blank will default to actual db
+     * @param isTest used to specify name of test db, if left blank will default to actual db
      * @return the User object created and returned by the DB
      */
-    public static User createUser(String username, String pwHash, String role, String dbName) {
+    public static User createUser(String username, String pwHash, String role, boolean isTest) {
 
         try {
             Connection mySql = DBConnector.connect("");
-            String database = dbName.equals("") ? "users" : dbName;
+            String database = isTest ? "users_test" : "test";
             String createUserQuery = "Insert into " + database + "(username, password_hash, role) " +
                     "VALUES(?, ?, ?);";
             PreparedStatement newUser = mySql.prepareStatement(createUserQuery, PreparedStatement.RETURN_GENERATED_KEYS);
@@ -44,7 +44,7 @@ public class QueryExecutor {
                 id = res.getInt(1);
             }
 
-            User createdUser = getUser(id, dbName);
+            User createdUser = getUser(id, isTest);
 
             return createdUser;
 
@@ -54,10 +54,10 @@ public class QueryExecutor {
         }
     }
 
-    public static User findUserByName(String username, String dbName) {
+    public static User findUserByName(String username, boolean isTest) {
         try {
             Connection mySql = DBConnector.connect("");
-            String database = dbName.equals("") ? "users" : dbName;
+            String database = isTest ? "users_test" : "user";
             String getUserQuery = "SELECT id, username, password_hash, date_created, role from " + database + " where username = ? ";
             PreparedStatement fetchUser = mySql.prepareStatement(getUserQuery);
             fetchUser.setString(1, username);
@@ -89,11 +89,11 @@ public class QueryExecutor {
 
         return null;
     }
-    public static User getUser(int userID, String dbName) {
+    public static User getUser(int userID, boolean isTest) {
 
         try {
             Connection mySql = DBConnector.connect("");
-            String database = dbName.equals("") ? "users" : dbName;
+            String database = isTest ? "users_test" : "users";
             String getUserQuery = "SELECT id, username, password_hash, date_created, role from " + database + " where id = ? ";
             PreparedStatement fetchUser = mySql.prepareStatement(getUserQuery);
             fetchUser.setInt(1, userID);
@@ -125,13 +125,13 @@ public class QueryExecutor {
 
         return null;
     }
-    public static boolean updateUser(User updatedUser, String dbName) {
+    public static boolean updateUser(User updatedUser, boolean isTest) {
         //users can only update name and pw (hashed)
         try {
             Connection mySql = DBConnector.connect("");
             String newUsername = updatedUser.getUsername();
             String newPwHash = updatedUser.getPwHash();
-            String database = dbName.equals("") ? "users" : dbName;
+            String database = isTest ? "users_test" : "users";
             String updateUserQuery = "update " + database + " " + "set username = ? , password_hash = ? where id= ?";
             PreparedStatement updateUser = mySql.prepareStatement(updateUserQuery);
             updateUser.setString(1, newUsername);
@@ -146,19 +146,18 @@ public class QueryExecutor {
         }
     }
 
-    public static boolean deleteUser(User toDelete, String dbName) {
+    public static boolean deleteUser(User toDelete, boolean isTest) {
 
         if (toDelete == null) { return false; }
 
         try {
 
             Connection mySql = DBConnector.connect("");
-            String database = dbName.equals("") ? "users" : dbName;
+            String database = isTest ? "users_test" : "users";
             String deleteUserQuery = "delete from " + database + " where id = ? ";
             PreparedStatement removeUser = mySql.prepareStatement(deleteUserQuery);
             removeUser.setInt(1, toDelete.getId());
             int rowsEffected = removeUser.executeUpdate();
-
 
             return rowsEffected == 1;
 

@@ -9,17 +9,28 @@ public class Transaction {
     private String category;
     private User user;
 
+    private int id;
+
     private boolean isIncome;
 
     private Date date;
 
-    public Transaction(double amount, String description, String category, User user, boolean isIncome, Date date) {
+    public Transaction(int id, double amount, User user) {
+        this(id, amount, "", "Miscellaneous", user, false, null);
+    }
+
+    public Transaction(int id, double amount, String description, String category, User user, boolean isIncome, Date date) {
+        this.id = id;
         this.amount = amount;
         this.description = description;
         this.category = category;
         this.user = user;
         this.isIncome = isIncome;
         this.date = date;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public double getAmount() {

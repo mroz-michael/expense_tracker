@@ -10,10 +10,10 @@ public class DBConnector {
     public static Connection connect(String filepath) throws SQLException, IOException {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            //add url/user/pw in ./resources/config.properties
+            //add url/dbuser/dbpw in ./resources/config.properties
             Properties properties = new Properties();
-            String fileName = filepath == "" ? "src\\main\\java\\com\\expense_tracker\\resources\\config.properties" : filepath;
-            FileInputStream fileInput = new FileInputStream(fileName);
+            String configFile = filepath == "" ? "src\\main\\java\\com\\expense_tracker\\resources\\config.properties" : filepath;
+            FileInputStream fileInput = new FileInputStream(configFile);
             properties.load(fileInput);
             String url = properties.getProperty("db.url");
             String username = properties.getProperty("db.username");

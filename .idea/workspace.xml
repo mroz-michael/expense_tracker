@@ -6,9 +6,12 @@
   <component name="ChangeListManager">
     <list default="true" id="842b38f1-eb8c-481b-8c1c-715f01132b6a" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/expense_tracker/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/expense_tracker/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/expense_tracker/db/QueryExecutor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/expense_tracker/db/QueryExecutor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/QueryExecutorTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/QueryExecutorTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/expense_tracker/Transaction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/expense_tracker/Transaction.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/expense_tracker/db/DBConnector.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/expense_tracker/db/DBConnector.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/expense_tracker/db/QueryExecutor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/expense_tracker/db/UserQueryExecutor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/expense_tracker/services/AuthenticationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/expense_tracker/services/AuthenticationService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/DbTestHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/DbTestHelper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/QueryExecutorTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/UserQueryExecutorTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -46,12 +49,16 @@
     "JUnit.AuthenticationServiceTest.executor": "Run",
     "JUnit.DBConnectorTest.executor": "Run",
     "JUnit.QueryExecutorTest.createUserTest.executor": "Run",
-    "JUnit.QueryExecutorTest.deleteUserTest.executor": "Run",
+    "JUnit.QueryExecutorTest.deleteUserTest.executor": "Debug",
     "JUnit.QueryExecutorTest.executor": "Run",
+    "JUnit.QueryExecutorTest.findUserByNameTest_Exists.executor": "Run",
+    "JUnit.QueryExecutorTest.findUserByNameTest_Not_Exists.executor": "Run",
     "JUnit.QueryExecutorTest.getUserTest_DoesNotExist.executor": "Run",
     "JUnit.QueryExecutorTest.getUserTest_Exists.executor": "Run",
     "JUnit.QueryExecutorTest.updateUserTest_Exists.executor": "Run",
     "JUnit.QueryExecutorTest.updateUserTest_Not_Exists.executor": "Run",
+    "JUnit.TransactionQueryExecutorTest.executor": "Run",
+    "JUnit.UserQueryExecutorTest.executor": "Run",
     "JUnit.java in expense_tracker.executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
@@ -63,65 +70,63 @@
     "project.structure.side.proportion": "0.2"
   }
 }]]></component>
-  <component name="RunManager" selected="JUnit.QueryExecutorTest.deleteUserTest">
-    <configuration name="QueryExecutor" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="com.expense_tracker.db.QueryExecutor" />
+  <component name="RunManager" selected="JUnit.UserQueryExecutorTest">
+    <configuration name="UserQueryExecutorTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="expense_tracker" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.expense_tracker.db.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="UserQueryExecutorTest" />
+      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="QueryExecutorTest.createUserTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="UserQueryExecutorTest.deleteUserTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="expense_tracker" />
       <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="QueryExecutorTest" />
-      <option name="METHOD_NAME" value="createUserTest" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="QueryExecutorTest.deleteUserTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="expense_tracker" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="QueryExecutorTest" />
+      <option name="MAIN_CLASS_NAME" value="UserQueryExecutorTest" />
       <option name="METHOD_NAME" value="deleteUserTest" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="QueryExecutorTest.getUserTest_DoesNotExist" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="UserQueryExecutorTest.findUserByNameTest_Exists" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="expense_tracker" />
       <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="QueryExecutorTest" />
-      <option name="METHOD_NAME" value="getUserTest_DoesNotExist" />
+      <option name="MAIN_CLASS_NAME" value="UserQueryExecutorTest" />
+      <option name="METHOD_NAME" value="findUserByNameTest_Exists" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="java in expense_tracker" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="UserQueryExecutorTest.findUserByNameTest_Not_Exists" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="expense_tracker" />
-      <option name="TEST_OBJECT" value="directory" />
-      <dir value="$PROJECT_DIR$/src/test/java" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="UserQueryExecutorTest" />
+      <option name="METHOD_NAME" value="findUserByNameTest_Not_Exists" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="UserQueryExecutorTest.updateUserTest_Exists" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="expense_tracker" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="UserQueryExecutorTest" />
+      <option name="METHOD_NAME" value="updateUserTest_Exists" />
+      <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.QueryExecutorTest.deleteUserTest" />
-        <item itemvalue="JUnit.java in expense_tracker" />
-        <item itemvalue="JUnit.QueryExecutorTest.createUserTest" />
-        <item itemvalue="Application.QueryExecutor" />
-        <item itemvalue="JUnit.QueryExecutorTest.getUserTest_DoesNotExist" />
+        <item itemvalue="JUnit.UserQueryExecutorTest" />
+        <item itemvalue="JUnit.UserQueryExecutorTest.findUserByNameTest_Exists" />
+        <item itemvalue="JUnit.UserQueryExecutorTest.findUserByNameTest_Not_Exists" />
+        <item itemvalue="JUnit.UserQueryExecutorTest.updateUserTest_Exists" />
+        <item itemvalue="JUnit.UserQueryExecutorTest.deleteUserTest" />
       </list>
     </recent_temporary>
   </component>

@@ -1,6 +1,6 @@
 package com.expense_tracker.services;
 
-import com.expense_tracker.db.QueryExecutor;
+import com.expense_tracker.db.UserQueryExecutor;
 import org.mindrot.jbcrypt.BCrypt;
 import com.expense_tracker.User;
 
@@ -23,9 +23,9 @@ public class AuthenticationService {
 
     public static boolean validatePassword(String username, String plaintextUserPassword) {
         //call queryExecutor to get user's pw hash, compare with plaintxtpw
-        User foundUser = QueryExecutor.findUserByName(username, "");
+        User foundUser = UserQueryExecutor.findUserByName(username, false);
         int userId = foundUser == null ? -1 : foundUser.getId();
-        String existingPwHash = QueryExecutor.getUser(userId, "users").getPwHash();
+        String existingPwHash = UserQueryExecutor.getUser(userId, false).getPwHash();
         return BCrypt.checkpw(plaintextUserPassword, existingPwHash);
     }
 }
