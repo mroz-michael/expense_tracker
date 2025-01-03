@@ -4,6 +4,8 @@ import com.expense_tracker.db.TransactionQueryExecutor;
 import com.expense_tracker.db.UserQueryExecutor;
 import org.junit.Test;
 import java.sql.Connection;
+import java.util.List;
+
 import static org.junit.Assert.*;
 
 public class TransactionQueryExecutorTest {
@@ -35,16 +37,49 @@ public class TransactionQueryExecutorTest {
         }
 
         @Test
+        public void createTransactionTest() {
+            DbTestHelper.prepareUsersTestTable();
+            Connection mySql = DbTestHelper.prepareTransactionsTestTable();
+            DbTestHelper.insertTestUser(mySql, "test", "pw");
+            Transaction newTransaction = TransactionQueryExecutor.createTransaction(123,
+                    "test", "test", 1, false, IS_TEST);
+            assertEquals("first transaction created should be given id=1 by db", 1, newTransaction.getId());
+        }
+
+        //todo: implement method
+        @Test
+        public void getAllTransactionsTest() {
+            DbTestHelper.prepareUsersTestTable();
+            Connection mySql = DbTestHelper.prepareTransactionsTestTable();
+            DbTestHelper.insertTestUser(mySql, "test user", "pw");
+            //create 2nd user to ensure user 1 only gets transactions belonging to them
+            UserQueryExecutor.createUser("second_user", "pwh", "user", IS_TEST);
+
+            Transaction t1 = TransactionQueryExecutor.createTransaction(1, "first", "", 1,
+                    false, IS_TEST);
+            Transaction t2 = TransactionQueryExecutor.createTransaction(2, "second", "", 1,
+            false, IS_TEST);
+            Transaction t3 = TransactionQueryExecutor.createTransaction(99, "other_user", "", 2,
+                    false, IS_TEST);
+
+            User ourUser = UserQueryExecutor.getUser(1, IS_TEST);
+            List<Transaction> transactions = TransactionQueryExecutor.getAllTransactions(ourUser, IS_TEST);
+            int numTransactions = transactions.size();
+            assertEquals("getAllTransactions did not return expected number of transactions", 2, numTransactions);
+        }
+
+        //todo: implement all methods below:
+        @Test
         public void updateTransactionTest_Exists() {
             Connection mySql = DbTestHelper.prepareTransactionsTestTable();
-            //todo: add this method => DbTestHelper.insertTestTransaction(mySql, "beforeUpdate", "pw");
+            DbTestHelper.insertTestTransaction(mySql, 1234, "to_update");
             Transaction originalTransaction = TransactionQueryExecutor.getTransaction(1, IS_TEST);
-            //todo: add this method => originalTransaction.setAmount(42.00);
+            originalTransaction.setAmount(42.00);
             Transaction transactionUpdated = TransactionQueryExecutor.updateTransaction(1, originalTransaction, IS_TEST);
-            assertEquals("Query Executor did not update the transaction", transactionUpdated);
+            assertNotNull("Query Executor returned null when updating transaction", transactionUpdated);
             Transaction updatedtransaction = TransactionQueryExecutor.getTransaction(1, IS_TEST);
-            //todo: add this method => Double amnt = updatedtransaction.getTransactionAmount();
-            //assertEquals("updateTransaction() did not properly update transaction amount", 42.0, amnt);
+            double amount = updatedtransaction.getAmount();
+            assertEquals("updateTransaction did not properly update transaction amount", 42.00, amount);
         }
 
         @Test
@@ -54,16 +89,6 @@ public class TransactionQueryExecutorTest {
             Transaction notInDB = new Transaction(2, 777, 1);
             Transaction transactionUpdated = TransactionQueryExecutor.updateTransaction(1, notInDB, IS_TEST);
             assertNull("Query Executor did not return null to update transaction not in db", transactionUpdated);
-        }
-
-        @Test
-        public void createTransactionTest() {
-            DbTestHelper.prepareUsersTestTable();
-            Connection mySql = DbTestHelper.prepareTransactionsTestTable();
-            DbTestHelper.insertTestUser(mySql, "test", "pw");
-            Transaction newTransaction = TransactionQueryExecutor.createTransaction(123,
-                    "test", "test", 1, false, IS_TEST);
-            assertEquals("first transaction created should be given id=1 by db", 1, newTransaction.getId());
         }
 
         @Test
