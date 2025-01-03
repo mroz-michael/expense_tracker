@@ -29,7 +29,7 @@ public class TransactionQueryExecutorTest {
         @Test
         public void getTransactionTest_DoesNotExist() {
             Connection mySql = DbTestHelper.prepareTransactionsTestTable();
-            //todo: add this method => DbTestHelper.insertTestTransaction(mySql, "something", "pw");
+            DbTestHelper.insertTestTransaction(mySql, 1234, "anything");
             Transaction nonTransaction = TransactionQueryExecutor.getTransaction(2, IS_TEST);
             assertNull("getTransaction() did not return null when given a transaction not in the db", nonTransaction);
         }
@@ -61,9 +61,8 @@ public class TransactionQueryExecutorTest {
             DbTestHelper.prepareUsersTestTable();
             Connection mySql = DbTestHelper.prepareTransactionsTestTable();
             DbTestHelper.insertTestUser(mySql, "test", "pw");
-            User user = UserQueryExecutor.findUserByName("test", IS_TEST);
             Transaction newTransaction = TransactionQueryExecutor.createTransaction(123,
-                    "test", "test", user.getId(), false, IS_TEST);
+                    "test", "test", 1, false, IS_TEST);
             assertEquals("first transaction created should be given id=1 by db", 1, newTransaction.getId());
         }
 

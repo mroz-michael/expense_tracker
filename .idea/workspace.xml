@@ -6,13 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="842b38f1-eb8c-481b-8c1c-715f01132b6a" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/expense_tracker/Transaction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/expense_tracker/Transaction.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/expense_tracker/db/TransactionQueryExecutor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/expense_tracker/db/TransactionQueryExecutor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/expense_tracker/db/UserQueryExecutor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/expense_tracker/db/UserQueryExecutor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/expense_tracker/services/TransactionService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/expense_tracker/services/TransactionService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/DbTestHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/DbTestHelper.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/TransactionQueryExecutorTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/TransactionQueryExecutorTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/UserQueryExecutorTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/UserQueryExecutorTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -58,7 +53,9 @@
     "JUnit.QueryExecutorTest.getUserTest_Exists.executor": "Run",
     "JUnit.QueryExecutorTest.updateUserTest_Exists.executor": "Run",
     "JUnit.QueryExecutorTest.updateUserTest_Not_Exists.executor": "Run",
+    "JUnit.TransactionQueryExecutorTest.createTransactionTest.executor": "Run",
     "JUnit.TransactionQueryExecutorTest.executor": "Run",
+    "JUnit.TransactionQueryExecutorTest.getTransactionTest_DoesNotExist.executor": "Run",
     "JUnit.TransactionQueryExecutorTest.getTransactionTest_Exists.executor": "Run",
     "JUnit.UserQueryExecutorTest.executor": "Run",
     "JUnit.java in expense_tracker.executor": "Run",
@@ -72,7 +69,27 @@
     "project.structure.side.proportion": "0.2"
   }
 }]]></component>
-  <component name="RunManager" selected="JUnit.TransactionQueryExecutorTest.getTransactionTest_Exists">
+  <component name="RunManager" selected="JUnit.TransactionQueryExecutorTest.createTransactionTest">
+    <configuration name="TransactionQueryExecutorTest.createTransactionTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="expense_tracker" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="TransactionQueryExecutorTest" />
+      <option name="METHOD_NAME" value="createTransactionTest" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TransactionQueryExecutorTest.getTransactionTest_DoesNotExist" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="expense_tracker" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="TransactionQueryExecutorTest" />
+      <option name="METHOD_NAME" value="getTransactionTest_DoesNotExist" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="TransactionQueryExecutorTest.getTransactionTest_Exists" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="expense_tracker" />
       <option name="PACKAGE_NAME" value="" />
@@ -102,33 +119,13 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="UserQueryExecutorTest.findUserByNameTest_Not_Exists" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="expense_tracker" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="UserQueryExecutorTest" />
-      <option name="METHOD_NAME" value="findUserByNameTest_Not_Exists" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="UserQueryExecutorTest.updateUserTest_Exists" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="expense_tracker" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="UserQueryExecutorTest" />
-      <option name="METHOD_NAME" value="updateUserTest_Exists" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.TransactionQueryExecutorTest.createTransactionTest" />
         <item itemvalue="JUnit.TransactionQueryExecutorTest.getTransactionTest_Exists" />
+        <item itemvalue="JUnit.TransactionQueryExecutorTest.getTransactionTest_DoesNotExist" />
         <item itemvalue="JUnit.UserQueryExecutorTest" />
         <item itemvalue="JUnit.UserQueryExecutorTest.findUserByNameTest_Exists" />
-        <item itemvalue="JUnit.UserQueryExecutorTest.findUserByNameTest_Not_Exists" />
-        <item itemvalue="JUnit.UserQueryExecutorTest.updateUserTest_Exists" />
       </list>
     </recent_temporary>
   </component>
@@ -142,5 +139,16 @@
       <updated>1735684474165</updated>
     </task>
     <servers />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/expense_tracker/db/TransactionQueryExecutor.java</url>
+          <line>60</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

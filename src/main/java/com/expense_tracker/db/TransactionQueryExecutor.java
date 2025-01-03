@@ -64,12 +64,6 @@ public class TransactionQueryExecutor {
             PreparedStatement fetchTransaction = mySql.prepareStatement(getTransactionQuery);
             fetchTransaction.setInt(1, id);
             ResultSet res = fetchTransaction.executeQuery();
-            ResultSetMetaData resMeta = res.getMetaData();
-
-            if (resMeta.getColumnCount() != 7) {
-                System.out.println("Database query returned unexpected result, returning null");
-                return null;
-            }
 
             int dbId = -1;
             String dbDescription = "";
@@ -87,6 +81,11 @@ public class TransactionQueryExecutor {
                 dbUserId = res.getInt(5);
                 dbIsIncome = res.getBoolean(6);
                 dbCategory = res.getString(7);
+            }
+
+            if (dbId == -1) {
+                System.out.println("Database query returned unexpected result, returning null");
+                return null;
             }
 
             return new Transaction(dbId, dbAmount, dbDescription, dbCategory, dbUserId, dbIsIncome, dbDate);
