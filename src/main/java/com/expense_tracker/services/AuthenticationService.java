@@ -23,7 +23,9 @@ public class AuthenticationService {
 
     public static boolean validatePassword(String username, String plaintextUserPassword) {
         //call queryExecutor to get user's pw hash, compare with plaintxtpw
-        String existingPwHash = QueryExecutor.getUser(username, "users").getPwHash();
+        User foundUser = QueryExecutor.findUserByName(username, "");
+        int userId = foundUser == null ? -1 : foundUser.getId();
+        String existingPwHash = QueryExecutor.getUser(userId, "users").getPwHash();
         return BCrypt.checkpw(plaintextUserPassword, existingPwHash);
     }
 }

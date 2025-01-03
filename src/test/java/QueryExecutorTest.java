@@ -15,7 +15,7 @@ public class QueryExecutorTest {
         Connection mySql = DbTestHelper.prepareTestDb();
         DbTestHelper.insertTestUser(mySql, "Test_User", "pw");
 
-        User fetchedUser = QueryExecutor.getUser("Test_User", TEST_DB_NAME);
+        User fetchedUser = QueryExecutor.getUser(1, TEST_DB_NAME);
 
         if (fetchedUser == null) {
             fail("QueryExecutor.getUser() returned Null instead of expected User");
@@ -30,19 +30,19 @@ public class QueryExecutorTest {
     public void getUserTest_DoesNotExist() {
         Connection mySql = DbTestHelper.prepareTestDb();
         DbTestHelper.insertTestUser(mySql, "something", "pw");
-        User nonUser = QueryExecutor.getUser("!something", TEST_DB_NAME);
-        assertNull("getUser() did not return null when given a username not in the db", nonUser);
+        User nonUser = QueryExecutor.getUser(2, TEST_DB_NAME);
+        assertNull("getUser() did not return null when given a user not in the db", nonUser);
     }
 
     @Test
     public void updateUserTest_Exists() {
         Connection mySql = DbTestHelper.prepareTestDb();
         DbTestHelper.insertTestUser(mySql, "beforeUpdate", "pw");
-        User originalUser = QueryExecutor.getUser("beforeUpdate", TEST_DB_NAME);
+        User originalUser = QueryExecutor.getUser(1, TEST_DB_NAME);
         originalUser.setUsername("afterUpdate");
         boolean userUpdated = QueryExecutor.updateUser(originalUser, TEST_DB_NAME);
         assertTrue("Query Executor did not update the User", userUpdated);
-        User updatedUser = QueryExecutor.getUser("afterUpdate", TEST_DB_NAME);
+        User updatedUser = QueryExecutor.getUser(1, TEST_DB_NAME);
         String newName = updatedUser.getUsername();
         assertEquals("updateUser() did not properly update username", newName,"afterUpdate");
     }
@@ -60,7 +60,7 @@ public class QueryExecutorTest {
     public void createUserTest() {
         Connection mySql = DbTestHelper.prepareTestDb();
         User newUser = QueryExecutor.createUser("firstUser", "pw", "admin", TEST_DB_NAME);
-
+        assertEquals("first user created should be given id=1 by db", 1, newUser.getId());
     }
 
     @Test

@@ -14,7 +14,7 @@ public class QueryExecutor {
     //use prepared statements!
 
     public static void main(String[] args) {
-        User test = getUser("admin", "users");
+        User test = getUser(1, "users");
         System.out.println(test);
     }
 
@@ -33,30 +33,20 @@ public class QueryExecutor {
             String database = dbName.equals("") ? "users" : dbName;
             String createUserQuery = "Insert into " + database + "(username, password_hash, role) " +
                     "VALUES(?, ?, ?);";
-            String[] generatedCols = {"ID", "username", "password_hash", "date_created", "role"};
-            PreparedStatement newUser = mySql.prepareStatement(createUserQuery, generatedCols);
+            //String[] generatedCols = {"ID", "username", "password_hash", "date_created", "role"};
+            PreparedStatement newUser = mySql.prepareStatement(createUserQuery, PreparedStatement.RETURN_GENERATED_KEYS);
             newUser.setString(1, username);
             newUser.setString(2, pwHash);
             newUser.setString(3, role);
-            ResultSet res = newUser.executeQuery();
+            newUser.executeUpdate();
+            ResultSet res = newUser.getGeneratedKeys();
             int id = -1;
-            String dbUsername = "";
-            String dbPwHash = "";
-            Date created = null;
-            String dbRole = "";
             while (res.next()) {
-                dbUsername = res.getString(1);
-                dbPwHash = res.getString(2);
-                created = res.getDate(3);
-                dbRole = res.getString(4);
+                id = res.getInt(1);
             }
 
-            if (dbUsername.isEmpty() || dbPwHash.isEmpty() || created == null || dbRole.isEmpty() || id == -1) {
-                System.out.println("Error retrieving new user from DB");
-                return null;
-            }
+            User createdUser = getUser(id, dbName);
 
-            User createdUser = new User(id, dbUsername, dbPwHash, created, dbRole);
             return createdUser;
 
         } catch (SQLException | IOException e) {
@@ -64,8 +54,8 @@ public class QueryExecutor {
             return null;
         }
     }
-    public static User getUser(String username, String dbName) {
 
+    public static User findUserByName(String username, String dbName) {
         try {
             Connection mySql = DBConnector.connect("");
             String database = dbName.equals("") ? "users" : dbName;
@@ -87,8 +77,44 @@ public class QueryExecutor {
                 dbRole = res.getString(5);
             }
 
+            if (dbUsername.isEmpty() || dbPwHash.isEmpty() || dbRole.isEmpty() || id == -1) {
+                System.out.println("User with that Username not found in Database, returning null");
+                return null;
+            }
+
+            return new User(id, dbUsername, dbPwHash, dateJoined, dbRole);
+
+        } catch (SQLException | IOException e) {
+            System.out.println("MySQL error: " + e.getMessage());
+        }
+
+        return null;
+    }
+    public static User getUser(int userID, String dbName) {
+
+        try {
+            Connection mySql = DBConnector.connect("");
+            String database = dbName.equals("") ? "users" : dbName;
+            String getUserQuery = "SELECT id, username, password_hash, date_created, role from " + database + " where id = ? ";
+            PreparedStatement fetchUser = mySql.prepareStatement(getUserQuery);
+            fetchUser.setInt(1, userID);
+            ResultSet res = fetchUser.executeQuery();
+            String dbUsername = "";
+            String dbPwHash = "";
+            String dbRole = "";
+            Date dateJoined = new Date();
+            int id = -1;
+
+            while (res.next()) {
+                id = res.getInt(1);
+                dbUsername = res.getString(2);
+                dbPwHash = res.getString(3);
+                dateJoined = res.getDate(4);
+                dbRole = res.getString(5);
+            }
+
             if (dbUsername.isEmpty() || dbPwHash.isEmpty() || dbRole.isEmpty()) {
-                System.out.println(username + " not found in Database, returning null");
+                System.out.println("User with that ID not found in Database, returning null");
                 return null;
             }
 
