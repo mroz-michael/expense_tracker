@@ -45,7 +45,7 @@ public class TransactionQueryExecutorTest {
                     "test", "test", 1, false, IS_TEST);
             assertEquals("first transaction created should be given id=1 by db", 1, newTransaction.getId());
         }
-        
+
         @Test
         public void getAllTransactionsTest() {
             DbTestHelper.prepareUsersTestTable();
@@ -67,27 +67,27 @@ public class TransactionQueryExecutorTest {
             assertEquals("getAllTransactions did not return expected number of transactions", 2, numTransactions);
         }
 
-        //todo: implement all methods below:
+
         @Test
         public void updateTransactionTest_Exists() {
             Connection mySql = DbTestHelper.prepareTransactionsTestTable();
             DbTestHelper.insertTestTransaction(mySql, 1234, "to_update");
             Transaction originalTransaction = TransactionQueryExecutor.getTransaction(1, IS_TEST);
             originalTransaction.setAmount(42.00);
-            Transaction transactionUpdated = TransactionQueryExecutor.updateTransaction(1, originalTransaction, IS_TEST);
-            assertNotNull("Query Executor returned null when updating transaction", transactionUpdated);
+            boolean transactionUpdated = TransactionQueryExecutor.updateTransaction(originalTransaction, IS_TEST);
+            assertTrue("Query Executor returned null when updating transaction", transactionUpdated);
             Transaction updatedtransaction = TransactionQueryExecutor.getTransaction(1, IS_TEST);
             double amount = updatedtransaction.getAmount();
-            assertEquals("updateTransaction did not properly update transaction amount", 42.00, amount);
+            assertEquals("updateTransaction did not properly update transaction amount", 42.00, amount, 0.001);
         }
 
         @Test
         public void updateTransactionTest_Not_Exists() {
             Connection mySql = DbTestHelper.prepareTransactionsTestTable();
-            //todo: add this method => DbTestHelper.insertTestTransaction(mySql, "beforeUpdate", "pw");
+            DbTestHelper.insertTestTransaction(mySql, 775, "just giving the db an entry");
             Transaction notInDB = new Transaction(2, 777, 1);
-            Transaction transactionUpdated = TransactionQueryExecutor.updateTransaction(1, notInDB, IS_TEST);
-            assertNull("Query Executor did not return null to update transaction not in db", transactionUpdated);
+            boolean transactionUpdated = TransactionQueryExecutor.updateTransaction( notInDB, IS_TEST);
+            assertFalse("updateTransaction returned true for transaction not in db", transactionUpdated);
         }
 
         @Test

@@ -136,8 +136,24 @@ public class TransactionQueryExecutor {
         return transactions;
     }
 
-    public static Transaction updateTransaction(int id, Transaction updatedTransaction, boolean isTest) {
-        return null;
+    public static boolean updateTransaction(Transaction updatedTransaction, boolean isTest) {
+        try {
+            Connection mySql = DBConnector.connect("");
+            String tableName = getTableName(isTest);
+            String updateTransactionQuery = "update " + tableName + " " + "set amount = ?" +
+                    ", description = ?, category = ?, is_income = ? where id= ?";
+            PreparedStatement updateTransaction = mySql.prepareStatement(updateTransactionQuery);
+            updateTransaction.setDouble(1, updatedTransaction.getAmount());
+            updateTransaction.setString(2, updatedTransaction.getDescription());
+            updateTransaction.setString(3, updatedTransaction.getCategory());
+            updateTransaction.setBoolean(4, updatedTransaction.isIncome());
+            updateTransaction.setInt(5, updatedTransaction.getId());
+            int rowsEffected = updateTransaction.executeUpdate();
+            return rowsEffected > 0;
+        } catch (SQLException | IOException e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
     }
 
     public static boolean deleteTransaction(int id, User user, boolean isTest) {
