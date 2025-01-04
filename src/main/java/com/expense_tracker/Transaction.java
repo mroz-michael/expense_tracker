@@ -11,22 +11,19 @@ public class Transaction {
 
     private int id;
 
-    private boolean isIncome;
-
     private Date date;
 
     public Transaction(int id, double amount, int userId) {
-        this(id, amount, "", "Miscellaneous", userId, false, null);
+        this(id, amount, "", "Miscellaneous", userId, null);
     }
 
 
-    public Transaction(int id, double amount, String description, String category, int userId, boolean isIncome, Date date) {
+    public Transaction(int id, double amount, String description, String category, int userId, Date date) {
         this.id = id;
         this.amount = amount;
         this.description = description;
         this.category = category;
         this.userId = userId;
-        this.isIncome = isIncome;
         this.date = date;
     }
 
@@ -74,11 +71,4 @@ public class Transaction {
         this.date = date;
     }
 
-    public boolean isIncome() {
-        return isIncome;
-    }
-
-    public void setIncome(boolean income) {
-        isIncome = income;
-    }
 }

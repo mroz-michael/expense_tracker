@@ -22,21 +22,19 @@ public class TransactionQueryExecutor {
             String description,
             String category,
             int userId,
-            boolean isIncome,
             boolean isTest
         ) {
             try {
                 Connection mySql = DBConnector.connect("");
                 String tableName = getTableName(isTest);
                 String createTransactionQuery = "Insert into " + tableName +
-                        "(amount, description, category, user_id, is_income) " +
-                        "VALUES(?, ?, ?, ?, ?);";
+                        "(amount, description, category, user_id) " +
+                        "VALUES(?, ?, ?, ?);";
                 PreparedStatement newTransaction = mySql.prepareStatement(createTransactionQuery, PreparedStatement.RETURN_GENERATED_KEYS);
                 newTransaction.setDouble(1, amount);
                 newTransaction.setString(2, description);
                 newTransaction.setString(3, category);
                 newTransaction.setInt(4, userId);
-                newTransaction.setBoolean(5, isIncome);
                 newTransaction.executeUpdate();
                 ResultSet res = newTransaction.getGeneratedKeys();
                 int id = -1;
@@ -59,7 +57,7 @@ public class TransactionQueryExecutor {
         try {
             Connection mySql = DBConnector.connect("");
             String tableName = getTableName(isTest);
-            String getTransactionQuery = "SELECT id, description, amount, date, user_id, is_income, category from "
+            String getTransactionQuery = "SELECT id, description, amount, date, user_id, category from "
                     + tableName + " where id = ? ";
             PreparedStatement fetchTransaction = mySql.prepareStatement(getTransactionQuery);
             fetchTransaction.setInt(1, id);
@@ -70,7 +68,6 @@ public class TransactionQueryExecutor {
             double dbAmount = 0.00;
             Date dbDate = null;
             int dbUserId = -1;
-            boolean dbIsIncome = false;
             String dbCategory = "";
 
             while (res.next()) {
@@ -79,8 +76,7 @@ public class TransactionQueryExecutor {
                 dbAmount = res.getDouble(3);
                 dbDate = res.getDate(4);
                 dbUserId = res.getInt(5);
-                dbIsIncome = res.getBoolean(6);
-                dbCategory = res.getString(7);
+                dbCategory = res.getString(6);
             }
 
             if (dbId == -1) {
@@ -88,7 +84,7 @@ public class TransactionQueryExecutor {
                 return null;
             }
 
-            return new Transaction(dbId, dbAmount, dbDescription, dbCategory, dbUserId, dbIsIncome, dbDate);
+            return new Transaction(dbId, dbAmount, dbDescription, dbCategory, dbUserId, dbDate);
 
         } catch (SQLException | IOException e) {
             System.out.println("MySQL error: " + e.getMessage());
@@ -104,7 +100,7 @@ public class TransactionQueryExecutor {
             Connection mySql = DBConnector.connect("");
             String tableName = getTableName(isTest);
             int userId = user.getId();
-            String getTransactionQuery = "SELECT id, description, amount, date, user_id, is_income, category from "
+            String getTransactionQuery = "SELECT id, description, amount, date, user_id, category from "
                     + tableName + " where user_id = ? ";
             PreparedStatement fetchTransaction = mySql.prepareStatement(getTransactionQuery);
             fetchTransaction.setInt(1, userId);
@@ -115,7 +111,6 @@ public class TransactionQueryExecutor {
             double dbAmount = 0.00;
             Date dbDate = null;
             int dbUserId = -1;
-            boolean dbIsIncome = false;
             String dbCategory = "";
 
             while (res.next()) {
@@ -124,9 +119,8 @@ public class TransactionQueryExecutor {
                 dbAmount = res.getDouble(3);
                 dbDate = res.getDate(4);
                 dbUserId = res.getInt(5);
-                dbIsIncome = res.getBoolean(6);
-                dbCategory = res.getString(7);
-                Transaction t = new Transaction(dbId, dbAmount, dbDescription, dbCategory, dbUserId, dbIsIncome, dbDate);
+                dbCategory = res.getString(6);
+                Transaction t = new Transaction(dbId, dbAmount, dbDescription, dbCategory, dbUserId, dbDate);
                 transactions.add(t);
             }
 
@@ -141,13 +135,12 @@ public class TransactionQueryExecutor {
             Connection mySql = DBConnector.connect("");
             String tableName = getTableName(isTest);
             String updateTransactionQuery = "update " + tableName + " " + "set amount = ?" +
-                    ", description = ?, category = ?, is_income = ? where id= ?";
+                    ", description = ?, category = ? where id= ?";
             PreparedStatement updateTransaction = mySql.prepareStatement(updateTransactionQuery);
             updateTransaction.setDouble(1, updatedTransaction.getAmount());
             updateTransaction.setString(2, updatedTransaction.getDescription());
             updateTransaction.setString(3, updatedTransaction.getCategory());
-            updateTransaction.setBoolean(4, updatedTransaction.isIncome());
-            updateTransaction.setInt(5, updatedTransaction.getId());
+            updateTransaction.setInt(4, updatedTransaction.getId());
             int rowsEffected = updateTransaction.executeUpdate();
             return rowsEffected > 0;
         } catch (SQLException | IOException e) {

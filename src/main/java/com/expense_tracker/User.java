@@ -1,8 +1,6 @@
 package com.expense_tracker;
 
-import com.expense_tracker.services.AuthenticationService;
-
-import java.util.Scanner;
+import com.expense_tracker.controllers.UserInterface;
 
 import java.util.Date;
 public class User {

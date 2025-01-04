@@ -1,5 +1,6 @@
-package com.expense_tracker;
+package com.expense_tracker.controllers;
 
+import com.expense_tracker.User;
 import com.expense_tracker.db.UserQueryExecutor;
 import com.expense_tracker.services.AuthenticationService;
 
@@ -33,20 +34,22 @@ public class UserInterface {
     }
     public static User login() {
         System.out.println("Logging in: ");
-        System.out.println("Please enter your username: ");
+        System.out.print("Please enter your username: ");
         Scanner inputScan = new Scanner(System.in);
         String username = inputScan.next().trim();
-        System.out.println("Please enter your password: ");
+        System.out.print("\nPlease enter your password: ");
         String plainTxtPw = inputScan.next().trim();
+        System.out.println();
         User loggedInUser = AuthenticationService.login(username, plainTxtPw, NOT_TEST);
         return loggedInUser;
     }
     public static User register() {
         Scanner inputScan = new Scanner(System.in);
-        System.out.println("Enter the username you'd like: ");
+        System.out.print("Enter the username you'd like: ");
         String username = inputScan.next().trim();
-        System.out.println("Please create a password for this account");
+        System.out.println("\nPlease create a password for this account");
         String unHashedPw = inputScan.next().trim();
+        System.out.println();
         return AuthenticationService.createUser(username, unHashedPw, NOT_TEST);
     }
 
@@ -60,9 +63,9 @@ public class UserInterface {
             return;
         }
         //send existing and new username to db to confirm uniqueness and update
-        System.out.println("Please enter your new username: ");
+        System.out.print("Please enter your new username: ");
         String newUsername = inputScan.next().trim();
-        System.out.println("Processing request...");
+        System.out.println("\nProcessing request...");
         user.setUsername(newUsername);
         boolean userUpdated = UserQueryExecutor.updateUser(user, NOT_TEST);
         String res = userUpdated ? "Username changed successfully" : "Error changing username, request cancelled";
@@ -90,17 +93,17 @@ public class UserInterface {
             return;
         }
 
-        System.out.println("Please enter your new password: ");
+        System.out.print("Please enter your new password: ");
         String newPw = inputScan.next().trim();
         while (newPw.length() < 4) {
-            System.out.println("Please enter a longer password (4 characters minimum)");
+            System.out.print("\nPlease enter a longer password (4 characters minimum)");
             newPw = inputScan.next().trim();
         }
 
         String newPwHash = AuthenticationService.generateHash(newPw);
         user.setPwHash(newPwHash);
         boolean userUpdated = UserQueryExecutor.updateUser(user, NOT_TEST);
-        String response = userUpdated ? "Password updated successfully" : "Error: Database failed to save new password";
+        String response = userUpdated ? "\nPassword updated successfully" : "\nError: Database failed to save new password";
         System.out.println(response);
     }
 }

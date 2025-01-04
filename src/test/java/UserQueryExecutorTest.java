@@ -12,7 +12,7 @@ public class UserQueryExecutorTest {
 
     @Test
     public void getUserTest_Exists() {
-        Connection mySql = DbTestHelper.prepareUsersTestTable();
+        Connection mySql = DbTestHelper.prepareTestTables();
         DbTestHelper.insertTestUser(mySql, "Test_User", "pw");
 
         User fetchedUser = UserQueryExecutor.getUser(1, IS_TEST);
@@ -28,7 +28,7 @@ public class UserQueryExecutorTest {
 
     @Test
     public void getUserTest_DoesNotExist() {
-        Connection mySql = DbTestHelper.prepareUsersTestTable();
+        Connection mySql = DbTestHelper.prepareTestTables();
         DbTestHelper.insertTestUser(mySql, "something", "pw");
         User nonUser = UserQueryExecutor.getUser(2, IS_TEST);
         assertNull("getUser() did not return null when given a user not in the db", nonUser);
@@ -36,7 +36,7 @@ public class UserQueryExecutorTest {
 
     @Test
     public void findUserByNameTest_Exists() {
-        Connection mySql = DbTestHelper.prepareUsersTestTable();
+        Connection mySql = DbTestHelper.prepareTestTables();
         DbTestHelper.insertTestUser(mySql, "first user", "1234");
         User firstUser = UserQueryExecutor.findUserByName("first user", IS_TEST);
         assertNotNull("findUserByName returned null when given a valid username", firstUser);
@@ -46,7 +46,7 @@ public class UserQueryExecutorTest {
 
     @Test
     public void findUserByNameTest_Not_Exists() {
-        Connection mySql = DbTestHelper.prepareUsersTestTable();
+        Connection mySql = DbTestHelper.prepareTestTables();
         DbTestHelper.insertTestUser(mySql, "a", "1234");
         User nullUser = UserQueryExecutor.findUserByName("b", IS_TEST);
         assertNull("findUserByName did not return null when given username not in db", nullUser);
@@ -54,7 +54,7 @@ public class UserQueryExecutorTest {
 
     @Test
     public void updateUserTest_Exists() {
-        Connection mySql = DbTestHelper.prepareUsersTestTable();
+        Connection mySql = DbTestHelper.prepareTestTables();
         DbTestHelper.insertTestUser(mySql, "beforeUpdate", "pw");
         User originalUser = UserQueryExecutor.getUser(1, IS_TEST);
         originalUser.setUsername("afterUpdate");
@@ -67,7 +67,7 @@ public class UserQueryExecutorTest {
 
     @Test
     public void updateUserTest_Not_Exists() {
-        Connection mySql = DbTestHelper.prepareUsersTestTable();
+        Connection mySql = DbTestHelper.prepareTestTables();
         DbTestHelper.insertTestUser(mySql, "beforeUpdate", "pw");
         User notInDB = new User();
         boolean userUpdated = UserQueryExecutor.updateUser(notInDB, IS_TEST);
@@ -76,14 +76,14 @@ public class UserQueryExecutorTest {
 
     @Test
     public void createUserTest() {
-        Connection mySql = DbTestHelper.prepareUsersTestTable();
+        Connection mySql = DbTestHelper.prepareTestTables();
         User newUser = UserQueryExecutor.createUser("firstUser", "pw", "admin", IS_TEST);
         assertEquals("first user created should be given id=1 by db", 1, newUser.getId());
     }
 
     @Test
     public void deleteUserTest() {
-        Connection mySql = DbTestHelper.prepareUsersTestTable();
+        Connection mySql = DbTestHelper.prepareTestTables();
         DbTestHelper.insertTestUser(mySql, "deleteMe", "pw");
         User toDelete = UserQueryExecutor.findUserByName("deleteMe", IS_TEST);
         UserQueryExecutor.deleteUser(toDelete, IS_TEST);

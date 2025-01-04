@@ -6,14 +6,14 @@ import java.sql.SQLException;
 
 public class DbTestHelper {
 
-    public static Connection prepareUsersTestTable() {
+    public static Connection prepareTestTables() {
         try {
             Connection mySql = DBConnectorTest.connectToDB();
             PreparedStatement dropTransactionsTable = mySql.prepareStatement("drop table if exists transactions_test");
             PreparedStatement dropUsersTable = mySql.prepareStatement("drop table if exists users_test;");
             dropTransactionsTable.executeUpdate();
             dropUsersTable.executeUpdate();
-            PreparedStatement createTable = mySql.prepareStatement("" +
+            PreparedStatement createUsersTable = mySql.prepareStatement("" +
                     "    CREATE TABLE IF NOT EXISTS users_test (" +
                     "    id INT AUTO_INCREMENT PRIMARY KEY," +
                     "    username VARCHAR(255)," +
@@ -21,22 +21,7 @@ public class DbTestHelper {
                     "    date_created TIMESTAMP DEFAULT CURRENT_TIMESTAMP," +
                     "    role VARCHAR(50) DEFAULT 'user'" +
                     ");");
-            createTable.executeUpdate();
-            return mySql;
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-            return null;
-        }
-    }
-
-    //must call after prepareUsersTestTable to ensure referential integrity
-    public static Connection prepareTransactionsTestTable() {
-
-        try {
-            Connection mySql = DBConnectorTest.connectToDB();
-            PreparedStatement dropUserTable = mySql.prepareStatement("drop table if exists transactions_test;");
-            dropUserTable.executeUpdate();
-            PreparedStatement createTable = mySql.prepareStatement("" +
+            PreparedStatement createTransactionsTable = mySql.prepareStatement("" +
                     "    CREATE TABLE IF NOT EXISTS transactions_test (" +
                     "    id INT AUTO_INCREMENT PRIMARY KEY," +
                     "    description VARCHAR(255) default ''," +
@@ -46,14 +31,14 @@ public class DbTestHelper {
                     "    is_income tinyint default 0," +
                     "    category VARCHAR(50) DEFAULT 'Miscellaneous'," +
                     "    FOREIGN KEY (user_id) REFERENCES users_test(id) on delete cascade);");
-            createTable.executeUpdate();
+            createUsersTable.executeUpdate();
+            createTransactionsTable.executeUpdate();
             return mySql;
         } catch (SQLException e) {
             System.out.println(e.getMessage());
             return null;
         }
     }
-
     public static void insertTestUser(Connection mySql, String username, String pw) {
 
         try {
