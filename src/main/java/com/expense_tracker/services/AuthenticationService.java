@@ -6,12 +6,13 @@ import com.expense_tracker.User;
 
 public class AuthenticationService {
 
-    public User login(String[] credentials, boolean isTest) {
-        String pw = credentials[1];
-        //call QueryExecutor to get User from db based on username and then compare
-        if (validatePassword(credentials[0], pw, isTest)) {
+    public static User login(String[] credentials, boolean isTest) {
+        String username = credentials[0];
+        String plainTextPw = credentials[1];
+      
+        if (validatePassword(username, plainTextPw, isTest)) {
             //get user from QE then compare
-            return null;
+            return UserQueryExecutor.findUserByName(username, isTest);
         } else {
             System.out.println("Invalid username or password.");
             return null;

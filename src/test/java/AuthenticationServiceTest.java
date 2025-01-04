@@ -1,3 +1,4 @@
+import com.expense_tracker.User;
 import com.expense_tracker.services.AuthenticationService;
 import org.junit.Test;
 
@@ -10,10 +11,34 @@ public class AuthenticationServiceTest {
     private final static boolean IS_TEST = true;
 
     @Test
+    public void login_Test_Valid_User() {
+        Connection mySql = DbTestHelper.prepareUsersTestTable();
+        DbTestHelper.insertTestUser(mySql, "myUser", "password1234");
+        User myUser = AuthenticationService.login(new String[]{"myUser", "password1234"}, IS_TEST);
+        assertNotNull("login() returned null when given valid credentials", myUser);
+    }
+
+    @Test
+    public void login_Test_Invalid_Username() {
+        Connection mySql = DbTestHelper.prepareUsersTestTable();
+        DbTestHelper.insertTestUser(mySql, "myUser", "password1234");
+        User notMyUser = AuthenticationService.login(new String[]{"password1234", "password1234"}, IS_TEST);
+        assertNull("login() didn't return null when given invalid username", notMyUser);
+    }
+
+    @Test
+    public void login_Test_Invalid_Password() {
+        Connection mySql = DbTestHelper.prepareUsersTestTable();
+        DbTestHelper.insertTestUser(mySql, "myUser", "password1234");
+        User notMyUser = AuthenticationService.login(new String[]{"myUser", "Password1234"}, IS_TEST);
+        assertNull("login() didn't null when given invalid password", notMyUser);
+    }
+
+    @Test
     public void generateHash_Test() {
         String txt = "password1234";
         String encrypted = AuthenticationService.generateHash(txt);
-        assertNotEquals("Authentication Server didn't return hashed String","password1234", encrypted);
+        assertNotEquals("generateHash returned plaintxt password","password1234", encrypted);
     }
 
     @Test
