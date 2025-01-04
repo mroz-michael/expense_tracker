@@ -14,7 +14,7 @@ public class AuthenticationServiceTest {
     public void login_Test_Valid_User() {
         Connection mySql = DbTestHelper.prepareUsersTestTable();
         DbTestHelper.insertTestUser(mySql, "myUser", "password1234");
-        User myUser = AuthenticationService.login(new String[]{"myUser", "password1234"}, IS_TEST);
+        User myUser = AuthenticationService.login("myUser", "password1234", IS_TEST);
         assertNotNull("login() returned null when given valid credentials", myUser);
     }
 
@@ -22,7 +22,7 @@ public class AuthenticationServiceTest {
     public void login_Test_Invalid_Username() {
         Connection mySql = DbTestHelper.prepareUsersTestTable();
         DbTestHelper.insertTestUser(mySql, "myUser", "password1234");
-        User notMyUser = AuthenticationService.login(new String[]{"password1234", "password1234"}, IS_TEST);
+        User notMyUser = AuthenticationService.login("password1234", "password1234", IS_TEST);
         assertNull("login() didn't return null when given invalid username", notMyUser);
     }
 
@@ -30,7 +30,7 @@ public class AuthenticationServiceTest {
     public void login_Test_Invalid_Password() {
         Connection mySql = DbTestHelper.prepareUsersTestTable();
         DbTestHelper.insertTestUser(mySql, "myUser", "password1234");
-        User notMyUser = AuthenticationService.login(new String[]{"myUser", "Password1234"}, IS_TEST);
+        User notMyUser = AuthenticationService.login("myUser", "Password1234", IS_TEST);
         assertNull("login() didn't null when given invalid password", notMyUser);
     }
 

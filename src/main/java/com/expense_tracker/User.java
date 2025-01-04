@@ -53,25 +53,20 @@ public class User {
         return pwHash;
     }
 
+    public void setPwHash(String pwHash) {
+        this.pwHash = pwHash;
+    }
+
     public String getUserType() {
             return this.userType;
     }
 
-    public void changePassword(String newPassword, boolean isTest) {
-        //prompt enter curr pw, call Authenticator to check and then hash the new pw and set it
-        UserInterface.promptPasswordChange(this, newPassword, isTest);
+    public void changePassword() {
+        UserInterface.promptPasswordChange(this);
     }
 
     public void changeUsername(String newUsername) {
-        System.out.print("Are you sure you want to change your username? This is a non-reversible action");
-        System.out.println("Y/N");
-        Scanner inputScan = new Scanner(System.in);
-        String userAgreement = inputScan.next();
-        if (userAgreement.toUpperCase().equals("Y") || userAgreement.toUpperCase().equals("YES")) {
-            //send existing and new username to db to confirm uniqueness and update
-            return;
-        }
-        System.out.println("Username change request cancelled by user.");
+        UserInterface.promptUsernameChange(this);
     }
 
     //temp for testing

@@ -4,12 +4,12 @@ import com.expense_tracker.db.UserQueryExecutor;
 import org.mindrot.jbcrypt.BCrypt;
 import com.expense_tracker.User;
 
+import java.util.Scanner;
+
 public class AuthenticationService {
 
-    public static User login(String[] credentials, boolean isTest) {
-        String username = credentials[0];
-        String plainTextPw = credentials[1];
-      
+    public static User login(String username, String plainTextPw, boolean isTest) {
+
         if (validatePassword(username, plainTextPw, isTest)) {
             //get user from QE then compare
             return UserQueryExecutor.findUserByName(username, isTest);
@@ -18,6 +18,13 @@ public class AuthenticationService {
             return null;
         }
     }
+
+    public static User createUser(String username, String unHashedPw, boolean isTest) {
+        String pwHash = generateHash(unHashedPw);
+        User newUser = UserQueryExecutor.createUser(username, pwHash, "user", isTest);
+        return newUser;
+    }
+
     public static String generateHash(String plaintext) {
         return BCrypt.hashpw(plaintext, BCrypt.gensalt());
     }
