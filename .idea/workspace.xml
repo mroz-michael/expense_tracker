@@ -6,7 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="842b38f1-eb8c-481b-8c1c-715f01132b6a" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/TransactionQueryExecutorTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/TransactionQueryExecutorTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/expense_tracker/db/TransactionQueryExecutor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/expense_tracker/db/TransactionQueryExecutor.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -54,7 +54,7 @@
     "JUnit.QueryExecutorTest.updateUserTest_Not_Exists.executor": "Run",
     "JUnit.TransactionQueryExecutorTest.createTransactionTest.executor": "Run",
     "JUnit.TransactionQueryExecutorTest.executor": "Run",
-    "JUnit.TransactionQueryExecutorTest.getAllTransactionsTest.executor": "Run",
+    "JUnit.TransactionQueryExecutorTest.getAllTransactionsTest.executor": "Debug",
     "JUnit.TransactionQueryExecutorTest.getTransactionTest_DoesNotExist.executor": "Run",
     "JUnit.TransactionQueryExecutorTest.getTransactionTest_Exists.executor": "Run",
     "JUnit.TransactionQueryExecutorTest.updateTransactionTest_Exists.executor": "Run",

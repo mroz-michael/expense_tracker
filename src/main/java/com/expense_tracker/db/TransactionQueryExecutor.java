@@ -92,12 +92,47 @@ public class TransactionQueryExecutor {
 
         } catch (SQLException | IOException e) {
             System.out.println("MySQL error: " + e.getMessage());
+            return null;
         }
-
-        return null;
     }
     public static List<Transaction> getAllTransactions(User user, boolean isTest) {
         List<Transaction> transactions = new ArrayList<>();
+
+        if (user == null) {return transactions;}
+
+        try {
+            Connection mySql = DBConnector.connect("");
+            String tableName = getTableName(isTest);
+            int userId = user.getId();
+            String getTransactionQuery = "SELECT id, description, amount, date, user_id, is_income, category from "
+                    + tableName + " where user_id = ? ";
+            PreparedStatement fetchTransaction = mySql.prepareStatement(getTransactionQuery);
+            fetchTransaction.setInt(1, userId);
+            ResultSet res = fetchTransaction.executeQuery();
+
+            int dbId = -1;
+            String dbDescription = "";
+            double dbAmount = 0.00;
+            Date dbDate = null;
+            int dbUserId = -1;
+            boolean dbIsIncome = false;
+            String dbCategory = "";
+
+            while (res.next()) {
+                dbId = res.getInt(1);
+                dbDescription = res.getString(2);
+                dbAmount = res.getDouble(3);
+                dbDate = res.getDate(4);
+                dbUserId = res.getInt(5);
+                dbIsIncome = res.getBoolean(6);
+                dbCategory = res.getString(7);
+                Transaction t = new Transaction(dbId, dbAmount, dbDescription, dbCategory, dbUserId, dbIsIncome, dbDate);
+                transactions.add(t);
+            }
+
+        } catch (SQLException | IOException e) {
+            System.out.println("MySQL error: " + e.getMessage());
+        }
         return transactions;
     }
 

@@ -45,8 +45,7 @@ public class TransactionQueryExecutorTest {
                     "test", "test", 1, false, IS_TEST);
             assertEquals("first transaction created should be given id=1 by db", 1, newTransaction.getId());
         }
-
-        //todo: implement method
+        
         @Test
         public void getAllTransactionsTest() {
             DbTestHelper.prepareUsersTestTable();
