@@ -156,7 +156,22 @@ public class TransactionQueryExecutor {
         }
     }
 
-    public static boolean deleteTransaction(int id, User user, boolean isTest) {
+    public static boolean deleteTransaction(Transaction toDelete, boolean isTest) {
+
+        try {
+            Connection mySql = DBConnector.connect("");
+            String tableName = getTableName(isTest);
+            String deleteUserQuery = "delete from " + tableName + " where id = ? ";
+            PreparedStatement removeUser = mySql.prepareStatement(deleteUserQuery);
+            removeUser.setInt(1, toDelete.getId());
+            int rowsEffected = removeUser.executeUpdate();
+
+            return rowsEffected == 1;
+
+        } catch (SQLException | IOException e) {
+            System.out.println("Error attempting to delete transaction: " + e.getMessage());
+        }
+
         return false;
     }
 

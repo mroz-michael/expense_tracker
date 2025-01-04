@@ -54,6 +54,7 @@
     "JUnit.QueryExecutorTest.updateUserTest_Exists.executor": "Run",
     "JUnit.QueryExecutorTest.updateUserTest_Not_Exists.executor": "Run",
     "JUnit.TransactionQueryExecutorTest.createTransactionTest.executor": "Run",
+    "JUnit.TransactionQueryExecutorTest.deleteTransactionTest.executor": "Run",
     "JUnit.TransactionQueryExecutorTest.executor": "Run",
     "JUnit.TransactionQueryExecutorTest.getAllTransactionsTest.executor": "Run",
     "JUnit.TransactionQueryExecutorTest.getTransactionTest_DoesNotExist.executor": "Run",
@@ -72,32 +73,22 @@
     "project.structure.side.proportion": "0.2"
   }
 }]]></component>
-  <component name="RunManager" selected="JUnit.TransactionQueryExecutorTest.updateTransactionTest_Not_Exists">
-    <configuration name="TransactionQueryExecutorTest.createTransactionTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="JUnit.java in expense_tracker">
+    <configuration name="TransactionQueryExecutorTest.deleteTransactionTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="expense_tracker" />
       <option name="PACKAGE_NAME" value="" />
       <option name="MAIN_CLASS_NAME" value="TransactionQueryExecutorTest" />
-      <option name="METHOD_NAME" value="createTransactionTest" />
+      <option name="METHOD_NAME" value="deleteTransactionTest" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="TransactionQueryExecutorTest.getAllTransactionsTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="TransactionQueryExecutorTest.deleteTransactionTest_Not_Exists" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="expense_tracker" />
       <option name="PACKAGE_NAME" value="" />
       <option name="MAIN_CLASS_NAME" value="TransactionQueryExecutorTest" />
-      <option name="METHOD_NAME" value="getAllTransactionsTest" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="TransactionQueryExecutorTest.getTransactionTest_Exists" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="expense_tracker" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="TransactionQueryExecutorTest" />
-      <option name="METHOD_NAME" value="getTransactionTest_Exists" />
+      <option name="METHOD_NAME" value="deleteTransactionTest_Not_Exists" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -123,13 +114,21 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="java in expense_tracker" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="expense_tracker" />
+      <option name="TEST_OBJECT" value="directory" />
+      <dir value="$PROJECT_DIR$/src/test/java" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.java in expense_tracker" />
+        <item itemvalue="JUnit.TransactionQueryExecutorTest.deleteTransactionTest_Not_Exists" />
+        <item itemvalue="JUnit.TransactionQueryExecutorTest.deleteTransactionTest" />
         <item itemvalue="JUnit.TransactionQueryExecutorTest.updateTransactionTest_Not_Exists" />
         <item itemvalue="JUnit.TransactionQueryExecutorTest.updateTransactionTest_Exists" />
-        <item itemvalue="JUnit.TransactionQueryExecutorTest.getAllTransactionsTest" />
-        <item itemvalue="JUnit.TransactionQueryExecutorTest.createTransactionTest" />
-        <item itemvalue="JUnit.TransactionQueryExecutorTest.getTransactionTest_Exists" />
       </list>
     </recent_temporary>
   </component>
