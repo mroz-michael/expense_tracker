@@ -57,14 +57,9 @@ public class User {
             return this.userType;
     }
 
-    public void changePassword(String newPassword) {
+    public void changePassword(String newPassword, boolean isTest) {
         //prompt enter curr pw, call Authenticator to check and then hash the new pw and set it
-        System.out.println("To change your password, first enter your current password.");
-        Scanner inputScan = new Scanner(System.in);
-        String oldPassword = inputScan.next();
-        inputScan.close();
-        boolean passwordIsValid = AuthenticationService.validatePassword(getUsername(), oldPassword);
-        //call Authenticator with oldPassword. if authentic, get newPW, then send it to authenticator to hash/store
+        UserInterface.promptPasswordChange(this, newPassword, isTest);
     }
 
     public void changeUsername(String newUsername) {

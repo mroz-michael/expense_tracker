@@ -1,3 +1,5 @@
+import com.expense_tracker.services.AuthenticationService;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -57,7 +59,7 @@ public class DbTestHelper {
         try {
             PreparedStatement addUser = mySql.prepareStatement("insert into users_test (username, password_hash) values( ?, ? );");
             addUser.setString(1, username);
-            addUser.setString(2, pw);
+            addUser.setString(2, AuthenticationService.generateHash(pw));
             addUser.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e.getMessage());

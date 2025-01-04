@@ -67,7 +67,6 @@ public class TransactionQueryExecutorTest {
             assertEquals("getAllTransactions did not return expected number of transactions", 2, numTransactions);
         }
 
-
         @Test
         public void updateTransactionTest_Exists() {
             Connection mySql = DbTestHelper.prepareTransactionsTestTable();

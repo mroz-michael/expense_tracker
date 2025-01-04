@@ -6,7 +6,11 @@
   <component name="ChangeListManager">
     <list default="true" id="842b38f1-eb8c-481b-8c1c-715f01132b6a" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/expense_tracker/db/TransactionQueryExecutor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/expense_tracker/db/TransactionQueryExecutor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/expense_tracker/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/expense_tracker/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/expense_tracker/UserInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/expense_tracker/UserInterface.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/expense_tracker/services/AuthenticationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/expense_tracker/services/AuthenticationService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/AuthenticationServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/AuthenticationServiceTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/DbTestHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/DbTestHelper.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/TransactionQueryExecutorTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/TransactionQueryExecutorTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -43,6 +47,7 @@
     "Application.PasswordHashingExample.executor": "Run",
     "Application.QueryExecutor.executor": "Run",
     "JUnit.AuthenticationServiceTest.executor": "Run",
+    "JUnit.AuthenticationServiceTest.validatePassword_Test_Valid_Password.executor": "Run",
     "JUnit.DBConnectorTest.executor": "Run",
     "JUnit.QueryExecutorTest.createUserTest.executor": "Run",
     "JUnit.QueryExecutorTest.deleteUserTest.executor": "Debug",
@@ -55,6 +60,7 @@
     "JUnit.QueryExecutorTest.updateUserTest_Not_Exists.executor": "Run",
     "JUnit.TransactionQueryExecutorTest.createTransactionTest.executor": "Run",
     "JUnit.TransactionQueryExecutorTest.deleteTransactionTest.executor": "Run",
+    "JUnit.TransactionQueryExecutorTest.deleteTransactionTest_Not_Exists.executor": "Run",
     "JUnit.TransactionQueryExecutorTest.executor": "Run",
     "JUnit.TransactionQueryExecutorTest.getAllTransactionsTest.executor": "Run",
     "JUnit.TransactionQueryExecutorTest.getTransactionTest_DoesNotExist.executor": "Run",
@@ -73,7 +79,27 @@
     "project.structure.side.proportion": "0.2"
   }
 }]]></component>
-  <component name="RunManager" selected="JUnit.java in expense_tracker">
+  <component name="RunManager" selected="JUnit.AuthenticationServiceTest.validatePassword_Test_Valid_Password">
+    <configuration name="AuthenticationServiceTest.validatePassword_Test_Invalid_Password" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="expense_tracker" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="AuthenticationServiceTest" />
+      <option name="METHOD_NAME" value="validatePassword_Test_Invalid_Password" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="AuthenticationServiceTest.validatePassword_Test_Valid_Password" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="expense_tracker" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="AuthenticationServiceTest" />
+      <option name="METHOD_NAME" value="validatePassword_Test_Valid_Password" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="TransactionQueryExecutorTest.deleteTransactionTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="expense_tracker" />
       <option name="PACKAGE_NAME" value="" />
@@ -94,26 +120,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="TransactionQueryExecutorTest.updateTransactionTest_Exists" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="expense_tracker" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="TransactionQueryExecutorTest" />
-      <option name="METHOD_NAME" value="updateTransactionTest_Exists" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="TransactionQueryExecutorTest.updateTransactionTest_Not_Exists" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="expense_tracker" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="TransactionQueryExecutorTest" />
-      <option name="METHOD_NAME" value="updateTransactionTest_Not_Exists" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="java in expense_tracker" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="expense_tracker" />
       <option name="TEST_OBJECT" value="directory" />
@@ -124,11 +130,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.AuthenticationServiceTest.validatePassword_Test_Valid_Password" />
+        <item itemvalue="JUnit.AuthenticationServiceTest.validatePassword_Test_Invalid_Password" />
         <item itemvalue="JUnit.java in expense_tracker" />
         <item itemvalue="JUnit.TransactionQueryExecutorTest.deleteTransactionTest_Not_Exists" />
         <item itemvalue="JUnit.TransactionQueryExecutorTest.deleteTransactionTest" />
-        <item itemvalue="JUnit.TransactionQueryExecutorTest.updateTransactionTest_Not_Exists" />
-        <item itemvalue="JUnit.TransactionQueryExecutorTest.updateTransactionTest_Exists" />
       </list>
     </recent_temporary>
   </component>
@@ -142,5 +148,16 @@
       <updated>1735684474165</updated>
     </task>
     <servers />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/expense_tracker/services/AuthenticationService.java</url>
+          <line>25</line>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
