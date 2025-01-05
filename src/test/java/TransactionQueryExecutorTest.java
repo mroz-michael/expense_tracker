@@ -4,6 +4,7 @@ import com.expense_tracker.db.TransactionQueryExecutor;
 import com.expense_tracker.db.UserQueryExecutor;
 import org.junit.Test;
 import java.sql.Connection;
+import java.sql.Date;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -53,7 +54,6 @@ public class TransactionQueryExecutorTest {
             DbTestHelper.insertTestUser(mySql, "test user", "pw");
             //create 2nd user to ensure user 1 only gets transactions belonging to them
             UserQueryExecutor.createUser("second_user", "pwh", "user", IS_TEST);
-
             Transaction t1 = TransactionQueryExecutor.createTransaction(1, "first", "", 1, IS_TEST);
             Transaction t2 = TransactionQueryExecutor.createTransaction(2, "second", "", 1, IS_TEST);
             Transaction t3 = TransactionQueryExecutor.createTransaction(99, "other_user", "", 2, IS_TEST);

@@ -6,7 +6,6 @@ import com.expense_tracker.User; //pass user to check user.id || user.type == ow
 import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class TransactionQueryExecutor {
@@ -17,24 +16,31 @@ public class TransactionQueryExecutor {
     private static String getTableName(boolean isTest) {
         return isTest ? TEST_DB : REG_DB;
     }
+
+    public static Transaction createTransaction(double amount, String description, String category, int userId, boolean isTest) {
+        Date date = new Date(System.currentTimeMillis());
+        return createTransaction(amount, description, category, userId, date, isTest);
+    }
     public static Transaction createTransaction(
             double amount,
             String description,
             String category,
             int userId,
+            Date date,
             boolean isTest
         ) {
             try {
                 Connection mySql = DBConnector.connect("");
                 String tableName = getTableName(isTest);
                 String createTransactionQuery = "Insert into " + tableName +
-                        "(amount, description, category, user_id) " +
-                        "VALUES(?, ?, ?, ?);";
+                        "(amount, description, category, user_id, date) " +
+                        "VALUES(?, ?, ?, ?, ?);";
                 PreparedStatement newTransaction = mySql.prepareStatement(createTransactionQuery, PreparedStatement.RETURN_GENERATED_KEYS);
                 newTransaction.setDouble(1, amount);
                 newTransaction.setString(2, description);
                 newTransaction.setString(3, category);
                 newTransaction.setInt(4, userId);
+                newTransaction.setDate(5, date);
                 newTransaction.executeUpdate();
                 ResultSet res = newTransaction.getGeneratedKeys();
                 int id = -1;

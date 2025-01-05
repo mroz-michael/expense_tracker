@@ -6,15 +6,12 @@
   <component name="ChangeListManager">
     <list default="true" id="842b38f1-eb8c-481b-8c1c-715f01132b6a" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/expense_tracker/Transaction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/expense_tracker/Transaction.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/expense_tracker/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/expense_tracker/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/expense_tracker/UserInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/expense_tracker/controllers/UserInterface.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/expense_tracker/controllers/TransactionInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/expense_tracker/controllers/TransactionInterface.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/expense_tracker/db/TransactionQueryExecutor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/expense_tracker/db/TransactionQueryExecutor.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/expense_tracker/services/TransactionService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/expense_tracker/services/TransactionService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/AuthenticationServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/AuthenticationServiceTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/expense_tracker/utils/InputValidator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/expense_tracker/utils/InputValidator.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/DbTestHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/DbTestHelper.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/TransactionQueryExecutorTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/TransactionQueryExecutorTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/UserQueryExecutorTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/UserQueryExecutorTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -91,7 +88,7 @@
     &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;
   }
 }</component>
-  <component name="RunManager" selected="JUnit.java in expense_tracker">
+  <component name="RunManager" selected="JUnit.UserQueryExecutorTest">
     <configuration name="InputValidatorTest.validDouble_Test_Invalid" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="expense_tracker" />
       <option name="PACKAGE_NAME" value="" />
@@ -122,12 +119,11 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="InputValidatorTest.validDouble_Test_Valid_Negative" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="UserQueryExecutorTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="expense_tracker" />
       <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="InputValidatorTest" />
-      <option name="METHOD_NAME" value="validDouble_Test_Valid_Negative" />
-      <option name="TEST_OBJECT" value="method" />
+      <option name="MAIN_CLASS_NAME" value="UserQueryExecutorTest" />
+      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -142,11 +138,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.UserQueryExecutorTest" />
         <item itemvalue="JUnit.java in expense_tracker" />
         <item itemvalue="JUnit.InputValidatorTest.validDouble_Test_Invalid_Letters" />
         <item itemvalue="JUnit.InputValidatorTest.validDouble_Test_Invalid" />
         <item itemvalue="JUnit.InputValidatorTest.validDouble_Test_Valid_Leading_Decimal" />
-        <item itemvalue="JUnit.InputValidatorTest.validDouble_Test_Valid_Negative" />
       </list>
     </recent_temporary>
   </component>

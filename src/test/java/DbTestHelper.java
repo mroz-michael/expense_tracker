@@ -28,7 +28,6 @@ public class DbTestHelper {
                     "    amount DECIMAL(10,2) default 0.00," +
                     "    date TIMESTAMP DEFAULT CURRENT_TIMESTAMP," +
                     "    user_id int," +
-                    "    is_income tinyint default 0," +
                     "    category VARCHAR(50) DEFAULT 'Miscellaneous'," +
                     "    FOREIGN KEY (user_id) REFERENCES users_test(id) on delete cascade);");
             createUsersTable.executeUpdate();

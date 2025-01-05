@@ -4,12 +4,19 @@ import com.expense_tracker.Transaction;
 import com.expense_tracker.services.TransactionService;
 import com.expense_tracker.utils.InputValidator;
 
+import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 public class TransactionInterface {
 
-    public static void createTransaction() {
+    private final static boolean NOT_TEST = false; //TransactionInterface not used for test methods
+    private static final String[] EXPENSE_CATEGORIES = {"Restaurants", "Entertainment", "Shopping", "Rent", "Groceries",
+            "Tuition", "Bills", "Transportation", "Investing", "Miscellaneous"};
+
+
+    public static void createTransaction(int userId) {
 
         Scanner scanner = new Scanner(System.in);
 
@@ -43,10 +50,28 @@ public class TransactionInterface {
                 dateValid = InputValidator.validDate(dateInput);
             }
 
-            System.out.print("Enter category: ");
-            String category = scanner.next();
+            Date date = Date.valueOf(dateInput);
 
-            //Transaction transaction = TransactionService.createTransaction();
+            printCategories();
+            String catNumber = scanner.next();
+            boolean numValid = InputValidator.validInt(catNumber, 1, EXPENSE_CATEGORIES.length);
+            while (!numValid) {
+                System.out.println("Invalid category number");
+                printCategories();
+                System.out.println("Or type 'cancel' to go back to the previous menu");
+                catNumber = scanner.nextLine().trim();
+                if (cancelRequest(catNumber)) {return;}
+                numValid = InputValidator.validInt(catNumber, 1, EXPENSE_CATEGORIES.length);
+            }
+            int categoryIndex = Integer.valueOf(catNumber);
+            if (categoryIndex < 0 || categoryIndex >= EXPENSE_CATEGORIES.length) {
+                System.out.println("Input validation error, aborting.");
+                return;
+            }
+
+            String category = EXPENSE_CATEGORIES[categoryIndex];
+
+            TransactionService.createTransaction( amount, description, category, userId, date, NOT_TEST);
 
             System.out.println("Transaction added successfully!");
         } catch (Exception e) {
@@ -54,6 +79,12 @@ public class TransactionInterface {
         }
     }
 
+    private static void printCategories() {
+        System.out.println("Please enter the number of the category that best matches the Transaction: ");
+        for (int i = 0; i < EXPENSE_CATEGORIES.length; i++) {
+            System.out.println( (i + 1) + ": " + EXPENSE_CATEGORIES[i]);
+        }
+    }
     // Display all transactions
     public void displayAllTransactions() {
         try {
