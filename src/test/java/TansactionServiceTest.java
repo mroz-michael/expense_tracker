@@ -67,7 +67,13 @@ public class TansactionServiceTest {
 
     @Test
     public void updateTransaction_Test() {
-
+        prepareDB();
+        TransactionService.createTransaction(42, "update me", "t", 1, IS_TEST);
+        Transaction toUpdate = TransactionService.getTransaction(1, IS_TEST);
+        toUpdate.setAmount(54);
+        TransactionService.updateTransaction(toUpdate, IS_TEST);
+        Transaction updated = TransactionService.getTransaction(1, IS_TEST);
+        assertEquals("transaction update was not stored properly in db", 54, updated.getAmount(), 0.01);
     }
 
     @Test

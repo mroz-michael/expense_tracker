@@ -26,8 +26,8 @@ public class TransactionService {
         return TransactionQueryExecutor.getAllTransactions(userId, isTest);
     }
 
-    public static boolean updateTransaction() {
-        return false;
+    public static boolean updateTransaction(Transaction updatedTransaction, boolean isTest) {
+        return TransactionQueryExecutor.updateTransaction(updatedTransaction, isTest);
     }
 
     public static boolean deleteTransaction() {
