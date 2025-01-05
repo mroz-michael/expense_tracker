@@ -18,8 +18,8 @@ public class TransactionService {
         return createTransaction(amount, description, category, userId, date, isTest);
     }
 
-    public static Transaction getTransaction() {
-        return null;
+    public static Transaction getTransaction(int id, boolean isTest) {
+        return TransactionQueryExecutor.getTransaction(id, isTest);
     }
 
     public static List<Transaction> getTransactions() {

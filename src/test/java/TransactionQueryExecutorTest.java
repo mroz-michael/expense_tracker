@@ -4,7 +4,6 @@ import com.expense_tracker.db.TransactionQueryExecutor;
 import com.expense_tracker.db.UserQueryExecutor;
 import org.junit.Test;
 import java.sql.Connection;
-import java.sql.Date;
 import java.util.List;
 
 import static org.junit.Assert.*;

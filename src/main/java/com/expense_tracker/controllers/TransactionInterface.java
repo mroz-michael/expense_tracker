@@ -85,6 +85,7 @@ public class TransactionInterface {
             System.out.println( (i + 1) + ": " + EXPENSE_CATEGORIES[i]);
         }
     }
+
     // Display all transactions
     public void displayAllTransactions() {
         try {

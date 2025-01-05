@@ -86,7 +86,7 @@ public class TransactionQueryExecutor {
             }
 
             if (dbId == -1) {
-                System.out.println("Database query returned unexpected result, returning null");
+                System.out.println("Could not find Transaction with given id, returning null");
                 return null;
             }
 
