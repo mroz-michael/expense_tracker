@@ -105,6 +105,10 @@ public class TransactionInterface {
         }
     }
 
+    public void displayTransactionsByCategory(int userId) {
+
+    }
+
     public void deleteTransactionFromInput() {
         Scanner scanner = new Scanner(System.in);
 

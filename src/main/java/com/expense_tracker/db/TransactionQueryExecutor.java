@@ -6,13 +6,13 @@ import com.expense_tracker.User; //pass user to check user.id || user.type == ow
 import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class TransactionQueryExecutor {
 
     private static final String TEST_DB = "transactions_test";
     private static final String REG_DB = "transactions";
-
     private static String getTableName(boolean isTest) {
         return isTest ? TEST_DB : REG_DB;
     }
@@ -32,17 +32,18 @@ public class TransactionQueryExecutor {
             try {
                 Connection mySql = DBConnector.connect("");
                 String tableName = getTableName(isTest);
-                String createTransactionQuery = "Insert into " + tableName +
-                        "(amount, description, category, user_id, date) " +
-                        "VALUES(?, ?, ?, ?, ?);";
+                String createTransactionQuery = TransactionQueries.create(tableName);
                 PreparedStatement newTransaction = mySql.prepareStatement(createTransactionQuery, PreparedStatement.RETURN_GENERATED_KEYS);
+
                 newTransaction.setDouble(1, amount);
                 newTransaction.setString(2, description);
                 newTransaction.setString(3, category);
                 newTransaction.setInt(4, userId);
                 newTransaction.setDate(5, date);
                 newTransaction.executeUpdate();
+
                 ResultSet res = newTransaction.getGeneratedKeys();
+
                 int id = -1;
                 while (res.next()) {
                     id = res.getInt(1);
@@ -63,8 +64,7 @@ public class TransactionQueryExecutor {
         try {
             Connection mySql = DBConnector.connect("");
             String tableName = getTableName(isTest);
-            String getTransactionQuery = "SELECT id, description, amount, date, user_id, category from "
-                    + tableName + " where id = ? ";
+            String getTransactionQuery = TransactionQueries.getOne(tableName);
             PreparedStatement fetchTransaction = mySql.prepareStatement(getTransactionQuery);
             fetchTransaction.setInt(1, id);
             ResultSet res = fetchTransaction.executeQuery();
@@ -103,8 +103,7 @@ public class TransactionQueryExecutor {
         try {
             Connection mySql = DBConnector.connect("");
             String tableName = getTableName(isTest);
-            String getTransactionQuery = "SELECT id, description, amount, date, user_id, category from "
-                    + tableName + " where user_id = ? ";
+            String getTransactionQuery = TransactionQueries.getAll(tableName);
             PreparedStatement fetchTransaction = mySql.prepareStatement(getTransactionQuery);
             fetchTransaction.setInt(1, userId);
             ResultSet res = fetchTransaction.executeQuery();
@@ -137,13 +136,14 @@ public class TransactionQueryExecutor {
         try {
             Connection mySql = DBConnector.connect("");
             String tableName = getTableName(isTest);
-            String updateTransactionQuery = "update " + tableName + " " + "set amount = ?" +
-                    ", description = ?, category = ? where id= ?";
+            String updateTransactionQuery = TransactionQueries.update(tableName);
+
             PreparedStatement updateTransaction = mySql.prepareStatement(updateTransactionQuery);
             updateTransaction.setDouble(1, updatedTransaction.getAmount());
             updateTransaction.setString(2, updatedTransaction.getDescription());
             updateTransaction.setString(3, updatedTransaction.getCategory());
             updateTransaction.setInt(4, updatedTransaction.getId());
+
             int rowsEffected = updateTransaction.executeUpdate();
             return rowsEffected > 0;
         } catch (SQLException | IOException e) {
@@ -157,7 +157,7 @@ public class TransactionQueryExecutor {
         try {
             Connection mySql = DBConnector.connect("");
             String tableName = getTableName(isTest);
-            String deleteUserQuery = "delete from " + tableName + " where id = ? ";
+            String deleteUserQuery = TransactionQueries.delete(tableName);
             PreparedStatement removeUser = mySql.prepareStatement(deleteUserQuery);
             removeUser.setInt(1, toDelete.getId());
             int rowsEffected = removeUser.executeUpdate();
@@ -169,6 +169,19 @@ public class TransactionQueryExecutor {
         }
 
         return false;
+    }
+
+    //todo: implement these
+    public static List<Transaction> getTransactionsByCategory(int userId, String category, boolean isTest) {
+        return null;
+    }
+
+    public static List<Transaction> getTransactionsByDate(int userId, Date start, Date end, boolean isTest) {
+        return null;
+    }
+
+    public static List<Transaction> getTransactionsByAmount(int userId, double min, double max, boolean isTest) {
+        return null;
     }
 
 }
