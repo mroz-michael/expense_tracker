@@ -140,14 +140,15 @@ public class TransactionQueryExecutorTest {
         DbTestHelper.prepareTestTables();
         Connection mySql = DbTestHelper.prepareTestTables();
         DbTestHelper.insertTestUser(mySql, "test user", "pw");
-        //of these, only topMax, botMax, and middle should be returned by query
+        //of these, only topMax, botMax, and inRange should be returned by query
         long topMax = System.currentTimeMillis();
-        long botMax = topMax - 2000;
-        long middle = topMax - 1500;
-        long under = botMax -1;
-        long over = topMax + 1;
+        long botMax = topMax - 2000000000;
+        long inRange = topMax - 1000000000;
+        long past = botMax -1000000000;
+        long future = topMax + 1000000000;
 
-        long[] longDates = {topMax, botMax, middle, under, over};
+
+        long[] longDates = {topMax, botMax, inRange, past, future};
         for (int i = 0; i < 5; i++) {
             Date d = new Date(longDates[i]);
             Transaction t = TransactionQueryExecutor.createTransaction(1, "_", "_", 1,

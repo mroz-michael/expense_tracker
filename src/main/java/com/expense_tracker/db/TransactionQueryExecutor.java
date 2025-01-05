@@ -173,6 +173,7 @@ public class TransactionQueryExecutor {
         } catch (SQLException | IOException e) {
             System.out.println("MySQL error: " + e.getMessage());
         }
+
         return transactions;
     }
 
@@ -195,12 +196,32 @@ public class TransactionQueryExecutor {
         } catch (SQLException | IOException e) {
             System.out.println("MySQL error: " + e.getMessage());
         }
+
         return transactions;
     }
 
     public static List<Transaction> getTransactionsByDate(int userId, Date start, Date end, boolean isTest) {
-        //todo: implement these
-        return null;
+        List<Transaction> transactions = new ArrayList<>();
+
+        try {
+
+            Connection mySql = DBConnector.connect("");
+            String tableName = getTableName(isTest);
+            String getTransactionQuery = TransactionQueries.getByDate(tableName);
+            PreparedStatement fetchTransaction = mySql.prepareStatement(getTransactionQuery);
+            fetchTransaction.setInt(1, userId);
+            fetchTransaction.setDate(2, start);
+            fetchTransaction.setDate(3, end);
+
+            ResultSet res = fetchTransaction.executeQuery();
+
+            populateList(transactions, res);
+
+        } catch (SQLException | IOException e) {
+            System.out.println("MySQL error: " + e.getMessage());
+        }
+
+        return transactions;
     }
 
     //helper method to add results from res into List

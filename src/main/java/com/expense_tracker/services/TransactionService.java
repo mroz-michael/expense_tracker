@@ -32,14 +32,12 @@ public class TransactionService {
     }
 
     public static List<Transaction> getTransactionsByCategory(int userId, String category, boolean isTest) {
-        //todo: implement
         return TransactionQueryExecutor.getTransactionsByCategory(userId, category, isTest);
     }
 
 
     public static List<Transaction> getTransactionsByDate(int userId, Date start, Date end, boolean isTest) {
-        //todo: implement
-        return TransactionQueryExecutor.getAllTransactions(userId, isTest);
+        return TransactionQueryExecutor.getTransactionsByDate(userId, start, end, isTest);
     }
 
     public static boolean updateTransaction(Transaction updatedTransaction, boolean isTest) {
