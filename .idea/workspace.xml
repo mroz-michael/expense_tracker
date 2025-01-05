@@ -6,8 +6,10 @@
   <component name="ChangeListManager">
     <list default="true" id="842b38f1-eb8c-481b-8c1c-715f01132b6a" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/expense_tracker/controllers/TransactionInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/expense_tracker/controllers/TransactionInterface.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/expense_tracker/db/TransactionQueries.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/expense_tracker/db/TransactionQueries.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/expense_tracker/db/TransactionQueryExecutor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/expense_tracker/db/TransactionQueryExecutor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/expense_tracker/services/TransactionService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/expense_tracker/services/TransactionService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/TransactionQueryExecutorTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/TransactionQueryExecutorTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -77,6 +79,9 @@
     "JUnit.TransactionQueryExecutorTest.getAllTransactionsTest.executor": "Run",
     "JUnit.TransactionQueryExecutorTest.getTransactionTest_DoesNotExist.executor": "Run",
     "JUnit.TransactionQueryExecutorTest.getTransactionTest_Exists.executor": "Run",
+    "JUnit.TransactionQueryExecutorTest.getTransactionsByAmount_Test.executor": "Run",
+    "JUnit.TransactionQueryExecutorTest.getTransactionsByCategory_Test.executor": "Run",
+    "JUnit.TransactionQueryExecutorTest.getTransactionsByDate_Test.executor": "Run",
     "JUnit.TransactionQueryExecutorTest.updateTransactionTest_Exists.executor": "Run",
     "JUnit.TransactionQueryExecutorTest.updateTransactionTest_Not_Exists.executor": "Run",
     "JUnit.UserQueryExecutorTest.executor": "Run",
@@ -97,7 +102,7 @@
       <recent name="" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.java in expense_tracker">
+  <component name="RunManager" selected="JUnit.TransactionQueryExecutorTest.getTransactionsByDate_Test">
     <configuration name="TansactionServiceTest.deleteTransaction_Test_InValid" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="expense_tracker" />
       <option name="PACKAGE_NAME" value="" />
@@ -108,31 +113,31 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="TansactionServiceTest.deleteTransaction_Test_Valid" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="TransactionQueryExecutorTest.getTransactionsByAmount_Test" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="expense_tracker" />
       <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="TansactionServiceTest" />
-      <option name="METHOD_NAME" value="deleteTransaction_Test_Valid" />
+      <option name="MAIN_CLASS_NAME" value="TransactionQueryExecutorTest" />
+      <option name="METHOD_NAME" value="getTransactionsByAmount_Test" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="TansactionServiceTest.getAllTransactions_Test" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="TransactionQueryExecutorTest.getTransactionsByCategory_Test" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="expense_tracker" />
       <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="TansactionServiceTest" />
-      <option name="METHOD_NAME" value="getAllTransactions_Test" />
+      <option name="MAIN_CLASS_NAME" value="TransactionQueryExecutorTest" />
+      <option name="METHOD_NAME" value="getTransactionsByCategory_Test" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="TansactionServiceTest.updateTransaction_Test" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="TransactionQueryExecutorTest.getTransactionsByDate_Test" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="expense_tracker" />
       <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="TansactionServiceTest" />
-      <option name="METHOD_NAME" value="updateTransaction_Test" />
+      <option name="MAIN_CLASS_NAME" value="TransactionQueryExecutorTest" />
+      <option name="METHOD_NAME" value="getTransactionsByDate_Test" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -148,11 +153,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.TransactionQueryExecutorTest.getTransactionsByDate_Test" />
+        <item itemvalue="JUnit.TransactionQueryExecutorTest.getTransactionsByCategory_Test" />
         <item itemvalue="JUnit.java in expense_tracker" />
+        <item itemvalue="JUnit.TransactionQueryExecutorTest.getTransactionsByAmount_Test" />
         <item itemvalue="JUnit.TansactionServiceTest.deleteTransaction_Test_InValid" />
-        <item itemvalue="JUnit.TansactionServiceTest.deleteTransaction_Test_Valid" />
-        <item itemvalue="JUnit.TansactionServiceTest.updateTransaction_Test" />
-        <item itemvalue="JUnit.TansactionServiceTest.getAllTransactions_Test" />
       </list>
     </recent_temporary>
   </component>

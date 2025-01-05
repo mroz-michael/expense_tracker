@@ -26,6 +26,22 @@ public class TransactionService {
         return TransactionQueryExecutor.getAllTransactions(userId, isTest);
     }
 
+
+    public static List<Transaction> getTransactionsByAmount(int userId, double min, double max, boolean isTest) {
+        return TransactionQueryExecutor.getTransactionsByAmount(userId, min, max, isTest);
+    }
+
+    public static List<Transaction> getTransactionsByCategory(int userId, String category, boolean isTest) {
+        //todo: implement
+        return TransactionQueryExecutor.getTransactionsByCategory(userId, category, isTest);
+    }
+
+
+    public static List<Transaction> getTransactionsByDate(int userId, Date start, Date end, boolean isTest) {
+        //todo: implement
+        return TransactionQueryExecutor.getAllTransactions(userId, isTest);
+    }
+
     public static boolean updateTransaction(Transaction updatedTransaction, boolean isTest) {
         return TransactionQueryExecutor.updateTransaction(updatedTransaction, isTest);
     }

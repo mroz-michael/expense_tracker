@@ -4,6 +4,7 @@ import com.expense_tracker.db.TransactionQueryExecutor;
 import com.expense_tracker.db.UserQueryExecutor;
 import org.junit.Test;
 import java.sql.Connection;
+import java.sql.Date;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -103,4 +104,60 @@ public class TransactionQueryExecutorTest {
         assertFalse("deleteTransaction should return false if transaction not in db", deleted);
     }
 
+    @Test
+    public void getTransactionsByAmount_Test() {
+        DbTestHelper.prepareTestTables();
+        Connection mySql = DbTestHelper.prepareTestTables();
+        DbTestHelper.insertTestUser(mySql, "test user", "pw");;
+
+        Transaction t1 = TransactionQueryExecutor.createTransaction(1, "first", "n", 1, IS_TEST);
+        Transaction t2 = TransactionQueryExecutor.createTransaction(55, "second", "y", 1, IS_TEST);
+        Transaction t3 = TransactionQueryExecutor.createTransaction(99, "third", "n", 1, IS_TEST);
+        Transaction t4 = TransactionQueryExecutor.createTransaction(98.9, "fourth", "y", 1, IS_TEST);
+        List<Transaction> transactions = TransactionQueryExecutor.getTransactionsByAmount(1, 2, 98.9, IS_TEST);
+        int numTransactions = transactions.size();
+        assertEquals("getTransactionsByAmount did not return expected number of transactions", 2, numTransactions);
+        assertEquals("getTransactionsByAmount did not return the correct transactions",
+                transactions.get(1).getCategory(), "y");
     }
+    @Test
+    public void getTransactionsByCategory_Test() {
+        DbTestHelper.prepareTestTables();
+        Connection mySql = DbTestHelper.prepareTestTables();
+        DbTestHelper.insertTestUser(mySql, "test user", "pw");
+
+        Transaction t1 = TransactionQueryExecutor.createTransaction(1, "first", "y", 1, IS_TEST);
+        Transaction t2 = TransactionQueryExecutor.createTransaction(2, "second", "y", 1, IS_TEST);
+        Transaction t3 = TransactionQueryExecutor.createTransaction(3, "third", "n", 1, IS_TEST);
+        Transaction t4 = TransactionQueryExecutor.createTransaction(1, "fourth", "y", 1, IS_TEST);
+        List<Transaction> transactions = TransactionQueryExecutor.getTransactionsByCategory(1, "y", IS_TEST);
+        int numTransactions = transactions.size();
+        assertEquals("getTransactionsByAmount did not return expected number of transactions", 3, numTransactions);
+    }
+
+    @Test
+    public void getTransactionsByDate_Test() {
+        DbTestHelper.prepareTestTables();
+        Connection mySql = DbTestHelper.prepareTestTables();
+        DbTestHelper.insertTestUser(mySql, "test user", "pw");
+        //of these, only topMax, botMax, and middle should be returned by query
+        long topMax = System.currentTimeMillis();
+        long botMax = topMax - 2000;
+        long middle = topMax - 1500;
+        long under = botMax -1;
+        long over = topMax + 1;
+
+        long[] longDates = {topMax, botMax, middle, under, over};
+        for (int i = 0; i < 5; i++) {
+            Date d = new Date(longDates[i]);
+            Transaction t = TransactionQueryExecutor.createTransaction(1, "_", "_", 1,
+                    d, IS_TEST);
+        }
+        Date start = new Date(botMax);
+        Date end = new Date(topMax);
+        List<Transaction> transactions = TransactionQueryExecutor.getTransactionsByDate(1, start, end, IS_TEST);
+        int numTransactions = transactions.size();
+        assertEquals("getTransactionsByAmount did not return expected number of transactions", 3, numTransactions);
+    }
+
+}

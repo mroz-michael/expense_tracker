@@ -106,25 +106,9 @@ public class TransactionQueryExecutor {
             String getTransactionQuery = TransactionQueries.getAll(tableName);
             PreparedStatement fetchTransaction = mySql.prepareStatement(getTransactionQuery);
             fetchTransaction.setInt(1, userId);
+
             ResultSet res = fetchTransaction.executeQuery();
-
-            int dbId = -1;
-            String dbDescription = "";
-            double dbAmount = 0.00;
-            Date dbDate = null;
-            int dbUserId = -1;
-            String dbCategory = "";
-
-            while (res.next()) {
-                dbId = res.getInt(1);
-                dbDescription = res.getString(2);
-                dbAmount = res.getDouble(3);
-                dbDate = res.getDate(4);
-                dbUserId = res.getInt(5);
-                dbCategory = res.getString(6);
-                Transaction t = new Transaction(dbId, dbAmount, dbDescription, dbCategory, dbUserId, dbDate);
-                transactions.add(t);
-            }
+            populateList(transactions, res);
 
         } catch (SQLException | IOException e) {
             System.out.println("MySQL error: " + e.getMessage());
@@ -151,7 +135,6 @@ public class TransactionQueryExecutor {
             return false;
         }
     }
-
     public static boolean deleteTransaction(Transaction toDelete, boolean isTest) {
 
         try {
@@ -171,17 +154,70 @@ public class TransactionQueryExecutor {
         return false;
     }
 
-    //todo: implement these
+    public static List<Transaction> getTransactionsByAmount(int userId, double min, double max, boolean isTest) {
+        List<Transaction> transactions = new ArrayList<>();
+
+        try {
+
+            Connection mySql = DBConnector.connect("");
+            String tableName = getTableName(isTest);
+            String getTransactionQuery = TransactionQueries.getByAmount(tableName);
+            PreparedStatement fetchTransaction = mySql.prepareStatement(getTransactionQuery);
+            fetchTransaction.setInt(1, userId);
+            fetchTransaction.setDouble(2, min);
+            fetchTransaction.setDouble(3, max);
+
+            ResultSet res = fetchTransaction.executeQuery();
+            populateList(transactions, res);
+
+        } catch (SQLException | IOException e) {
+            System.out.println("MySQL error: " + e.getMessage());
+        }
+        return transactions;
+    }
+
     public static List<Transaction> getTransactionsByCategory(int userId, String category, boolean isTest) {
-        return null;
+        List<Transaction> transactions = new ArrayList<>();
+
+        try {
+
+            Connection mySql = DBConnector.connect("");
+            String tableName = getTableName(isTest);
+            String getTransactionQuery = TransactionQueries.getByCategory(tableName);
+            PreparedStatement fetchTransaction = mySql.prepareStatement(getTransactionQuery);
+            fetchTransaction.setInt(1, userId);
+            fetchTransaction.setString(2, category);
+
+            ResultSet res = fetchTransaction.executeQuery();
+
+            populateList(transactions, res);
+
+        } catch (SQLException | IOException e) {
+            System.out.println("MySQL error: " + e.getMessage());
+        }
+        return transactions;
     }
 
     public static List<Transaction> getTransactionsByDate(int userId, Date start, Date end, boolean isTest) {
+        //todo: implement these
         return null;
     }
 
-    public static List<Transaction> getTransactionsByAmount(int userId, double min, double max, boolean isTest) {
-        return null;
+    //helper method to add results from res into List
+    private static void populateList(List<Transaction> list, ResultSet res) {
+        try {
+            while (res.next()) {
+                int dbId = res.getInt(1);
+                String dbDescription = res.getString(2);
+                double dbAmount = res.getDouble(3);
+                Date dbDate = res.getDate(4);
+                int dbUserId = res.getInt(5);
+                String dbCategory = res.getString(6);
+                Transaction t = new Transaction(dbId, dbAmount, dbDescription, dbCategory, dbUserId, dbDate);
+                list.add(t);
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
     }
-
 }

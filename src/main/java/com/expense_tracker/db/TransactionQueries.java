@@ -21,6 +21,24 @@ public class TransactionQueries {
         return query;
     }
 
+    public static String getByAmount(String tableName) {
+        String query = "SELECT id, description, amount, date, user_id, category from "
+                + tableName + " where user_id = ? and amount between ? and ?";
+        return query;
+    }
+
+    public static String getByCategory(String tableName) {
+        String query = "SELECT id, description, amount, date, user_id, category from "
+                + tableName + " where user_id = ? and category = ?";
+        return query;
+    }
+
+    public static String getByDate(String tableName) {
+        String query = "SELECT id, description, amount, date, user_id, category from "
+                + tableName + " where user_id = ? and date between ? and ?";
+        return query;
+    }
+
     public static String update(String tableName) {
         String query = "update " + tableName + " " + "set amount = ?" +
                 ", description = ?, category = ? where id= ?";
