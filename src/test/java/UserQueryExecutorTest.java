@@ -13,7 +13,7 @@ public class UserQueryExecutorTest {
     @Test
     public void getUserTest_Exists() {
         Connection mySql = DbTestHelper.prepareTestTables();
-        DbTestHelper.insertTestUser(mySql, "Test_User", "pw");
+        DbTestHelper.insertTestUser(mySql, "Test_User", "plain_password");
 
         User fetchedUser = UserQueryExecutor.getUser(1, IS_TEST);
 

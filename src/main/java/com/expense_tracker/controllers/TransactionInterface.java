@@ -87,9 +87,9 @@ public class TransactionInterface {
     }
 
     // Display all transactions
-    public void displayAllTransactions() {
+    public void displayAllTransactions(int userId) {
         try {
-            List<Transaction> transactions = TransactionService.getTransactions();
+            List<Transaction> transactions = TransactionService.getAllTransactions(userId, NOT_TEST);
 
             if (transactions.isEmpty()) {
                 System.out.println("No transactions found.");

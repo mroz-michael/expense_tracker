@@ -58,7 +58,7 @@ public class TransactionQueryExecutorTest {
             Transaction t3 = TransactionQueryExecutor.createTransaction(99, "other_user", "", 2, IS_TEST);
 
             User ourUser = UserQueryExecutor.getUser(1, IS_TEST);
-            List<Transaction> transactions = TransactionQueryExecutor.getAllTransactions(ourUser, IS_TEST);
+            List<Transaction> transactions = TransactionQueryExecutor.getAllTransactions(1, IS_TEST);
             int numTransactions = transactions.size();
             assertEquals("getAllTransactions did not return expected number of transactions", 2, numTransactions);
         }

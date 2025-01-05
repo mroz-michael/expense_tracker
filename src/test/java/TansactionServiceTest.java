@@ -4,6 +4,7 @@ import com.expense_tracker.services.TransactionService;
 import org.junit.Test;
 
 import java.sql.Connection;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
@@ -13,9 +14,10 @@ public class TansactionServiceTest {
 
 
     //call before each test, resets users_test and transactions_test tables and creates a user
-    private static void prepareDB() {
+    private static Connection prepareDB() {
         Connection mySql = DbTestHelper.prepareTestTables();
         DbTestHelper.insertTestUser(mySql, "test_user", "pw");
+        return mySql;
     }
 
     @Test
@@ -44,8 +46,23 @@ public class TansactionServiceTest {
     }
 
     @Test
-    public void getTransactions_Test() {
-
+    public void getAllTransactions_Test() {
+        Connection mySql = prepareDB();
+        DbTestHelper.insertTestUser(mySql, "second_user", "anything");
+        //give 5 transactions to user 1, then 3 to user 2, then 1 to user 1.
+        for (int i = 0; i < 5; i++) {
+            TransactionService.createTransaction(i +1, "for user1","t", 1, IS_TEST);
+        }
+        for (int i = 0; i < 3; i++) {
+            TransactionService.createTransaction(i +1, "for user2","t", 2, IS_TEST);
+        }
+        TransactionService.createTransaction(42, "last one for user1", "_", 1, IS_TEST);
+        List<Transaction> transactionList = TransactionService.getAllTransactions(1, IS_TEST);
+        for (int i = 0; i < transactionList.size(); i++) {
+            int userId = transactionList.get(i).getUserId();
+            assertEquals("transactions list contained transaction not belonging to user", 1, userId);
+        }
+        assertEquals("transaction list did not contain correct amount of transactions", 6, transactionList.size());
     }
 
     @Test

@@ -22,8 +22,8 @@ public class TransactionService {
         return TransactionQueryExecutor.getTransaction(id, isTest);
     }
 
-    public static List<Transaction> getTransactions() {
-        return null;
+    public static List<Transaction> getAllTransactions(int userId, boolean isTest) {
+        return TransactionQueryExecutor.getAllTransactions(userId, isTest);
     }
 
     public static boolean updateTransaction() {

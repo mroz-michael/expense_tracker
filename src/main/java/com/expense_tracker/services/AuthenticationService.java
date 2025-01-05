@@ -11,7 +11,6 @@ public class AuthenticationService {
     public static User login(String username, String plainTextPw, boolean isTest) {
 
         if (validatePassword(username, plainTextPw, isTest)) {
-            //get user from QE then compare
             return UserQueryExecutor.findUserByName(username, isTest);
         } else {
             System.out.println("Invalid username or password.");
@@ -30,7 +29,6 @@ public class AuthenticationService {
     }
 
     public static boolean validatePassword(String username, String plaintextUserPassword, boolean isTest) {
-
         User foundUser = UserQueryExecutor.findUserByName(username, isTest);
         return foundUser == null ? false : BCrypt.checkpw(plaintextUserPassword, foundUser.getPwHash());
     }

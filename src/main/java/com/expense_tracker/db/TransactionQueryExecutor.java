@@ -97,15 +97,12 @@ public class TransactionQueryExecutor {
             return null;
         }
     }
-    public static List<Transaction> getAllTransactions(User user, boolean isTest) {
+    public static List<Transaction> getAllTransactions(int userId, boolean isTest) {
         List<Transaction> transactions = new ArrayList<>();
-
-        if (user == null) {return transactions;}
 
         try {
             Connection mySql = DBConnector.connect("");
             String tableName = getTableName(isTest);
-            int userId = user.getId();
             String getTransactionQuery = "SELECT id, description, amount, date, user_id, category from "
                     + tableName + " where user_id = ? ";
             PreparedStatement fetchTransaction = mySql.prepareStatement(getTransactionQuery);
