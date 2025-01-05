@@ -30,7 +30,7 @@ public class TransactionService {
         return TransactionQueryExecutor.updateTransaction(updatedTransaction, isTest);
     }
 
-    public static boolean deleteTransaction() {
-        return false;
+    public static boolean deleteTransaction(Transaction deleteMe, boolean isTest) {
+        return TransactionQueryExecutor.deleteTransaction(deleteMe, isTest);
     }
 }

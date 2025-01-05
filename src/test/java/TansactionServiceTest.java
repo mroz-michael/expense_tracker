@@ -6,8 +6,7 @@ import org.junit.Test;
 import java.sql.Connection;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.Assert.*;
 
 public class TansactionServiceTest {
     private static final boolean IS_TEST = true;
@@ -77,8 +76,25 @@ public class TansactionServiceTest {
     }
 
     @Test
-    public void deleteTransaction_Test() {
+    public void deleteTransaction_Test_Valid() {
+        prepareDB();
+        TransactionService.createTransaction(1234, "-", "_", 1, IS_TEST);
+        TransactionService.createTransaction(4321, "delete me", "_", 1, IS_TEST);
+        Transaction toDel = TransactionService.getTransaction(2, IS_TEST);
+        boolean deleted = TransactionService.deleteTransaction(toDel, IS_TEST);
+        assertTrue("deleteTransaction returned false", deleted);
+        List<Transaction> tList = TransactionService.getAllTransactions(1, IS_TEST);
+        int size = tList.size();
+        assertEquals("deleteTransaction did not remove the transaction from the db", 1, size);
+    }
 
+    @Test
+    public void deleteTransaction_Test_InValid() {
+        prepareDB();
+        TransactionService.createTransaction(1234, "-", "_", 1, IS_TEST);
+        Transaction notInDb = new Transaction(2, 12.5, 1);
+        boolean deleted = TransactionService.deleteTransaction(notInDb, IS_TEST);
+        assertFalse("deleteTransaction returned true when given an invalid transaction", deleted);
     }
 
 }
