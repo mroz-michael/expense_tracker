@@ -71,4 +71,14 @@ public class Transaction {
         this.date = date;
     }
 
+    @Override
+    public String toString() {
+        String output = "Transaction ID: " + getId();
+        output += " | $" + getAmount();
+        output += " | " + getCategory();
+        output += " | " + getDate();
+        output +="\nDescription: " + getDescription();
+        return output;
+    }
+
 }

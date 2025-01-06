@@ -31,7 +31,11 @@ public class TransactionInterface {
                 System.out.println("Error, Transaction amount was not formatted correctly, please enter a proper numeric amount");
                 System.out.println("Or type 'cancel' to go back to the previous menu");
                 inputAmount = scanner.nextLine().trim();
-                if (cancelRequest(inputAmount)) {return;}
+
+                if (cancelRequest(inputAmount)) {
+                    return;
+                }
+
                 amountValid = InputValidator.validDouble(inputAmount);
             }
 
@@ -42,27 +46,35 @@ public class TransactionInterface {
             boolean dateValid = InputValidator.validDate(dateInput);
 
             while (!dateValid) {
-                System.out.print("Error, Transaction Date was not formatted correctly, please enter a date in the format:");
+                System.out.print("Error: Transaction Date was not formatted correctly, please enter a date in the format:");
                 System.out.println(" yyyy-mm-dd\nOr type 'cancel' to go back to the previous menu");
                 dateInput = scanner.nextLine().trim();
-                if (cancelRequest(dateInput)) {return;}
+                if (cancelRequest(dateInput)) {
+                    return;
+                }
+
                 dateValid = InputValidator.validDate(dateInput);
             }
 
             Date date = Date.valueOf(dateInput);
-
+            System.out.println("Please enter the number of the category that best matches the Transaction: ");
             printCategories();
             String catNumber = scanner.next();
             boolean numValid = InputValidator.validInt(catNumber, 1, EXPENSE_CATEGORIES.length);
             while (!numValid) {
                 System.out.println("Invalid category number");
+                System.out.println("Please enter the number of the category that best matches the Transaction: ");
                 printCategories();
                 System.out.println("Or type 'cancel' to go back to the previous menu");
                 catNumber = scanner.nextLine().trim();
-                if (cancelRequest(catNumber)) {return;}
+
+                if (cancelRequest(catNumber)) {
+                    return;
+                }
+
                 numValid = InputValidator.validInt(catNumber, 1, EXPENSE_CATEGORIES.length);
             }
-            int categoryIndex = Integer.valueOf(catNumber);
+            int categoryIndex = Integer.valueOf(catNumber) - 1;
             if (categoryIndex < 0 || categoryIndex >= EXPENSE_CATEGORIES.length) {
                 System.out.println("Input validation error, aborting.");
                 return;
@@ -79,14 +91,13 @@ public class TransactionInterface {
     }
 
     private static void printCategories() {
-        System.out.println("Please enter the number of the category that best matches the Transaction: ");
+
         for (int i = 0; i < EXPENSE_CATEGORIES.length; i++) {
             System.out.println( (i + 1) + ": " + EXPENSE_CATEGORIES[i]);
         }
     }
 
     public void displayAllTransactions(int userId) {
-        try {
             List<Transaction> transactions = TransactionService.getAllTransactions(userId, NOT_TEST);
 
             if (transactions.isEmpty()) {
@@ -95,24 +106,51 @@ public class TransactionInterface {
             }
 
             System.out.println("Transactions:");
+
             for (Transaction transaction : transactions) {
                 System.out.println(transaction);
             }
-        } catch (Exception e) {
-            System.err.println("Error fetching transactions: " + e.getMessage());
-        }
     }
 
     public void displayTransactionsByCategory(int userId) {
-    //todo
+        Scanner inputScan = new Scanner(System.in);
+        System.out.println("Please select the category number of the transactions you want to display:");
+        printCategories();
+        String inputInt = inputScan.next();
+        boolean validInt = InputValidator.validInt(inputInt, 1, EXPENSE_CATEGORIES.length);
+        while (!validInt) {
+            System.out.println("Invalid category number");
+            printCategories();
+            System.out.println("Or type 'cancel' to go back to the previous menu");
+            inputInt = inputScan.nextLine().trim();
+
+            if (cancelRequest(inputInt)) {
+                return;
+            }
+            validInt = InputValidator.validInt(inputInt, 1, EXPENSE_CATEGORIES.length);
+        }
+        String category = "";
+        try {
+            int categoryIndex = Integer.parseInt(inputInt) - 1;
+            category = EXPENSE_CATEGORIES[categoryIndex];
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println("Input Validation error, aborting.");
+            return;
+        }
+
+        List<Transaction> transactions = TransactionService.getTransactionsByCategory(userId, category, NOT_TEST);
+        System.out.println("All " + category + " transactions:");
+        for (Transaction t: transactions) {
+            System.out.println(t);
+        }
     }
 
 
-    public static void printTransactionsByAmount() {
+    public static void displayTransactionsByAmount(int userId) {
         //todo: get input from user, call TransactionService
     }
 
-    public static void printTransactionsByDate() {
+    public static void displayTransactionsByDate(int userId) {
         //todo: get input from user, call TransactionService
     }
 
@@ -128,7 +166,11 @@ public class TransactionInterface {
                 System.out.println("Malformatted transaction ID. please enter a positive integer");
                 System.out.println("Or type 'cancel' to go back to the previous menu");
                 inputInt = scanner.nextLine().trim();
-                if (cancelRequest(inputInt)) {return;}
+
+                if (cancelRequest(inputInt)) {
+                    return;
+                }
+
                 validInt = InputValidator.validInt(inputInt, 1, EXPENSE_CATEGORIES.length);
             }
             int tId = Integer.valueOf(inputInt);
