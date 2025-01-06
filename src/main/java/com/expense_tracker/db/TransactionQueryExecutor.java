@@ -135,14 +135,14 @@ public class TransactionQueryExecutor {
             return false;
         }
     }
-    public static boolean deleteTransaction(Transaction toDelete, boolean isTest) {
+    public static boolean deleteTransaction(int transactionId, boolean isTest) {
 
         try {
             Connection mySql = DBConnector.connect("");
             String tableName = getTableName(isTest);
             String deleteUserQuery = TransactionQueries.delete(tableName);
             PreparedStatement removeUser = mySql.prepareStatement(deleteUserQuery);
-            removeUser.setInt(1, toDelete.getId());
+            removeUser.setInt(1, transactionId);
             int rowsEffected = removeUser.executeUpdate();
 
             return rowsEffected == 1;

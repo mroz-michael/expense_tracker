@@ -81,7 +81,7 @@ public class TansactionServiceTest {
         TransactionService.createTransaction(1234, "-", "_", 1, IS_TEST);
         TransactionService.createTransaction(4321, "delete me", "_", 1, IS_TEST);
         Transaction toDel = TransactionService.getTransaction(2, IS_TEST);
-        boolean deleted = TransactionService.deleteTransaction(toDel, IS_TEST);
+        boolean deleted = TransactionService.deleteTransaction(2, IS_TEST);
         assertTrue("deleteTransaction returned false", deleted);
         List<Transaction> tList = TransactionService.getAllTransactions(1, IS_TEST);
         int size = tList.size();
@@ -93,7 +93,7 @@ public class TansactionServiceTest {
         prepareDB();
         TransactionService.createTransaction(1234, "-", "_", 1, IS_TEST);
         Transaction notInDb = new Transaction(2, 12.5, 1);
-        boolean deleted = TransactionService.deleteTransaction(notInDb, IS_TEST);
+        boolean deleted = TransactionService.deleteTransaction(2, IS_TEST);
         assertFalse("deleteTransaction returned true when given an invalid transaction", deleted);
     }
 

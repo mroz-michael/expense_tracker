@@ -91,7 +91,7 @@ public class TransactionQueryExecutorTest {
             Connection mySql = DbTestHelper.prepareTestTables();
             DbTestHelper.insertTestTransaction(mySql, 404, "delete_transaction");
             Transaction toDelete = TransactionQueryExecutor.getTransaction(1, IS_TEST);
-            TransactionQueryExecutor.deleteTransaction(toDelete, IS_TEST);
+            TransactionQueryExecutor.deleteTransaction(1, IS_TEST);
             Transaction nullTransaction = TransactionQueryExecutor.getTransaction(1, IS_TEST);
             assertNull("transaction that should have been deleted was found", nullTransaction);
         }
@@ -100,7 +100,7 @@ public class TransactionQueryExecutorTest {
     public void deleteTransactionTest_Not_Exists() {
         Connection mySql = DbTestHelper.prepareTestTables();
         Transaction notInDb = new Transaction(1, 123,1);
-        boolean deleted = TransactionQueryExecutor.deleteTransaction(notInDb, IS_TEST);
+        boolean deleted = TransactionQueryExecutor.deleteTransaction(1, IS_TEST);
         assertFalse("deleteTransaction should return false if transaction not in db", deleted);
     }
 

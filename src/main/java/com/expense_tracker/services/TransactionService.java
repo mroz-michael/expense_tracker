@@ -25,8 +25,7 @@ public class TransactionService {
     public static List<Transaction> getAllTransactions(int userId, boolean isTest) {
         return TransactionQueryExecutor.getAllTransactions(userId, isTest);
     }
-
-
+    
     public static List<Transaction> getTransactionsByAmount(int userId, double min, double max, boolean isTest) {
         return TransactionQueryExecutor.getTransactionsByAmount(userId, min, max, isTest);
     }
@@ -44,7 +43,7 @@ public class TransactionService {
         return TransactionQueryExecutor.updateTransaction(updatedTransaction, isTest);
     }
 
-    public static boolean deleteTransaction(Transaction deleteMe, boolean isTest) {
-        return TransactionQueryExecutor.deleteTransaction(deleteMe, isTest);
+    public static boolean deleteTransaction(int transactionId, boolean isTest) {
+        return TransactionQueryExecutor.deleteTransaction(transactionId, isTest);
     }
 }

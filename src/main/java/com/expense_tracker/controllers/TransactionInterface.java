@@ -5,7 +5,6 @@ import com.expense_tracker.services.TransactionService;
 import com.expense_tracker.utils.InputValidator;
 
 import java.sql.Date;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -86,7 +85,6 @@ public class TransactionInterface {
         }
     }
 
-    // Display all transactions
     public void displayAllTransactions(int userId) {
         try {
             List<Transaction> transactions = TransactionService.getAllTransactions(userId, NOT_TEST);
@@ -106,18 +104,42 @@ public class TransactionInterface {
     }
 
     public void displayTransactionsByCategory(int userId) {
-
+    //todo
     }
+
+
+    public static void printTransactionsByAmount() {
+        //todo: get input from user, call TransactionService
+    }
+
+    public static void printTransactionsByDate() {
+        //todo: get input from user, call TransactionService
+    }
+
 
     public void deleteTransactionFromInput() {
         Scanner scanner = new Scanner(System.in);
 
         try {
             System.out.print("Enter transaction ID to delete: ");
-            int id = scanner.nextInt();
+            String inputInt = scanner.next();
+            boolean validInt = InputValidator.validInt(inputInt, 1, Integer.MAX_VALUE);
+            while (!validInt) {
+                System.out.println("Malformatted transaction ID. please enter a positive integer");
+                System.out.println("Or type 'cancel' to go back to the previous menu");
+                inputInt = scanner.nextLine().trim();
+                if (cancelRequest(inputInt)) {return;}
+                validInt = InputValidator.validInt(inputInt, 1, EXPENSE_CATEGORIES.length);
+            }
+            int tId = Integer.valueOf(inputInt);
+            if (tId < 1) {
+                System.out.println("Input validation error, aborting.");
+                return;
+            }
 
-            //todo add this method => TransactionService.deleteTransaction();
-            System.out.println("Transaction deleted successfully!");
+            boolean deleted = TransactionService.deleteTransaction(tId, NOT_TEST);
+            String res = deleted ? "Transaction deleted successfully!" : "Transaction was not deleted properly";
+            System.out.println(res);
         } catch (Exception e) {
             System.err.println("Error deleting transaction: " + e.getMessage());
         }
@@ -127,7 +149,4 @@ public class TransactionInterface {
         String formattedInput = input.toLowerCase().trim();
         return formattedInput.equals("cancel") || formattedInput.equals("'cancel'");
     }
-
-
-
 }
