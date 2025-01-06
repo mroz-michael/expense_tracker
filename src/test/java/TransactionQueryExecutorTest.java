@@ -5,6 +5,7 @@ import com.expense_tracker.db.UserQueryExecutor;
 import org.junit.Test;
 import java.sql.Connection;
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -140,23 +141,20 @@ public class TransactionQueryExecutorTest {
         DbTestHelper.prepareTestTables();
         Connection mySql = DbTestHelper.prepareTestTables();
         DbTestHelper.insertTestUser(mySql, "test user", "pw");
-        //of these, only topMax, botMax, and inRange should be returned by query
-        long topMax = System.currentTimeMillis();
-        long botMax = topMax - 2000000000;
-        long inRange = topMax - 1000000000;
-        long past = botMax -1000000000;
-        long future = topMax + 1000000000;
+        LocalDate rangeStart = LocalDate.of(2023, 1, 1);
+        LocalDate rangeEnd = LocalDate.of(2024, 1, 1);
+        LocalDate inRange = LocalDate.of(2023, 6, 1);
+        LocalDate tooOld = LocalDate.of(2022, 12, 25);
+        LocalDate tooNew = LocalDate.of(2024, 1, 2);
 
 
-        long[] longDates = {topMax, botMax, inRange, past, future};
+        LocalDate[] dates = {rangeStart, rangeEnd, inRange, tooOld, tooNew};
         for (int i = 0; i < 5; i++) {
-            Date d = new Date(longDates[i]);
+            LocalDate d = dates[i];
             Transaction t = TransactionQueryExecutor.createTransaction(1, "_", "_", 1,
                     d, IS_TEST);
         }
-        Date start = new Date(botMax);
-        Date end = new Date(topMax);
-        List<Transaction> transactions = TransactionQueryExecutor.getTransactionsByDate(1, start, end, IS_TEST);
+        List<Transaction> transactions = TransactionQueryExecutor.getTransactionsByDate(1, rangeStart, rangeEnd, IS_TEST);
         int numTransactions = transactions.size();
         assertEquals("getTransactionsByAmount did not return expected number of transactions", 3, numTransactions);
     }

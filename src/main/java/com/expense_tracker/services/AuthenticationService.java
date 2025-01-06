@@ -13,7 +13,6 @@ public class AuthenticationService {
         if (validatePassword(username, plainTextPw, isTest)) {
             return UserQueryExecutor.findUserByName(username, isTest);
         } else {
-            System.out.println("Invalid username or password.");
             return null;
         }
     }

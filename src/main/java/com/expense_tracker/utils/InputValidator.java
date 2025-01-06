@@ -3,11 +3,13 @@ package com.expense_tracker.utils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.zip.DataFormatException;
 
 public class InputValidator {
 
+    public static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     public static boolean validDouble(String inputDouble) {
 
         if (inputDouble.isEmpty()) { return false;}

@@ -6,7 +6,7 @@ import com.expense_tracker.User; //pass user to check user.id || user.type == ow
 import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.time.LocalDate;
 import java.util.List;
 
 public class TransactionQueryExecutor {
@@ -18,7 +18,7 @@ public class TransactionQueryExecutor {
     }
 
     public static Transaction createTransaction(double amount, String description, String category, int userId, boolean isTest) {
-        Date date = new Date(System.currentTimeMillis());
+        LocalDate date = LocalDate.now();
         return createTransaction(amount, description, category, userId, date, isTest);
     }
     public static Transaction createTransaction(
@@ -26,7 +26,7 @@ public class TransactionQueryExecutor {
             String description,
             String category,
             int userId,
-            Date date,
+            LocalDate date,
             boolean isTest
         ) {
             try {
@@ -39,7 +39,7 @@ public class TransactionQueryExecutor {
                 newTransaction.setString(2, description);
                 newTransaction.setString(3, category);
                 newTransaction.setInt(4, userId);
-                newTransaction.setDate(5, date);
+                newTransaction.setDate(5, Date.valueOf(date));
                 newTransaction.executeUpdate();
 
                 ResultSet res = newTransaction.getGeneratedKeys();
@@ -72,7 +72,7 @@ public class TransactionQueryExecutor {
             int dbId = -1;
             String dbDescription = "";
             double dbAmount = 0.00;
-            Date dbDate = null;
+            LocalDate dbDate = null;
             int dbUserId = -1;
             String dbCategory = "";
 
@@ -80,13 +80,12 @@ public class TransactionQueryExecutor {
                 dbId = res.getInt(1);
                 dbDescription = res.getString(2);
                 dbAmount = res.getDouble(3);
-                dbDate = res.getDate(4);
+                dbDate = res.getDate(4).toLocalDate();
                 dbUserId = res.getInt(5);
                 dbCategory = res.getString(6);
             }
 
             if (dbId == -1) {
-                System.out.println("Could not find Transaction with given id, returning null");
                 return null;
             }
 
@@ -200,7 +199,7 @@ public class TransactionQueryExecutor {
         return transactions;
     }
 
-    public static List<Transaction> getTransactionsByDate(int userId, Date start, Date end, boolean isTest) {
+    public static List<Transaction> getTransactionsByDate(int userId, LocalDate start, LocalDate end, boolean isTest) {
         List<Transaction> transactions = new ArrayList<>();
 
         try {
@@ -210,8 +209,8 @@ public class TransactionQueryExecutor {
             String getTransactionQuery = TransactionQueries.getByDate(tableName);
             PreparedStatement fetchTransaction = mySql.prepareStatement(getTransactionQuery);
             fetchTransaction.setInt(1, userId);
-            fetchTransaction.setDate(2, start);
-            fetchTransaction.setDate(3, end);
+            fetchTransaction.setDate(2, Date.valueOf(start));
+            fetchTransaction.setDate(3, Date.valueOf(end));
 
             ResultSet res = fetchTransaction.executeQuery();
 
@@ -231,7 +230,7 @@ public class TransactionQueryExecutor {
                 int dbId = res.getInt(1);
                 String dbDescription = res.getString(2);
                 double dbAmount = res.getDouble(3);
-                Date dbDate = res.getDate(4);
+                LocalDate dbDate = res.getDate(4).toLocalDate();
                 int dbUserId = res.getInt(5);
                 String dbCategory = res.getString(6);
                 Transaction t = new Transaction(dbId, dbAmount, dbDescription, dbCategory, dbUserId, dbDate);

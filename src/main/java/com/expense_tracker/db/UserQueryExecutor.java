@@ -83,7 +83,6 @@ public class UserQueryExecutor {
             }
 
             if (dbUsername.isEmpty() || dbPwHash.isEmpty() || dbRole.isEmpty() || id == -1) {
-                System.out.println("User with that Username not found in Database, returning null");
                 return null;
             }
 
@@ -119,7 +118,6 @@ public class UserQueryExecutor {
             }
 
             if (dbUsername.isEmpty() || dbPwHash.isEmpty() || dbRole.isEmpty()) {
-                System.out.println("User with that ID not found in Database, returning null");
                 return null;
             }
 
@@ -146,7 +144,6 @@ public class UserQueryExecutor {
             int rowsEffected = updateUser.executeUpdate();
             return rowsEffected > 0;
         } catch (SQLException | IOException e) {
-            System.out.println("Error connecting to DB");
             System.out.println(e.getMessage());
             return false;
         }
@@ -169,9 +166,7 @@ public class UserQueryExecutor {
 
         } catch (SQLException | IOException e) {
             System.out.println("Error attempting to delete user: " + e.getMessage());
+            return false;
         }
-
-        System.out.println("Unexpected error trying to delete user from database.");
-        return false;
     }
 }

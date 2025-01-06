@@ -1,5 +1,6 @@
 package com.expense_tracker;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 public class Transaction {
@@ -11,14 +12,14 @@ public class Transaction {
 
     private int id;
 
-    private Date date;
+    private LocalDate date;
 
     public Transaction(int id, double amount, int userId) {
         this(id, amount, "", "Miscellaneous", userId, null);
     }
 
 
-    public Transaction(int id, double amount, String description, String category, int userId, Date date) {
+    public Transaction(int id, double amount, String description, String category, int userId, LocalDate date) {
         this.id = id;
         this.amount = amount;
         this.description = description;
@@ -63,11 +64,11 @@ public class Transaction {
         this.userId = userId;
     }
 
-    public Date getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 

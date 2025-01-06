@@ -4,8 +4,9 @@ import com.expense_tracker.Transaction;
 import com.expense_tracker.services.TransactionService;
 import com.expense_tracker.utils.InputValidator;
 
-import java.sql.Date;
+import java.time.DateTimeException;
 import java.util.List;
+import java.time.LocalDate;
 import java.util.Scanner;
 
 public class TransactionInterface {
@@ -13,7 +14,6 @@ public class TransactionInterface {
     private final static boolean NOT_TEST = false; //TransactionInterface not used for test methods
     private static final String[] EXPENSE_CATEGORIES = {"Restaurants", "Entertainment", "Shopping", "Rent", "Groceries",
             "Tuition", "Bills", "Transportation", "Investing", "Miscellaneous"};
-
 
     public static void createTransaction(int userId) {
 
@@ -41,22 +41,9 @@ public class TransactionInterface {
 
             double amount = Double.parseDouble(inputAmount);
 
-            System.out.print("Enter date (yyyy-mm-dd): ");
-            String dateInput = scanner.nextLine().trim();
-            boolean dateValid = InputValidator.validDate(dateInput);
+            String datePrompt = "Enter transaction date (yyyy-mm-dd): ";
+            LocalDate date = getDateFromInput(datePrompt);
 
-            while (!dateValid) {
-                System.out.print("Error: Transaction Date was not formatted correctly, please enter a date in the format:");
-                System.out.println(" yyyy-mm-dd\nOr type 'cancel' to go back to the previous menu");
-                dateInput = scanner.nextLine().trim();
-                if (cancelRequest(dateInput)) {
-                    return;
-                }
-
-                dateValid = InputValidator.validDate(dateInput);
-            }
-
-            Date date = Date.valueOf(dateInput);
             System.out.println("Please enter the number of the category that best matches the Transaction: ");
             printCategories();
             String catNumber = scanner.next();
@@ -74,8 +61,9 @@ public class TransactionInterface {
 
                 numValid = InputValidator.validInt(catNumber, 1, EXPENSE_CATEGORIES.length);
             }
+
             int categoryIndex = Integer.valueOf(catNumber) - 1;
-            if (categoryIndex < 0 || categoryIndex >= EXPENSE_CATEGORIES.length) {
+            if (categoryIndex < 0 || categoryIndex >= EXPENSE_CATEGORIES.length || date == null) {
                 System.out.println("Input validation error, aborting.");
                 return;
             }
@@ -200,7 +188,19 @@ public class TransactionInterface {
     }
 
     public static void displayTransactionsByDate(int userId) {
-        //todo: get input from user, call TransactionService
+        String startPrompt= "Enter the starting date for transactions you want to view: ";
+        LocalDate startDate = getDateFromInput(startPrompt);
+        String endPrompt = "Enter the ending date for transactions you want to view: ";
+        LocalDate endDate = getDateFromInput(endPrompt);
+        if (endDate == null || startDate == null) {
+            System.out.println("Input validation error, aborting.");
+            return;
+        }
+        List<Transaction> transactions = TransactionService.getTransactionsByDate(userId, startDate, endDate, NOT_TEST);
+        System.out.println("All transactions between " + startDate + " and " + endDate +":");
+        for (Transaction t: transactions) {
+            System.out.println(t);
+        }
     }
 
 
@@ -212,7 +212,7 @@ public class TransactionInterface {
             String inputInt = scanner.next();
             boolean validInt = InputValidator.validInt(inputInt, 1, Integer.MAX_VALUE);
             while (!validInt) {
-                System.out.println("Malformatted transaction ID. please enter a positive integer");
+                System.out.println("Malformed transaction ID. please enter a positive integer");
                 System.out.println("Or type 'cancel' to go back to the previous menu");
                 inputInt = scanner.nextLine().trim();
 
@@ -239,5 +239,32 @@ public class TransactionInterface {
     private static boolean cancelRequest(String input) {
         String formattedInput = input.toLowerCase().trim();
         return formattedInput.equals("cancel") || formattedInput.equals("'cancel'");
+    }
+
+    private static LocalDate getDateFromInput(String promptMessage) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print(promptMessage);
+        System.out.println("Please enter in format: YYYY-MM-DD");
+        String inputDate = scanner.next();
+        boolean validDate = InputValidator.validDate(inputDate);
+        while (!validDate) {
+            System.out.println("Malformed date. Please enter in format: YYYY-MM-DD");
+            System.out.println("Or type 'cancel' to go back to the previous menu");
+            inputDate = scanner.nextLine().trim();
+
+            if (cancelRequest(inputDate)) {
+                return null;
+            }
+
+            validDate = InputValidator.validDate(inputDate);
+        }
+
+        try {
+            LocalDate date = LocalDate.parse(inputDate, InputValidator.DATE_FORMATTER);
+            return date;
+        } catch (DateTimeException e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
     }
 }

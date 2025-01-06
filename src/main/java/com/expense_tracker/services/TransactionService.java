@@ -4,17 +4,18 @@ import com.expense_tracker.Transaction;
 import com.expense_tracker.db.TransactionQueryExecutor;
 
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 //perform CRUD operations on transactions by calling Query Executor
 public class TransactionService {
 
-    public static Transaction createTransaction(double amount, String description, String category, int userId, Date date, boolean isTest) {
+    public static Transaction createTransaction(double amount, String description, String category, int userId, LocalDate date, boolean isTest) {
         return TransactionQueryExecutor.createTransaction(amount, description, category, userId, date, isTest);
     }
 
     public static Transaction createTransaction(double amount, String description, String category, int userId, boolean isTest) {
-        Date date = new Date(System.currentTimeMillis());
+        LocalDate date = LocalDate.now();
         return createTransaction(amount, description, category, userId, date, isTest);
     }
 
@@ -35,7 +36,7 @@ public class TransactionService {
     }
 
 
-    public static List<Transaction> getTransactionsByDate(int userId, Date start, Date end, boolean isTest) {
+    public static List<Transaction> getTransactionsByDate(int userId, LocalDate start, LocalDate end, boolean isTest) {
         return TransactionQueryExecutor.getTransactionsByDate(userId, start, end, isTest);
     }
 
