@@ -147,7 +147,56 @@ public class TransactionInterface {
 
 
     public static void displayTransactionsByAmount(int userId) {
-        //todo: get input from user, call TransactionService
+        Scanner inputScan = new Scanner(System.in);
+        System.out.println("Please enter the minimum amount of the transactions you want to display:");
+        String inputMin = inputScan.next();
+        boolean validDouble = InputValidator.validDouble(inputMin);
+        double min = -1;
+        double max = -1;
+
+        while (!validDouble) {
+            System.out.println("Invalid format for minimum transaction amount. Please enter a valid format");
+            System.out.println("Or type 'cancel' to go back to the previous menu");
+            inputMin = inputScan.nextLine().trim();
+            if (cancelRequest(inputMin)) {
+                return;
+            }
+            validDouble = InputValidator.validDouble(inputMin);
+        }
+
+        try {
+            min = Double.parseDouble(inputMin);
+
+        } catch (NumberFormatException e) {
+            System.out.println("Input Validation error, aborting.");
+            return;
+        }
+
+        System.out.println("Please enter the maximum amount of the transactions you want to display:");
+        String inputMax = inputScan.next();
+        validDouble = InputValidator.validDouble(inputMax);
+
+        while (!validDouble) {
+            System.out.println("Invalid format for maximum transaction amount. Please enter a valid format");
+            System.out.println("Or type 'cancel' to go back to the previous menu");
+            inputMax = inputScan.nextLine().trim();
+            if (cancelRequest(inputMax)) {
+                return;
+            }
+            validDouble = InputValidator.validDouble(inputMax);
+        }
+
+        try {
+            max = Double.parseDouble(inputMax);
+        } catch (NumberFormatException e) {
+            System.out.println("Input Validation error, aborting.");
+        }
+
+        List<Transaction> transactions = TransactionService.getTransactionsByAmount(userId, min, max, NOT_TEST);
+        System.out.println("All transactions between " + min + " and " + max +":");
+        for (Transaction t: transactions) {
+            System.out.println(t);
+        }
     }
 
     public static void displayTransactionsByDate(int userId) {
