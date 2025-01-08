@@ -1,28 +1,52 @@
 package com.expense_tracker;
 
+import com.expense_tracker.controllers.UserInterface;
 import com.expense_tracker.db.DBConnector;
+import com.expense_tracker.utils.InputValidator;
 
 import java.sql.*;
+import java.util.Scanner;
 
 public class Main {
     public static void main( String[] args ) {
 
         try {
-            Connection mySql = DBConnector.connect("");
-            Statement stmt = mySql.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM users");
-            //System.out.println("ID | Username | Password | Date Created |");
-            while(rs.next()) {
-                String id = rs.getString(1);
-                String user = rs.getString(2);
-                String pw = rs.getString(3);
-                String dateCreated = rs.getString(4);
-                String role = rs.getString(5);
-                System.out.println(id + " | " + user + " | " + pw + " | " + dateCreated);
-            }
-
+            UserInterface.displayLoginScreen();
+            String cmd = UserInterface.getLoginPrompt();
+            if (cmd.equals("exit")) {return;}
+            User currUser = cmd.equals("register") ? UserInterface.register() : UserInterface.login();
+            executeMainLoop(currUser);
         } catch(Exception e) {
             System.out.println(e.getMessage());
         }
+    }
+
+    public static void executeMainLoop(User user) {
+
+        while (true) {
+            Scanner input = new Scanner(System.in);
+            UserInterface.displayMainMenu();
+            String cmd = input.nextLine().trim();
+            boolean validInput = InputValidator.validCommand(cmd);
+            while (!validInput) {
+                UserInterface.displayMainMenu();
+                cmd = input.nextLine().trim();
+                validInput = InputValidator.validCommand(cmd);
+            }
+            //todo: call appropriate method based on cmd value
+
+
+
+
+
+
+
+
+
+
+
+
+        }
+
     }
 }

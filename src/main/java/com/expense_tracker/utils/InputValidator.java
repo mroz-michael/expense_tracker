@@ -1,10 +1,15 @@
 package com.expense_tracker.utils;
 
 
+import com.expense_tracker.User;
+import com.expense_tracker.controllers.UserInterface;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import java.util.InputMismatchException;
+import java.util.Map;
 import java.util.zip.DataFormatException;
 
 public class InputValidator {
@@ -23,10 +28,13 @@ public class InputValidator {
             char curr = inputArr[i];
             if (curr == '.' && seenDecimal) {
                 return  false;
-            } else if (curr == '.') {
+            }
+
+            else if (curr == '.') {
                 seenDecimal = true;
                 continue;
             }
+
             if (! (curr >= '0' && curr <= '9') ) {
                 return  false;
             }
@@ -56,5 +64,22 @@ public class InputValidator {
 
         int num = Integer.valueOf(numInput);
         return num >= minAllowed && num <= maxAllowed;
+    }
+
+    /**
+     * called to check if user inputted command exists as a valid key in UserInterface.COMMAND_LIST Map
+     * @param command User's inputted command when prompted by UserInterface.displayMenu()
+     * @return true if and only if command is a number in range [1, COMMAND_LIST.size()]
+     */
+    public static boolean validCommand(String command) {
+
+        int numCommands = UserInterface.numCommands();
+
+        try {
+            int commandNum = Integer.parseInt(command.trim());
+            return commandNum > 0 && commandNum <= numCommands;
+        } catch (NumberFormatException e) {
+            return false;
+        }
     }
 }

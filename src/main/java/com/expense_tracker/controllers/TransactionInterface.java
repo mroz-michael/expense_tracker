@@ -133,7 +133,6 @@ public class TransactionInterface {
         }
     }
 
-
     public static void displayTransactionsByAmount(int userId) {
         Scanner inputScan = new Scanner(System.in);
         System.out.println("Please enter the minimum amount of the transactions you want to display:");
@@ -196,6 +195,7 @@ public class TransactionInterface {
             System.out.println("Input validation error, aborting.");
             return;
         }
+
         List<Transaction> transactions = TransactionService.getTransactionsByDate(userId, startDate, endDate, NOT_TEST);
         System.out.println("All transactions between " + startDate + " and " + endDate +":");
         for (Transaction t: transactions) {
@@ -222,6 +222,7 @@ public class TransactionInterface {
 
                 validInt = InputValidator.validInt(inputInt, 1, EXPENSE_CATEGORIES.length);
             }
+
             int tId = Integer.valueOf(inputInt);
             if (tId < 1) {
                 System.out.println("Input validation error, aborting.");
