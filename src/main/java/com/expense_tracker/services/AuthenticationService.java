@@ -19,8 +19,18 @@ public class AuthenticationService {
 
     public static User createUser(String username, String unHashedPw, boolean isTest) {
         String pwHash = generateHash(unHashedPw);
-        User newUser = UserQueryExecutor.createUser(username, pwHash, "user", isTest);
+        String userType = firstUser(isTest) ? "admin" : "user";
+        User newUser = UserQueryExecutor.createUser(username, pwHash, userType, isTest);
         return newUser;
+    }
+
+    /**
+     * checks if there exists no users on the db, if so flag the next user as an admin
+     * @return true if and only if the database contains 0 users
+     */
+    private static boolean firstUser(boolean isTest) {
+        int numUsers = UserQueryExecutor.findNumUsers(isTest);
+        return numUsers == 0;
     }
 
     public static String generateHash(String plaintext) {

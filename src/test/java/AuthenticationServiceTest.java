@@ -56,4 +56,6 @@ public class AuthenticationServiceTest {
         boolean pwValid = AuthenticationService.validatePassword("has a valid pw", "invalid", IS_TEST);
         assertFalse("validatePassword returned true for invalid name/pw combination", pwValid);
     }
+
+
 }

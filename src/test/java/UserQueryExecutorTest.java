@@ -90,4 +90,15 @@ public class UserQueryExecutorTest {
         assertNull("User that should have been deleted was found",
                 UserQueryExecutor.findUserByName("deleteMe", IS_TEST));
     }
+
+    //todo implement these:
+    @Test
+    public void findNumUsers_Test_Not_Empty() {
+
+    }
+
+    @Test
+    public void findNumUsers_Testy() {
+
+    }
 }

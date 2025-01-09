@@ -10,6 +10,7 @@ import java.sql.SQLException;
 
 import java.util.Date;
 
+//todo: extract sql query strings into UserQueries class
 public class UserQueryExecutor {
     //use prepared statements!
 
@@ -167,6 +168,28 @@ public class UserQueryExecutor {
         } catch (SQLException | IOException e) {
             System.out.println("Error attempting to delete user: " + e.getMessage());
             return false;
+        }
+    }
+
+    /**
+     * @param isTest flag to determine whether to use regular or test table in db
+     * @return the number of users in the DB, or -1 if an error is encountered
+     */
+    public static int findNumUsers(boolean isTest) {
+        try {
+            Connection mySql = DBConnector.connect("");
+            String tableName = getTableName(isTest);
+            String getNumUsersQuery = "select count(*) from " + tableName;
+            PreparedStatement getNumUsers = mySql.prepareStatement(getNumUsersQuery);
+            ResultSet res = getNumUsers.executeQuery();
+            int numUsers = -1;
+            while (res.next()) {
+                numUsers = res.getInt(1);
+            }
+            return numUsers;
+        } catch (SQLException | IOException e) {
+            System.out.println(e.getMessage());
+            return -1;
         }
     }
 }

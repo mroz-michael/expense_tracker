@@ -38,7 +38,7 @@ public class UserInterface {
     }
 
     /**
-     * called on program start or after user logs out
+     * called on program start or after user logs out, allows for user to enter either cmd number or cmd itself
      * @return user's command, either "login", "register", or "exit"
      */
     public static String getLoginPrompt() {
@@ -63,7 +63,8 @@ public class UserInterface {
     public static void displayMainMenu() {
         System.out.println("Please Enter One of the Following Command Numbers: ");
         for (int i = 1; i <= COMMAND_LIST.size(); i++) {
-            System.out.println(i + ": " + COMMAND_LIST.get(i));
+            String cmdNum = String.valueOf(i);
+            System.out.println(i + ": " + COMMAND_LIST.get(cmdNum));
         }
     }
     public static User login() {

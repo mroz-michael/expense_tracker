@@ -33,19 +33,36 @@ public class Main {
                 cmd = input.nextLine().trim();
                 validInput = InputValidator.validCommand(cmd);
             }
-            //todo: call appropriate method based on cmd value
-
-
-
-
-
-
-
-
-
-
-
-
+            //refer to UserInterface.COMMAND_LIST for mapping of numbers to commands
+            switch (cmd) {
+                case "1":
+                    //..todo
+                    break;
+                case "2":
+                    //..todo
+                    break;
+                case "3":
+                    //..todo
+                    break;
+                case "4":
+                    //..todo
+                    break;
+                case "5":
+                    //..todo
+                    break;
+                case "6": //logout
+                    return;
+                case "7":
+                    //..todo
+                    break;
+                case "8":
+                    //..todo
+                    break;
+                case "9":
+                    //todo
+                    break;
+                default: break;
+            }
         }
 
     }
