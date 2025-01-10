@@ -94,11 +94,19 @@ public class UserQueryExecutorTest {
     //todo implement these:
     @Test
     public void findNumUsers_Test_Not_Empty() {
-
+        Connection mySql = DbTestHelper.prepareTestTables();
+        for (int i = 0; i < 3; i++) {
+            DbTestHelper.insertTestUser(mySql, "user_" + (i + 1), "password");
+        }
+        int numUsers = UserQueryExecutor.findNumUsers(IS_TEST);
+        assertEquals("findNumUsers did not return expected amount for DB with 3 users", 3, numUsers);
     }
 
-    @Test
-    public void findNumUsers_Testy() {
 
+    @Test
+    public void findNumUsers_Test_Empty() {
+        Connection mySql = DbTestHelper.prepareTestTables();
+        int numUsers = UserQueryExecutor.findNumUsers(IS_TEST);
+        assertEquals("findNumUsers did not return 0 for empty DB", 0, numUsers);
     }
 }
