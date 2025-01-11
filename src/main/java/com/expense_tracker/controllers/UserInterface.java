@@ -85,9 +85,14 @@ public class UserInterface {
     public static User register() {
         Scanner inputScan = new Scanner(System.in);
         System.out.print("Enter the username you'd like: ");
-        String username = inputScan.next().trim();
-        System.out.println("\nPlease create a password for this account");
-        String unHashedPw = inputScan.next().trim();
+        String username = inputScan.nextLine().trim();
+        System.out.println("\nPlease create a password for this account (4 character minimum)");
+        String unHashedPw = inputScan.nextLine().trim();
+        while  (unHashedPw.length() < 4) {
+            System.out.println("Password must be at least 4 characters");
+            System.out.println("Please create a password for this account (4 character minimum)");
+            unHashedPw = inputScan.nextLine().trim();
+        }
         System.out.println();
         return AuthenticationService.createUser(username, unHashedPw, NOT_TEST);
     }

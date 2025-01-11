@@ -66,7 +66,7 @@ public class Main {
                     UserInterface.promptUsernameChange(user);
                     break;
                 case "8": //change pw
-                    //..todo
+                    UserInterface.promptPasswordChange(user);
                     break;
                 case "9": //delete account :(
                     //todo
