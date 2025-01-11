@@ -11,10 +11,20 @@ public class Main {
     public static void main( String[] args ) {
 
         try {
-            UserInterface.displayLoginScreen();
-            String cmd = UserInterface.getLoginPrompt();
-            if (cmd.equals("exit")) {return;}
-            User currUser = cmd.equals("register") ? UserInterface.register() : UserInterface.login();
+            System.out.println("\nWelcome to the Expense Tracker Application\n");
+            User currUser = null;
+            while (currUser == null) {
+                UserInterface.displayLoginScreen();
+                String cmd = UserInterface.getLoginPrompt();
+                if (cmd.equals("exit")) {
+                    return;
+                }
+
+                currUser = cmd.equals("register") ? UserInterface.register() : UserInterface.login();
+                if (currUser == null) {
+                    System.out.println("Invalid username or password, please try again.");
+                }
+            }
             executeMainLoop(currUser);
         } catch(Exception e) {
             System.out.println(e.getMessage());
@@ -33,37 +43,36 @@ public class Main {
                 cmd = input.nextLine().trim();
                 validInput = InputValidator.validCommand(cmd);
             }
-            //refer to UserInterface.COMMAND_LIST for mapping of numbers to commands
+            //UserInterface.COMMAND_LIST is mapping of numbers to commands
             switch (cmd) {
-                case "1":
+                case "1": //create transaction
                     //..todo
                     break;
-                case "2":
+                case "2": //get transaction
                     //..todo
                     break;
-                case "3":
+                case "3": //update transaction
                     //..todo
                     break;
-                case "4":
+                case "4": //delete transaction
                     //..todo
                     break;
-                case "5":
+                case "5": //view account details
                     //..todo
                     break;
                 case "6": //logout
                     return;
-                case "7":
+                case "7": //change username
+                    UserInterface.promptUsernameChange(user);
+                    break;
+                case "8": //change pw
                     //..todo
                     break;
-                case "8":
-                    //..todo
-                    break;
-                case "9":
+                case "9": //delete account :(
                     //todo
                     break;
                 default: break;
             }
         }
-
     }
 }

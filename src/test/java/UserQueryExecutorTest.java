@@ -91,7 +91,6 @@ public class UserQueryExecutorTest {
                 UserQueryExecutor.findUserByName("deleteMe", IS_TEST));
     }
 
-    //todo implement these:
     @Test
     public void findNumUsers_Test_Not_Empty() {
         Connection mySql = DbTestHelper.prepareTestTables();
@@ -105,7 +104,7 @@ public class UserQueryExecutorTest {
 
     @Test
     public void findNumUsers_Test_Empty() {
-        Connection mySql = DbTestHelper.prepareTestTables();
+        DbTestHelper.prepareTestTables();
         int numUsers = UserQueryExecutor.findNumUsers(IS_TEST);
         assertEquals("findNumUsers did not return 0 for empty DB", 0, numUsers);
     }

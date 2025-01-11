@@ -30,7 +30,6 @@ public class UserInterface {
     }
 
     public static void displayLoginScreen() {
-        System.out.println("Welcome to the Expense Tracker Application\n");
         System.out.println("Please Enter One of the Following Commands to Login, Register or Exit the program: ");
         System.out.println("1: Login");
         System.out.println("2: Register");
@@ -67,6 +66,11 @@ public class UserInterface {
             System.out.println(i + ": " + COMMAND_LIST.get(cmdNum));
         }
     }
+
+    /**
+     * find a user based on inputted username and password
+     * @return the User found in the database, or null if not found
+     */
     public static User login() {
         System.out.println("Logging in: ");
         System.out.print("Please enter your username: ");
