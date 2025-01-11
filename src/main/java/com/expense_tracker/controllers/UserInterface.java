@@ -151,6 +151,30 @@ public class UserInterface {
         System.out.println(response);
     }
 
+    public static boolean promptDeleteUser(User user) {
+        System.out.println("Are you sure you want to delete this account? This is a non-recoverable action");
+        System.out.println("Please confirm by entering YES or Y");
+        Scanner scanner = new Scanner(System.in);
+        String confirmation = scanner.nextLine().trim();
+        boolean wasDeleted = false;
+        if (confirmation.toUpperCase().trim().equals("YES") || confirmation.toUpperCase().trim().equals("Y")) {
+            System.out.println("Please enter your password to finalize account deletion");
+            String plainPw = scanner.nextLine().trim();
+            boolean pwValid = AuthenticationService.validatePassword(user.getUsername(), plainPw, NOT_TEST);
+
+            if (pwValid) {
+                wasDeleted = UserQueryExecutor.deleteUser(user, NOT_TEST);
+            }
+
+            else {
+                System.out.println("Confirmation not received, cancelling request to delete account.");
+            }
+
+        }
+
+        return wasDeleted;
+    }
+
     private static void printInvalidInputMessage() {
         System.out.println("Error: Invalid input");
     }

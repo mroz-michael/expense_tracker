@@ -69,7 +69,11 @@ public class Main {
                     UserInterface.promptPasswordChange(user);
                     break;
                 case "9": //delete account :(
-                    //todo
+                    boolean userDeleted = UserInterface.promptDeleteUser(user);
+                    if (userDeleted) {
+                        return;
+                    }
+                    System.out.println("Could not validate user deletion, returning to menu.");
                     break;
                 default: break;
             }
