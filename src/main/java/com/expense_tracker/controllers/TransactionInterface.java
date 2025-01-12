@@ -41,7 +41,7 @@ public class TransactionInterface {
 
             double amount = Double.parseDouble(inputAmount);
 
-            String datePrompt = "Enter transaction date (yyyy-mm-dd): ";
+            String datePrompt = "Enter transaction date (yyyy mm dd): ";
             LocalDate date = getDateFromInput(datePrompt);
 
             System.out.println("Please enter the number of the category that best matches the Transaction: ");
@@ -245,11 +245,11 @@ public class TransactionInterface {
     private static LocalDate getDateFromInput(String promptMessage) {
         Scanner scanner = new Scanner(System.in);
         System.out.print(promptMessage);
-        System.out.println("Please enter in format: YYYY-MM-DD");
-        String inputDate = scanner.next();
+        System.out.println("Please enter in format: YYYY MM DD");
+        String inputDate = scanner.nextLine().trim();
         boolean validDate = InputValidator.validDate(inputDate);
         while (!validDate) {
-            System.out.println("Malformed date. Please enter in format: YYYY-MM-DD");
+            System.out.println("Malformed date. Please enter in format: YYYY MM DD");
             System.out.println("Or type 'cancel' to go back to the previous menu");
             inputDate = scanner.nextLine().trim();
 

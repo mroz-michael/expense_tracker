@@ -1,5 +1,6 @@
 package com.expense_tracker;
 
+import com.expense_tracker.controllers.TransactionInterface;
 import com.expense_tracker.controllers.UserInterface;
 import com.expense_tracker.db.DBConnector;
 import com.expense_tracker.utils.InputValidator;
@@ -46,7 +47,7 @@ public class Main {
             //UserInterface.COMMAND_LIST is mapping of numbers to commands
             switch (cmd) {
                 case "1": //create transaction
-                    //..todo
+                    TransactionInterface.createTransaction(user.getId());
                     break;
                 case "2": //get transaction
                     //..todo
@@ -58,7 +59,9 @@ public class Main {
                     //..todo
                     break;
                 case "5": //view account details
-                    //..todo
+                    System.out.println("*** Account Details ***");
+                    System.out.println(user);
+                    System.out.println("***********************");
                     break;
                 case "6": //logout
                     return;

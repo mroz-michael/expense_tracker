@@ -63,7 +63,7 @@ public class User {
         UserInterface.promptPasswordChange(this);
     }
 
-    public void changeUsername(String newUsername) {
+    public void changeUsername() {
         UserInterface.promptUsernameChange(this);
     }
 
@@ -72,6 +72,7 @@ public class User {
         this.username = username;
     }
 
+    //not currently in use. for future use when admin-specific menu commands are implemented
     public User deleteUser(User userToDelete) {
         if (! (getUserType().equals("admin") || getUserType().equals("owner")) ) {
             System.out.println(getUsername() + " does not have authorization to perform this operation.");

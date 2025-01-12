@@ -14,7 +14,7 @@ import java.util.zip.DataFormatException;
 
 public class InputValidator {
 
-    public static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    public static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy MM dd");
     public static boolean validDouble(String inputDouble) {
 
         if (inputDouble.isEmpty()) { return false;}
@@ -43,9 +43,10 @@ public class InputValidator {
         return true;
     }
 
-    //required format: yyyy-mm-dd
+    //required format: year-month-day
     public  static boolean validDate(String dateInput) {
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-mm-dd");
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy MM dd");
+
         try {
             formatter.parse(dateInput);
             return true;
