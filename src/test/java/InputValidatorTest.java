@@ -19,14 +19,14 @@ public class InputValidatorTest {
     public void validDouble_Test_Valid_Negative() {
         String validInput = "-1234.568";
         boolean isValid = InputValidator.validDouble(validInput);
-        assertTrue("String 1234.568 should be recognized as a valid double", isValid);
+        assertTrue("String -1234.568 should be recognized as a valid double", isValid);
     }
 
     @Test
     public void validDouble_Test_Valid_Leading_Decimal() {
         String validInput = ".568";
         boolean isValid = InputValidator.validDouble(validInput);
-        assertTrue("String 1234.568 should be recognized as a valid double", isValid);
+        assertTrue("String .568 should be recognized as a valid double", isValid);
     }
 
 
@@ -78,7 +78,7 @@ public class InputValidatorTest {
         boolean isValid = InputValidator.validInt(invalidInt, 31, 41);
         assertFalse("42 should be recognized as invalid if range accepted is [31, 41]", isValid);
     }
-    
+
     //todo: add these
     @Test
     public void validCommand_Test_Valid() {

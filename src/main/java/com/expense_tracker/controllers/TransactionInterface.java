@@ -127,6 +127,12 @@ public class TransactionInterface {
         }
 
         List<Transaction> transactions = TransactionService.getTransactionsByCategory(userId, category, NOT_TEST);
+
+        if (transactions.isEmpty()) {
+            System.out.println("No transactions in the " + category + " category were found ");
+            return;
+        }
+
         System.out.println("All " + category + " transactions:");
         for (Transaction t: transactions) {
             System.out.println(t);
@@ -180,7 +186,13 @@ public class TransactionInterface {
         }
 
         List<Transaction> transactions = TransactionService.getTransactionsByAmount(userId, min, max, NOT_TEST);
-        System.out.println("All transactions between " + min + " and " + max +":");
+
+        if (transactions.isEmpty()) {
+            System.out.println("No transactions were found within that amount range.");
+            return;
+        }
+
+        System.out.println("All transactions between $" + min + " and $" + max +":");
         for (Transaction t: transactions) {
             System.out.println(t);
         }
@@ -197,6 +209,12 @@ public class TransactionInterface {
         }
 
         List<Transaction> transactions = TransactionService.getTransactionsByDate(userId, startDate, endDate, NOT_TEST);
+
+        if (transactions.isEmpty()) {
+            System.out.println("No transactions were found between those dates.");
+            return;
+        }
+
         System.out.println("All transactions between " + startDate + " and " + endDate +":");
         for (Transaction t: transactions) {
             System.out.println(t);

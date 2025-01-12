@@ -35,6 +35,7 @@ public class Main {
     public static void executeMainLoop(User user) {
             int userId = user.getId();
             Scanner input = new Scanner(System.in);
+            UserInterface.displayMainMenu();
         while (true) {
 
             System.out.println("Please hit enter to list the available command numbers, or type a command number if known");
