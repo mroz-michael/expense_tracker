@@ -73,10 +73,13 @@ public class InputValidator {
 
     /**
      * called to check if user inputted command exists as a valid key in UserInterface.COMMAND_LIST Map
-     * @param command User's inputted command when prompted by UserInterface.displayMenu()
-     * @return true if and only if command is a number in range [1, COMMAND_LIST.size()]
+     * @param command User's input after main menu prompt, already given trim() and toLowerCase()
+     * @return true if and only if command is exit, 'exit', or a number in range [1, COMMAND_LIST.size()]
      */
     public static boolean validCommand(String command) {
+        if (command.equals("exit") || command.equals("'exit'"))  {
+            return true;
+        }
 
         int numCommands = UserInterface.numCommands();
 

@@ -6,8 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="842b38f1-eb8c-481b-8c1c-715f01132b6a" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/expense_tracker/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/expense_tracker/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/expense_tracker/controllers/TransactionInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/expense_tracker/controllers/TransactionInterface.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/expense_tracker/utils/InputValidator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/expense_tracker/utils/InputValidator.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -52,7 +52,7 @@
     "JUnit.AuthenticationServiceTest.validatePassword_Test_Invalid_Password.executor": "Run",
     "JUnit.AuthenticationServiceTest.validatePassword_Test_Valid_Password.executor": "Run",
     "JUnit.DBConnectorTest.executor": "Run",
-    "JUnit.InputValidatorTest.validDate_Test_Invalid.executor": "Debug",
+    "JUnit.InputValidatorTest.validDate_Test_Invalid.executor": "Run",
     "JUnit.InputValidatorTest.validDouble_Test_Invalid.executor": "Run",
     "JUnit.InputValidatorTest.validDouble_Test_Invalid_Letters.executor": "Run",
     "JUnit.InputValidatorTest.validDouble_Test_Valid.executor": "Run",
@@ -157,8 +157,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.java in expense_tracker" />
         <item itemvalue="JUnit.InputValidatorTest.validDate_Test_Invalid" />
+        <item itemvalue="JUnit.java in expense_tracker" />
         <item itemvalue="JUnit.UserQueryExecutorTest.findNumUsers_Testy" />
         <item itemvalue="JUnit.UserQueryExecutorTest.findNumUsers_Test_Not_Empty" />
         <item itemvalue="JUnit.TransactionQueryExecutorTest.getTransactionsByDate_Test" />

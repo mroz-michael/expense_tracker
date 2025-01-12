@@ -222,7 +222,60 @@ public class TransactionInterface {
     }
 
     public static void updateTransactionFromInput() {
-        //todo: prompt user which field(s) to update, update them locally, then call TransactionService
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Please enter the ID of the transaction you wish to update.");
+        String transactionIdString = scanner.next().toLowerCase().trim();
+        boolean isValidInt = InputValidator.validInt(transactionIdString, 1, Integer.MAX_VALUE);
+        if (!isValidInt) {
+            System.out.println("Invalid format for ID given");
+            return;
+        }
+
+        int transactionId = Integer.parseInt(transactionIdString);
+
+        Transaction transaction = TransactionService.getTransaction(transactionId, NOT_TEST);
+
+        if (transaction == null) {
+            System.out.println("Could not find a transaction with that ID");
+            return;
+        }
+
+        System.out.println("Retrieved transaction\n"+ transaction);
+        System.out.println("Please enter a number corresponding with the information you'd like to update");
+
+        System.out.println("1: Edit Amount");
+        System.out.println("2: Edit Description");
+        System.out.println("3: Edit Category");
+        System.out.println("4: Edit Date(s)");
+        String updateField = scanner.nextLine();
+        isValidInt = InputValidator.validInt(updateField, 1, 4);
+        if (!isValidInt) {
+            System.out.println("Invalid number entered, cancelling update request.");
+            return;
+        }
+
+        switch(updateField) {
+            case "1":
+                updateAmount(transaction);
+                break;
+            case "2":
+                updateDescription(transaction);
+                break;
+            case "3":
+                updateCategory(transaction);
+                break;
+            case "4":
+                updateDates(transaction);
+                break;
+            default:
+                break;
+        }
+
+        boolean updated = TransactionService.updateTransaction(transaction, NOT_TEST);
+
+        String result = updated ? "Transaction updated successfully" : "Error updating transaction";
+        System.out.println(result);
     }
     
     public static void deleteTransactionFromInput() {
@@ -251,7 +304,7 @@ public class TransactionInterface {
             }
 
             boolean deleted = TransactionService.deleteTransaction(tId, NOT_TEST);
-            String res = deleted ? "Transaction deleted successfully" : "Transaction was unable to be deleted";
+            String res = deleted ? "Transaction deleted successfully" : "Transaction with given ID could not be deleted";
             System.out.println(res);
         } catch (Exception e) {
             System.err.println("Error deleting transaction: " + e.getMessage());
@@ -288,5 +341,22 @@ public class TransactionInterface {
             System.out.println(e.getMessage());
             return null;
         }
+    }
+
+    //todo: implement these methods that get updated value from user then update t before returning
+    public static void updateAmount(Transaction t) {
+
+    }
+
+    public static void updateDescription(Transaction t) {
+
+    }
+
+    public static void updateCategory(Transaction t) {
+
+    }
+
+    public static void updateDates(Transaction t) {
+
     }
 }
