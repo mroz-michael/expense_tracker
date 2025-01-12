@@ -221,8 +221,11 @@ public class TransactionInterface {
         }
     }
 
-
-    public void deleteTransactionFromInput() {
+    public static void updateTransactionFromInput() {
+        //todo: prompt user which field(s) to update, update them locally, then call TransactionService
+    }
+    
+    public static void deleteTransactionFromInput() {
         Scanner scanner = new Scanner(System.in);
 
         try {
@@ -248,7 +251,7 @@ public class TransactionInterface {
             }
 
             boolean deleted = TransactionService.deleteTransaction(tId, NOT_TEST);
-            String res = deleted ? "Transaction deleted successfully!" : "Transaction was not deleted properly";
+            String res = deleted ? "Transaction deleted successfully" : "Transaction was unable to be deleted";
             System.out.println(res);
         } catch (Exception e) {
             System.err.println("Error deleting transaction: " + e.getMessage());

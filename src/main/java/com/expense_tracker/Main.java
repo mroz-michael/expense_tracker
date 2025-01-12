@@ -38,7 +38,7 @@ public class Main {
             UserInterface.displayMainMenu();
         while (true) {
 
-            System.out.println("Please hit enter to list the available command numbers, or type a command number if known");
+            System.out.println("\nPlease hit enter to view the available command numbers, or type a command number if known");
             System.out.println("Or type 'exit' to end the program.");
             String cmd = input.nextLine().trim();
             boolean validInput = InputValidator.validCommand(cmd);
@@ -57,10 +57,10 @@ public class Main {
                     UserInterface.promptTransactionQuery(userId);
                     break;
                 case "3": //update transaction
-                    //..todo
+                    TransactionInterface.updateTransactionFromInput();
                     break;
                 case "4": //delete transaction
-                    //..todo
+                    TransactionInterface.deleteTransactionFromInput();
                     break;
                 case "5": //view account details
                     System.out.println("*** Account Details ***");
@@ -68,6 +68,7 @@ public class Main {
                     System.out.println("***********************");
                     break;
                 case "6", "exit", "'exit'": //logout
+                    System.out.println("Exiting the program, goodbye.");
                     return;
                 case "7": //change username
                     UserInterface.promptUsernameChange(user);
