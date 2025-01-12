@@ -15,6 +15,7 @@ import java.util.zip.DataFormatException;
 public class InputValidator {
 
     public static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy MM dd");
+
     public static boolean validDouble(String inputDouble) {
 
         if (inputDouble.isEmpty()) { return false;}
@@ -82,5 +83,20 @@ public class InputValidator {
         } catch (NumberFormatException e) {
             return false;
         }
+    }
+
+    /**
+     * validate user's transactions search filter
+     * @param query the filter condition to place on querying the DB for user's transactions
+     * @return true if and only if query is 'all' or 'date' or 'amount' or 'category'
+     */
+    public static boolean validateQuery(String query) {
+
+        for (String validInput: UserInterface.getValidQueries()) {
+            if (query.toLowerCase().trim().equals(validInput)) {
+                return true;
+            }
+        }
+        return false;
     }
 }

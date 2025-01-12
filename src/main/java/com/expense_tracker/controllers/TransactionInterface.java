@@ -100,7 +100,7 @@ public class TransactionInterface {
             }
     }
 
-    public void displayTransactionsByCategory(int userId) {
+    public static void displayTransactionsByCategory(int userId) {
         Scanner inputScan = new Scanner(System.in);
         System.out.println("Please select the category number of the transactions you want to display:");
         printCategories();

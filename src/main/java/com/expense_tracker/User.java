@@ -84,7 +84,9 @@ public class User {
 
     @Override
     public String toString() {
-        return "Username : " + getUsername() + "\nUser Type: " + getUserType() + "\nDate Joined: " + getDateJoined();
+        //only display user type if user is admin or owner
+        String userTypeDisplayed = getUserType().equals("user") ? "" : "\nUser Type: " + getUserType();
+        return "Username : " + getUsername() + userTypeDisplayed + "\nDate Joined: " + getDateJoined();
     }
 
 }

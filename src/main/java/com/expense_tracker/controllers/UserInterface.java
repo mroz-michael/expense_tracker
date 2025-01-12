@@ -3,6 +3,7 @@ package com.expense_tracker.controllers;
 import com.expense_tracker.User;
 import com.expense_tracker.db.UserQueryExecutor;
 import com.expense_tracker.services.AuthenticationService;
+import com.expense_tracker.utils.InputValidator;
 
 
 import java.util.Map;
@@ -25,8 +26,14 @@ public class UserInterface {
             //todo: "10", "Generate an Expense Report"
     );
 
+    private static final String[] VALID_QUERIES = {"all", "date", "amount", "category"};
+
     public static int numCommands() {
         return COMMAND_LIST.size();
+    }
+
+    public static String[] getValidQueries() {
+        return VALID_QUERIES;
     }
 
     public static void displayLoginScreen() {
@@ -175,6 +182,60 @@ public class UserInterface {
         return wasDeleted;
     }
 
+    /**
+     * prompt the user to either: view all transactions or filter by date|category|amount
+     * @param userId
+     */
+    public static void promptTransactionQuery(int userId) {
+        Scanner scanner = new Scanner(System.in);
+        String query = "";
+        boolean validQuery = InputValidator.validateQuery(query);
+
+        System.out.println("Which transactions would you like to view?");
+        System.out.println("Please enter one of the following command numbers:");
+        System.out.println("1: View All Transactions (default)");
+        System.out.println("2: View Transactions by Date");
+        System.out.println("3: View Transactions by Amount");
+        System.out.println("4: View Transactions by Category");
+        String[] VALID_QUERIES = getValidQueries();
+        query = scanner.nextLine();
+        switch(query) {
+            case "1", "2", "3", "4":
+                query = VALID_QUERIES[Integer.valueOf(query) -1];
+                //fall through after reassigning query
+            default:
+                validQuery = InputValidator.validateQuery(query);
+        }
+
+        if (!validQuery) {
+            System.out.println("Invalid input, listing all transactions by default");
+            TransactionInterface.displayAllTransactions(userId);
+            return;
+        }
+
+        if (query.equals("all")) {
+            System.out.println("Displaying All Transactions");
+            TransactionInterface.displayAllTransactions(userId);
+            return;
+        }
+
+        if (query.equals("date")) {
+            TransactionInterface.displayTransactionsByDate(userId);
+            return;
+        }
+
+        if (query.equals("amount")) {
+            TransactionInterface.displayTransactionsByAmount(userId);
+            return;
+        }
+
+        if (query.equals("category")) {
+            TransactionInterface.displayTransactionsByCategory(userId);
+            return;
+        }
+
+        System.out.println("An unexpected error occurred, cancelling request to view transactions.");
+    }
     private static void printInvalidInputMessage() {
         System.out.println("Error: Invalid input");
     }

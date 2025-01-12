@@ -33,25 +33,27 @@ public class Main {
     }
 
     public static void executeMainLoop(User user) {
-
-        while (true) {
+            int userId = user.getId();
             Scanner input = new Scanner(System.in);
+        while (true) {
+
             System.out.println("Please hit enter to list the available command numbers, or type a command number if known");
             System.out.println("Or type 'exit' to end the program.");
-                        String cmd = input.nextLine().trim();
+            String cmd = input.nextLine().trim();
             boolean validInput = InputValidator.validCommand(cmd);
             while (!validInput) {
                 UserInterface.displayMainMenu();
                 cmd = input.nextLine().trim();
                 validInput = InputValidator.validCommand(cmd);
             }
+
             //UserInterface.COMMAND_LIST is mapping of numbers to commands
             switch (cmd) {
                 case "1": //create transaction
-                    TransactionInterface.createTransaction(user.getId());
+                    TransactionInterface.createTransaction(userId);
                     break;
-                case "2": //get transactions
-                    TransactionInterface.displayAllTransactions(user.getId());
+                case "2": //get transactions based on query
+                    UserInterface.promptTransactionQuery(userId);
                     break;
                 case "3": //update transaction
                     //..todo
