@@ -45,11 +45,14 @@ public class InputValidator {
     }
 
     //required format: year-month-day
-    public  static boolean validDate(String dateInput) {
+    public static boolean validDate(String dateInput) {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy MM dd");
+        if (dateInput.replace(" ", "").length() < 8) {
+            return false;
+        }
 
         try {
-            formatter.parse(dateInput);
+            Date date = formatter.parse(dateInput);
             return true;
         } catch (ParseException e) {
             return false;

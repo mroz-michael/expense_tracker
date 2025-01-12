@@ -1,6 +1,9 @@
 import com.expense_tracker.utils.InputValidator;
 import org.junit.Test;
 
+import java.time.LocalDate;
+import java.util.Date;
+
 import static org.junit.Assert.*;
 
 public class InputValidatorTest {
@@ -43,11 +46,57 @@ public class InputValidatorTest {
 
     @Test
     public void validDate_Test_Valid() {
-
+        String validDate = "1999 12 31";
+        boolean isValid = InputValidator.validDate(validDate);
+        assertTrue("String formatted: YYYY MM DD should be validDate", isValid);
     }
 
     @Test
     public void validDate_Test_Invalid() {
+        String invalidDate = "199 01 01";
+        boolean isValid = InputValidator.validDate(invalidDate);
+        assertFalse("String with 3 digit year should not be valid date", isValid);
+    }
+
+    @Test
+    public void validInt_Test_Valid() {
+        String validInt = "42";
+        boolean isValid = InputValidator.validInt(validInt, 41, 43);
+        assertTrue("42 should be recognized as valid if range accepted is [41, 43]", isValid);
+    }
+
+    @Test
+    public void validInt_Test_Valid_Boundary() {
+        String validInt = "42";
+        boolean isValid = InputValidator.validInt(validInt, 42, 42);
+        assertTrue("42 should be recognized as valid if range accepted is [42, 42]", isValid);
+    }
+
+    @Test
+    public void validInt_Test_Invalid() {
+        String invalidInt = "42";
+        boolean isValid = InputValidator.validInt(invalidInt, 31, 41);
+        assertFalse("42 should be recognized as invalid if range accepted is [31, 41]", isValid);
+    }
+    
+    //todo: add these
+    @Test
+    public void validCommand_Test_Valid() {
+
+    }
+
+    @Test
+    public void validCommand_Test_Invalid() {
+
+    }
+
+    @Test
+    public void validQuery_Test_Valid() {
+
+    }
+
+    @Test
+    public void validQuery_Test_Invalid() {
 
     }
 }
