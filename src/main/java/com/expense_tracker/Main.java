@@ -36,8 +36,9 @@ public class Main {
 
         while (true) {
             Scanner input = new Scanner(System.in);
-            UserInterface.displayMainMenu();
-            String cmd = input.nextLine().trim();
+            System.out.println("Please hit enter to list the available command numbers, or type a command number if known");
+            System.out.println("Or type 'exit' to end the program.");
+                        String cmd = input.nextLine().trim();
             boolean validInput = InputValidator.validCommand(cmd);
             while (!validInput) {
                 UserInterface.displayMainMenu();
@@ -49,8 +50,8 @@ public class Main {
                 case "1": //create transaction
                     TransactionInterface.createTransaction(user.getId());
                     break;
-                case "2": //get transaction
-                    //..todo
+                case "2": //get transactions
+                    TransactionInterface.displayAllTransactions(user.getId());
                     break;
                 case "3": //update transaction
                     //..todo
@@ -63,7 +64,7 @@ public class Main {
                     System.out.println(user);
                     System.out.println("***********************");
                     break;
-                case "6": //logout
+                case "6", "exit", "'exit'": //logout
                     return;
                 case "7": //change username
                     UserInterface.promptUsernameChange(user);

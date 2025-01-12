@@ -85,7 +85,7 @@ public class TransactionInterface {
         }
     }
 
-    public void displayAllTransactions(int userId) {
+    public static void displayAllTransactions(int userId) {
             List<Transaction> transactions = TransactionService.getAllTransactions(userId, NOT_TEST);
 
             if (transactions.isEmpty()) {
