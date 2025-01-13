@@ -16,6 +16,11 @@ public class InputValidator {
 
     public static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy MM dd");
 
+    /**
+     * validate user input such that it represents a legal double amount
+     * @param inputDouble user input that will be treated as a double
+     * @return true if and only if inputDouble is a valid double amount
+     */
     public static boolean validDouble(String inputDouble) {
 
         if (inputDouble.isEmpty()) { return false;}
@@ -44,7 +49,11 @@ public class InputValidator {
         return true;
     }
 
-    //required format: year-month-day
+    /**
+     * validate input according to date format yyyy MM dd
+     * @param dateInput user input to represent a date
+     * @return true if and only if dateInput is in the expected format
+     */
     public static boolean validDate(String dateInput) {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy MM dd");
         if (dateInput.replace(" ", "").length() < 8) {
@@ -59,6 +68,13 @@ public class InputValidator {
         }
     }
 
+    /**
+     * validate that user's input is an integer of an acceptable value
+     * @param numInput user input that's intended to be a numeric integer value
+     * @param minAllowed the minimum acceptable integer
+     * @param maxAllowed the largest acceptable integer
+     * @return true if and only if numInput is a valid int and is in the range [minAllowed, maxAllowed]
+     */
     public static boolean validInt(String numInput, int minAllowed, int maxAllowed) {
 
         for (char c: numInput.toCharArray()) {

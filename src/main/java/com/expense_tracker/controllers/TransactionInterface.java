@@ -78,6 +78,7 @@ public class TransactionInterface {
         }
     }
 
+
     private static void printCategories() {
 
         for (int i = 0; i < EXPENSE_CATEGORIES.length; i++) {
@@ -319,6 +320,11 @@ public class TransactionInterface {
         }
     }
 
+    /**
+     * helper method to check if user wishes to cancel current event and return to previous menu
+     * @param input the user's input to a command line prompt
+     * @return true if and only if input is "cancel" or 'cancel'
+     */
     private static boolean cancelRequest(String input) {
         String formattedInput = input.toLowerCase().trim();
         return formattedInput.equals("cancel") || formattedInput.equals("'cancel'");
