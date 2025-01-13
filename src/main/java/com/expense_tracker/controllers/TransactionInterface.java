@@ -104,7 +104,7 @@ public class TransactionInterface {
         Scanner inputScan = new Scanner(System.in);
         System.out.println("Please select the category number of the transactions you want to display:");
         printCategories();
-        String inputInt = inputScan.next();
+        String inputInt = inputScan.nextLine();
         boolean validInt = InputValidator.validInt(inputInt, 1, EXPENSE_CATEGORIES.length);
         while (!validInt) {
             System.out.println("Invalid category number");
@@ -166,7 +166,7 @@ public class TransactionInterface {
         }
 
         System.out.println("Please enter the maximum amount of the transactions you want to display:");
-        String inputMax = inputScan.next();
+        String inputMax = inputScan.nextLine();
         validDouble = InputValidator.validDouble(inputMax);
 
         while (!validDouble) {
@@ -225,8 +225,9 @@ public class TransactionInterface {
         Scanner scanner = new Scanner(System.in);
 
         System.out.println("Please enter the ID of the transaction you wish to update.");
-        String transactionIdString = scanner.next().toLowerCase().trim();
+        String transactionIdString = scanner.nextLine().toLowerCase().trim();
         boolean isValidInt = InputValidator.validInt(transactionIdString, 1, Integer.MAX_VALUE);
+
         if (!isValidInt) {
             System.out.println("Invalid format for ID given");
             return;
@@ -247,7 +248,7 @@ public class TransactionInterface {
         System.out.println("1: Edit Amount");
         System.out.println("2: Edit Description");
         System.out.println("3: Edit Category");
-        System.out.println("4: Edit Date(s)");
+        System.out.println("4: Edit Date");
         String updateField = scanner.nextLine();
         isValidInt = InputValidator.validInt(updateField, 1, 4);
         if (!isValidInt) {
@@ -255,26 +256,33 @@ public class TransactionInterface {
             return;
         }
 
+        boolean wasUpdated = false;
+
         switch(updateField) {
             case "1":
-                updateAmount(transaction);
+                wasUpdated = updateAmount(transaction);
                 break;
             case "2":
-                updateDescription(transaction);
+                wasUpdated = updateDescription(transaction);
                 break;
             case "3":
-                updateCategory(transaction);
+                wasUpdated = updateCategory(transaction);
                 break;
             case "4":
-                updateDates(transaction);
+                wasUpdated = updateDate(transaction);
                 break;
             default:
                 break;
         }
 
-        boolean updated = TransactionService.updateTransaction(transaction, NOT_TEST);
+        if (!wasUpdated) {
+            //print relevant error message in updateX() methods
+            return;
+        }
 
-        String result = updated ? "Transaction updated successfully" : "Error updating transaction";
+        boolean updateSuccessful = TransactionService.updateTransaction(transaction, NOT_TEST);
+
+        String result = updateSuccessful ? "Transaction updated successfully" : "Error updating transaction";
         System.out.println(result);
     }
     
@@ -319,7 +327,7 @@ public class TransactionInterface {
     private static LocalDate getDateFromInput(String promptMessage) {
         Scanner scanner = new Scanner(System.in);
         System.out.print(promptMessage);
-        System.out.println("Please enter in format: YYYY MM DD");
+        System.out.println("\nPlease enter in format: YYYY MM DD");
         String inputDate = scanner.nextLine().trim();
         boolean validDate = InputValidator.validDate(inputDate);
         while (!validDate) {
@@ -343,20 +351,51 @@ public class TransactionInterface {
         }
     }
 
-    //todo: implement these methods that get updated value from user then update t before returning
-    public static void updateAmount(Transaction t) {
+    public static boolean updateAmount(Transaction t) {
+        System.out.println("Enter the updated amount for this transaction.");
+        Scanner scanner = new Scanner(System.in);
+        String amountInput = scanner.next();
+        boolean isValid = InputValidator.validDouble(amountInput);
+        if (!isValid) {
+            System.out.println("Invalid input given for new amount, cancelling transaction update.");
+        } else {
+            double amount = Double.parseDouble(amountInput);
+            t.setAmount(amount);
+        }
 
+        return isValid;
     }
 
-    public static void updateDescription(Transaction t) {
-
+    public static boolean updateDescription(Transaction t) {
+        System.out.println("Enter the updated description for this transaction. Hit Enter when done.");
+        Scanner scanner = new Scanner(System.in);
+        String newDescription = scanner.nextLine();
+        t.setDescription(newDescription);
+        return true;
     }
 
-    public static void updateCategory(Transaction t) {
+    public static boolean updateCategory(Transaction t) {
+        System.out.println("Select the number of the updated category for this transaction.");
+        printCategories();
+        Scanner scanner = new Scanner(System.in);
+        String catNum = scanner.next();
+        boolean isValid = InputValidator.validInt(catNum, 1, EXPENSE_CATEGORIES.length);
+        if (!isValid) {
+            System.out.println("Invalid category number, cancelling transaction update.");
+        } else {
+            int catIndex = Integer.valueOf(catNum) - 1;
+            t.setCategory(EXPENSE_CATEGORIES[catIndex]);
+        }
 
+        return isValid;
     }
 
-    public static void updateDates(Transaction t) {
+    public static boolean updateDate(Transaction t) {
+        LocalDate date = getDateFromInput("Please enter the updated date for this transaction");
+        if (date != null) {
+            t.setDate(date);
+        }
 
+        return date != null;
     }
 }
