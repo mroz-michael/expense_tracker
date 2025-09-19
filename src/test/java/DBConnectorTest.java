@@ -9,17 +9,17 @@ import com.expense_tracker.db.DBConnector;
 
     public class DBConnectorTest {
 
-        private static final String PATH_TO_CONFIG = "..\\expense_tracker\\src\\main\\java\\com\\expense_tracker\\resources\\config.properties";
 
         public static Connection connectToDB() {
             try {
-                Connection mySql = DBConnector.connect(PATH_TO_CONFIG);
+                Connection mySql = DBConnector.connect();
                 return mySql;
             } catch (IOException | SQLException e) {
                 System.out.println(e.getMessage());
                 return null;
             }
         }
+
         @Test
         public void testConnection() {
 

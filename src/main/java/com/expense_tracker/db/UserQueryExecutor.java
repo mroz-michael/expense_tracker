@@ -37,7 +37,7 @@ public class UserQueryExecutor {
     public static User createUser(String username, String pwHash, String role, boolean isTest) {
 
         try {
-            Connection mySql = DBConnector.connect("");
+            Connection mySql = DBConnector.connect();
             String tableName = getTableName(isTest);
             String createUserQuery = "Insert into " + tableName + "(username, password_hash, role) " +
                     "VALUES(?, ?, ?);";
@@ -63,7 +63,7 @@ public class UserQueryExecutor {
 
     public static User findUserByName(String username, boolean isTest) {
         try {
-            Connection mySql = DBConnector.connect("");
+            Connection mySql = DBConnector.connect();
             String tableName = getTableName(isTest);
             String getUserQuery = "SELECT id, username, password_hash, date_created, role from " + tableName + " where username = ? ";
             PreparedStatement fetchUser = mySql.prepareStatement(getUserQuery);
@@ -98,7 +98,7 @@ public class UserQueryExecutor {
     public static User getUser(int userID, boolean isTest) {
 
         try {
-            Connection mySql = DBConnector.connect("");
+            Connection mySql = DBConnector.connect();
             String tableName = getTableName(isTest);
             String getUserQuery = "SELECT id, username, password_hash, date_created, role from " + tableName + " where id = ? ";
             PreparedStatement fetchUser = mySql.prepareStatement(getUserQuery);
@@ -133,7 +133,7 @@ public class UserQueryExecutor {
     public static boolean updateUser(User updatedUser, boolean isTest) {
         //users can only update name and pw (hashed)
         try {
-            Connection mySql = DBConnector.connect("");
+            Connection mySql = DBConnector.connect();
             String newUsername = updatedUser.getUsername();
             String newPwHash = updatedUser.getPwHash();
             String tableName = getTableName(isTest);
@@ -156,7 +156,7 @@ public class UserQueryExecutor {
 
         try {
 
-            Connection mySql = DBConnector.connect("");
+            Connection mySql = DBConnector.connect();
             String tableName = getTableName(isTest);
             String deleteUserQuery = "delete from " + tableName + " where id = ? ";
             PreparedStatement removeUser = mySql.prepareStatement(deleteUserQuery);
@@ -177,7 +177,7 @@ public class UserQueryExecutor {
      */
     public static int findNumUsers(boolean isTest) {
         try {
-            Connection mySql = DBConnector.connect("");
+            Connection mySql = DBConnector.connect();
             String tableName = getTableName(isTest);
             String getNumUsersQuery = "select count(*) from " + tableName;
             PreparedStatement getNumUsers = mySql.prepareStatement(getNumUsersQuery);

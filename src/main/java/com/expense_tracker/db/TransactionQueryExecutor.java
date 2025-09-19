@@ -2,6 +2,7 @@ package com.expense_tracker.db;
 
 import com.expense_tracker.Transaction;
 import com.expense_tracker.User; //pass user to check user.id || user.type == owner/admin
+import com.expense_tracker.utils.ConfigLoader;
 
 import java.io.IOException;
 import java.sql.*;
@@ -11,11 +12,6 @@ import java.util.List;
 
 public class TransactionQueryExecutor {
 
-    private static final String TEST_DB = "transactions_test";
-    private static final String REG_DB = "transactions";
-    private static String getTableName(boolean isTest) {
-        return isTest ? TEST_DB : REG_DB;
-    }
 
     public static Transaction createTransaction(double amount, String description, String category, int userId, boolean isTest) {
         LocalDate date = LocalDate.now();
@@ -30,8 +26,8 @@ public class TransactionQueryExecutor {
             boolean isTest
         ) {
             try {
-                Connection mySql = DBConnector.connect("");
-                String tableName = getTableName(isTest);
+                Connection mySql = DBConnector.connect();
+                String tableName = getTableName();
                 String createTransactionQuery = TransactionQueries.create(tableName);
                 PreparedStatement newTransaction = mySql.prepareStatement(createTransactionQuery, PreparedStatement.RETURN_GENERATED_KEYS);
 
@@ -62,8 +58,8 @@ public class TransactionQueryExecutor {
     public static Transaction getTransaction(int id, boolean isTest) {
 
         try {
-            Connection mySql = DBConnector.connect("");
-            String tableName = getTableName(isTest);
+            Connection mySql = DBConnector.connect();
+            String tableName = getTableName();
             String getTransactionQuery = TransactionQueries.getOne(tableName);
             PreparedStatement fetchTransaction = mySql.prepareStatement(getTransactionQuery);
             fetchTransaction.setInt(1, id);
@@ -100,8 +96,8 @@ public class TransactionQueryExecutor {
         List<Transaction> transactions = new ArrayList<>();
 
         try {
-            Connection mySql = DBConnector.connect("");
-            String tableName = getTableName(isTest);
+            Connection mySql = DBConnector.connect();
+            String tableName = getTableName();
             String getTransactionQuery = TransactionQueries.getAll(tableName);
             PreparedStatement fetchTransaction = mySql.prepareStatement(getTransactionQuery);
             fetchTransaction.setInt(1, userId);
@@ -117,8 +113,8 @@ public class TransactionQueryExecutor {
 
     public static boolean updateTransaction(Transaction updatedTransaction, boolean isTest) {
         try {
-            Connection mySql = DBConnector.connect("");
-            String tableName = getTableName(isTest);
+            Connection mySql = DBConnector.connect();
+            String tableName = getTableName();
             String updateTransactionQuery = TransactionQueries.update(tableName);
 
             PreparedStatement updateTransaction = mySql.prepareStatement(updateTransactionQuery);
@@ -137,8 +133,8 @@ public class TransactionQueryExecutor {
     public static boolean deleteTransaction(int transactionId, boolean isTest) {
 
         try {
-            Connection mySql = DBConnector.connect("");
-            String tableName = getTableName(isTest);
+            Connection mySql = DBConnector.connect();
+            String tableName = getTableName();
             String deleteUserQuery = TransactionQueries.delete(tableName);
             PreparedStatement removeUser = mySql.prepareStatement(deleteUserQuery);
             removeUser.setInt(1, transactionId);
@@ -158,8 +154,8 @@ public class TransactionQueryExecutor {
 
         try {
 
-            Connection mySql = DBConnector.connect("");
-            String tableName = getTableName(isTest);
+            Connection mySql = DBConnector.connect();
+            String tableName = getTableName();
             String getTransactionQuery = TransactionQueries.getByAmount(tableName);
             PreparedStatement fetchTransaction = mySql.prepareStatement(getTransactionQuery);
             fetchTransaction.setInt(1, userId);
@@ -181,8 +177,8 @@ public class TransactionQueryExecutor {
 
         try {
 
-            Connection mySql = DBConnector.connect("");
-            String tableName = getTableName(isTest);
+            Connection mySql = DBConnector.connect();
+            String tableName = getTableName();
             String getTransactionQuery = TransactionQueries.getByCategory(tableName);
             PreparedStatement fetchTransaction = mySql.prepareStatement(getTransactionQuery);
             fetchTransaction.setInt(1, userId);
@@ -204,8 +200,8 @@ public class TransactionQueryExecutor {
 
         try {
 
-            Connection mySql = DBConnector.connect("");
-            String tableName = getTableName(isTest);
+            Connection mySql = DBConnector.connect();
+            String tableName = getTableName();
             String getTransactionQuery = TransactionQueries.getByDate(tableName);
             PreparedStatement fetchTransaction = mySql.prepareStatement(getTransactionQuery);
             fetchTransaction.setInt(1, userId);
@@ -221,6 +217,13 @@ public class TransactionQueryExecutor {
         }
 
         return transactions;
+    }
+
+    private static String getTableName() {
+        ConfigLoader config = ConfigLoader.getInstance();
+        String tableSuffix = config.getTableSuffix();
+        TableNameProvider provider = new TableNameProvider(tableSuffix);
+        return provider.provideTransactionsTable();
     }
 
     //helper method to add results from res into List

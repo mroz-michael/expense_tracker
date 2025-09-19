@@ -1,27 +1,22 @@
 package com.expense_tracker.db;
-
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.*;
-import java.util.Properties;
+
+import com.expense_tracker.utils.ConfigLoader;
 
 public class DBConnector {
 
-    public static Connection connect(String filepath) throws SQLException, IOException {
+    public static Connection connect() throws SQLException, IOException {
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            //add url/dbuser/dbpw/env in ./resources/config.properties
-            Properties properties = new Properties();
-            String configFile = filepath == "" ? "src\\main\\java\\com\\expense_tracker\\resources\\config.properties" : filepath;
-            FileInputStream fileInput = new FileInputStream(configFile);
-            properties.load(fileInput);
-            String url = properties.getProperty("db.url");
-            String username = properties.getProperty("db.username");
-            String password = properties.getProperty("db.password");
 
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            ConfigLoader config = ConfigLoader.getInstance();
+            String url = config.getDBUrl();
+            String username = config.getDBUser();
+            String password = config.getDBPassword();
             return DriverManager.getConnection(url, username, password);
         } catch (Exception e) {
-            System.out.println(e);
+            System.out.println("Error Connecting to database" + e.getMessage());
             return null;
         }
     }
