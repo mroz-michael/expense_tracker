@@ -15,6 +15,7 @@ in order to use the app locally, the following steps need to be followed:
    - db.url=jdbc:mysql://(host name)/(database name)?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC
    - db.username= (username for the database)
    - db.password = (password for the database)
+   - table_suffix = ("_test" if using test data, "" for production)
    Note this config.properties file should be added to .gitignore. 
 
      
