@@ -1,10 +1,8 @@
 package com.expense_tracker.db;
 
 import com.expense_tracker.Transaction;
-import com.expense_tracker.User; //pass user to check user.id || user.type == owner/admin
 import com.expense_tracker.utils.ConfigLoader;
 
-import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.time.LocalDate;
@@ -12,21 +10,26 @@ import java.util.List;
 
 public class TransactionQueryExecutor {
 
+    private final Connection mySql;
 
-    public static Transaction createTransaction(double amount, String description, String category, int userId, boolean isTest) {
-        LocalDate date = LocalDate.now();
-        return createTransaction(amount, description, category, userId, date, isTest);
+    public TransactionQueryExecutor(Connection mysql) {
+        this.mySql = mysql;
     }
-    public static Transaction createTransaction(
+
+
+    public Transaction createTransaction(double amount, String description, String category, int userId) {
+        LocalDate date = LocalDate.now();
+        return createTransaction(amount, description, category, userId, date);
+    }
+    public Transaction createTransaction(
             double amount,
             String description,
             String category,
             int userId,
-            LocalDate date,
-            boolean isTest
+            LocalDate date
         ) {
             try {
-                Connection mySql = DBConnector.connect();
+                
                 String tableName = getTableName();
                 String createTransactionQuery = TransactionQueries.create(tableName);
                 PreparedStatement newTransaction = mySql.prepareStatement(createTransactionQuery, PreparedStatement.RETURN_GENERATED_KEYS);
@@ -45,20 +48,19 @@ public class TransactionQueryExecutor {
                     id = res.getInt(1);
                 }
 
-                Transaction createdTransaction = getTransaction(id, isTest);
+                Transaction createdTransaction = getTransaction(id);
 
                 return createdTransaction;
             }
-            catch (SQLException | IOException e) {
+            catch (SQLException e) {
                 System.out.println(e.getMessage());
                 return null;
             }
     }
 
-    public static Transaction getTransaction(int id, boolean isTest) {
+    public Transaction getTransaction(int id) {
 
         try {
-            Connection mySql = DBConnector.connect();
             String tableName = getTableName();
             String getTransactionQuery = TransactionQueries.getOne(tableName);
             PreparedStatement fetchTransaction = mySql.prepareStatement(getTransactionQuery);
@@ -87,16 +89,16 @@ public class TransactionQueryExecutor {
 
             return new Transaction(dbId, dbAmount, dbDescription, dbCategory, dbUserId, dbDate);
 
-        } catch (SQLException | IOException e) {
+        } catch (SQLException e) {
             System.out.println("MySQL error: " + e.getMessage());
             return null;
         }
     }
-    public static List<Transaction> getAllTransactions(int userId, boolean isTest) {
+
+    public  List<Transaction> getAllTransactions(int userId) {
         List<Transaction> transactions = new ArrayList<>();
 
         try {
-            Connection mySql = DBConnector.connect();
             String tableName = getTableName();
             String getTransactionQuery = TransactionQueries.getAll(tableName);
             PreparedStatement fetchTransaction = mySql.prepareStatement(getTransactionQuery);
@@ -105,15 +107,14 @@ public class TransactionQueryExecutor {
             ResultSet res = fetchTransaction.executeQuery();
             populateList(transactions, res);
 
-        } catch (SQLException | IOException e) {
+        } catch (SQLException e) {
             System.out.println("MySQL error: " + e.getMessage());
         }
         return transactions;
     }
 
-    public static boolean updateTransaction(Transaction updatedTransaction, boolean isTest) {
+    public  boolean updateTransaction(Transaction updatedTransaction) {
         try {
-            Connection mySql = DBConnector.connect();
             String tableName = getTableName();
             String updateTransactionQuery = TransactionQueries.update(tableName);
 
@@ -125,15 +126,15 @@ public class TransactionQueryExecutor {
 
             int rowsEffected = updateTransaction.executeUpdate();
             return rowsEffected > 0;
-        } catch (SQLException | IOException e) {
+        } catch (SQLException e) {
             System.out.println(e.getMessage());
             return false;
         }
     }
-    public static boolean deleteTransaction(int transactionId, boolean isTest) {
+    public  boolean deleteTransaction(int transactionId) {
 
         try {
-            Connection mySql = DBConnector.connect();
+            
             String tableName = getTableName();
             String deleteUserQuery = TransactionQueries.delete(tableName);
             PreparedStatement removeUser = mySql.prepareStatement(deleteUserQuery);
@@ -142,19 +143,19 @@ public class TransactionQueryExecutor {
 
             return rowsEffected == 1;
 
-        } catch (SQLException | IOException e) {
+        } catch (SQLException e) {
             System.out.println("Error attempting to delete transaction: " + e.getMessage());
         }
 
         return false;
     }
 
-    public static List<Transaction> getTransactionsByAmount(int userId, double min, double max, boolean isTest) {
+    public List<Transaction> getTransactionsByAmount(int userId, double min, double max) {
         List<Transaction> transactions = new ArrayList<>();
 
         try {
 
-            Connection mySql = DBConnector.connect();
+            
             String tableName = getTableName();
             String getTransactionQuery = TransactionQueries.getByAmount(tableName);
             PreparedStatement fetchTransaction = mySql.prepareStatement(getTransactionQuery);
@@ -165,19 +166,18 @@ public class TransactionQueryExecutor {
             ResultSet res = fetchTransaction.executeQuery();
             populateList(transactions, res);
 
-        } catch (SQLException | IOException e) {
+        } catch (SQLException e) {
             System.out.println("MySQL error: " + e.getMessage());
         }
 
         return transactions;
     }
 
-    public static List<Transaction> getTransactionsByCategory(int userId, String category, boolean isTest) {
+    public List<Transaction> getTransactionsByCategory(int userId, String category) {
         List<Transaction> transactions = new ArrayList<>();
 
         try {
 
-            Connection mySql = DBConnector.connect();
             String tableName = getTableName();
             String getTransactionQuery = TransactionQueries.getByCategory(tableName);
             PreparedStatement fetchTransaction = mySql.prepareStatement(getTransactionQuery);
@@ -188,19 +188,18 @@ public class TransactionQueryExecutor {
 
             populateList(transactions, res);
 
-        } catch (SQLException | IOException e) {
+        } catch (SQLException e) {
             System.out.println("MySQL error: " + e.getMessage());
         }
 
         return transactions;
     }
 
-    public static List<Transaction> getTransactionsByDate(int userId, LocalDate start, LocalDate end, boolean isTest) {
+    public List<Transaction> getTransactionsByDate(int userId, LocalDate start, LocalDate end) {
         List<Transaction> transactions = new ArrayList<>();
 
         try {
 
-            Connection mySql = DBConnector.connect();
             String tableName = getTableName();
             String getTransactionQuery = TransactionQueries.getByDate(tableName);
             PreparedStatement fetchTransaction = mySql.prepareStatement(getTransactionQuery);
@@ -212,7 +211,7 @@ public class TransactionQueryExecutor {
 
             populateList(transactions, res);
 
-        } catch (SQLException | IOException e) {
+        } catch (SQLException e) {
             System.out.println("MySQL error: " + e.getMessage());
         }
 

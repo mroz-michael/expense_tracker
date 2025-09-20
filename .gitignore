@@ -40,3 +40,5 @@ build/
 ## custom ##
 
 config.properties
+test_config.properties
+config_test.properties

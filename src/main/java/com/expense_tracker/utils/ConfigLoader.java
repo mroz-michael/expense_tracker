@@ -54,6 +54,20 @@ public class ConfigLoader {
     }
 
     /**
+     * called only for unit testing. instantiates and returns a separate ConfigLoader to the given test properties file
+     * @param path file path to the test config file. see getter functions below for keys the file is expected to have
+     * @return a configloader for the given file path, or null if exception is thrown
+     */
+    public static ConfigLoader createTestInstance(String path) {
+        try {
+            return new ConfigLoader(path);
+        } catch(Exception e) {
+            System.out.println("Error creating test config loader: " + e.getMessage());
+        }
+        return null;
+    }
+
+    /**
      * Constructor to load a specific config file
      * @param filePath path to the config file
      * @throws IOException

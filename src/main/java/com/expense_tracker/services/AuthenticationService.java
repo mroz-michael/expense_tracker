@@ -4,23 +4,27 @@ import com.expense_tracker.db.UserQueryExecutor;
 import org.mindrot.jbcrypt.BCrypt;
 import com.expense_tracker.User;
 
-import java.util.Scanner;
-
 public class AuthenticationService {
 
-    public static User login(String username, String plainTextPw, boolean isTest) {
+    private UserQueryExecutor userExecutor;
 
-        if (validatePassword(username, plainTextPw, isTest)) {
-            return UserQueryExecutor.findUserByName(username, isTest);
+    public AuthenticationService(UserQueryExecutor userExecutor) {
+        this.userExecutor = userExecutor;
+    }
+
+    public User login(String username, String plainTextPw) {
+
+        if (validatePassword(username, plainTextPw)) {
+            return userExecutor.findUserByName(username);
         } else {
             return null;
         }
     }
 
-    public static User createUser(String username, String unHashedPw, boolean isTest) {
+    public User createUser(String username, String unHashedPw) {
         String pwHash = generateHash(unHashedPw);
-        String userType = firstUser(isTest) ? "admin" : "user";
-        User newUser = UserQueryExecutor.createUser(username, pwHash, userType, isTest);
+        String userType = firstUser() ? "admin" : "user";
+        User newUser = userExecutor.createUser(username, pwHash, userType);
         return newUser;
     }
 
@@ -28,8 +32,8 @@ public class AuthenticationService {
      * checks if there exists no users on the db, if so flag the next user as an admin
      * @return true if and only if the database contains 0 users
      */
-    private static boolean firstUser(boolean isTest) {
-        int numUsers = UserQueryExecutor.findNumUsers(isTest);
+    private boolean firstUser() {
+        int numUsers = userExecutor.findNumUsers();
         return numUsers == 0;
     }
 
@@ -37,8 +41,8 @@ public class AuthenticationService {
         return BCrypt.hashpw(plaintext, BCrypt.gensalt());
     }
 
-    public static boolean validatePassword(String username, String plaintextUserPassword, boolean isTest) {
-        User foundUser = UserQueryExecutor.findUserByName(username, isTest);
+    public  boolean validatePassword(String username, String plaintextUserPassword) {
+        User foundUser = userExecutor.findUserByName(username);
         return foundUser == null ? false : BCrypt.checkpw(plaintextUserPassword, foundUser.getPwHash());
     }
 }

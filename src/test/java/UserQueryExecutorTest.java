@@ -15,7 +15,7 @@ public class UserQueryExecutorTest {
         Connection mySql = DbTestHelper.prepareTestTables();
         DbTestHelper.insertTestUser(mySql, "Test_User", "plain_password");
 
-        User fetchedUser = UserQueryExecutor.getUser(1, IS_TEST);
+        User fetchedUser = UserQueryExecutor.getUser(1);
 
         if (fetchedUser == null) {
             fail("UserQueryExecutor.getUser() returned Null instead of expected User");
@@ -30,7 +30,7 @@ public class UserQueryExecutorTest {
     public void getUserTest_DoesNotExist() {
         Connection mySql = DbTestHelper.prepareTestTables();
         DbTestHelper.insertTestUser(mySql, "something", "pw");
-        User nonUser = UserQueryExecutor.getUser(2, IS_TEST);
+        User nonUser = UserQueryExecutor.getUser(2);
         assertNull("getUser() did not return null when given a user not in the db", nonUser);
     }
 
@@ -38,7 +38,7 @@ public class UserQueryExecutorTest {
     public void findUserByNameTest_Exists() {
         Connection mySql = DbTestHelper.prepareTestTables();
         DbTestHelper.insertTestUser(mySql, "first user", "1234");
-        User firstUser = UserQueryExecutor.findUserByName("first user", IS_TEST);
+        User firstUser = UserQueryExecutor.findUserByName("first user");
         assertNotNull("findUserByName returned null when given a valid username", firstUser);
         String username = firstUser.getUsername();
         assertEquals("findUserByName did not return user with expected username", "first user", username);
@@ -48,7 +48,7 @@ public class UserQueryExecutorTest {
     public void findUserByNameTest_Not_Exists() {
         Connection mySql = DbTestHelper.prepareTestTables();
         DbTestHelper.insertTestUser(mySql, "a", "1234");
-        User nullUser = UserQueryExecutor.findUserByName("b", IS_TEST);
+        User nullUser = UserQueryExecutor.findUserByName("b");
         assertNull("findUserByName did not return null when given username not in db", nullUser);
     }
 
@@ -56,11 +56,11 @@ public class UserQueryExecutorTest {
     public void updateUserTest_Exists() {
         Connection mySql = DbTestHelper.prepareTestTables();
         DbTestHelper.insertTestUser(mySql, "beforeUpdate", "pw");
-        User originalUser = UserQueryExecutor.getUser(1, IS_TEST);
+        User originalUser = UserQueryExecutor.getUser(1);
         originalUser.setUsername("afterUpdate");
-        boolean userUpdated = UserQueryExecutor.updateUser(originalUser, IS_TEST);
+        boolean userUpdated = UserQueryExecutor.updateUser(originalUser);
         assertTrue("Query Executor did not update the User", userUpdated);
-        User updatedUser = UserQueryExecutor.getUser(1, IS_TEST);
+        User updatedUser = UserQueryExecutor.getUser(1);
         String newName = updatedUser.getUsername();
         assertEquals("updateUser() did not properly update username", newName,"afterUpdate");
     }
@@ -70,14 +70,14 @@ public class UserQueryExecutorTest {
         Connection mySql = DbTestHelper.prepareTestTables();
         DbTestHelper.insertTestUser(mySql, "beforeUpdate", "pw");
         User notInDB = new User();
-        boolean userUpdated = UserQueryExecutor.updateUser(notInDB, IS_TEST);
+        boolean userUpdated = UserQueryExecutor.updateUser(notInDB);
         assertFalse("Query Executor returned true to update user not in db", userUpdated);
     }
 
     @Test
     public void createUserTest() {
         Connection mySql = DbTestHelper.prepareTestTables();
-        User newUser = UserQueryExecutor.createUser("firstUser", "pw", "admin", IS_TEST);
+        User newUser = UserQueryExecutor.createUser("firstUser", "pw", "admin");
         assertEquals("first user created should be given id=1 by db", 1, newUser.getId());
     }
 
@@ -85,10 +85,10 @@ public class UserQueryExecutorTest {
     public void deleteUserTest() {
         Connection mySql = DbTestHelper.prepareTestTables();
         DbTestHelper.insertTestUser(mySql, "deleteMe", "pw");
-        User toDelete = UserQueryExecutor.findUserByName("deleteMe", IS_TEST);
-        UserQueryExecutor.deleteUser(toDelete, IS_TEST);
+        User toDelete = UserQueryExecutor.findUserByName("deleteMe");
+        UserQueryExecutor.deleteUser(toDelete);
         assertNull("User that should have been deleted was found",
-                UserQueryExecutor.findUserByName("deleteMe", IS_TEST));
+                UserQueryExecutor.findUserByName("deleteMe"));
     }
 
     @Test
@@ -97,7 +97,7 @@ public class UserQueryExecutorTest {
         for (int i = 0; i < 3; i++) {
             DbTestHelper.insertTestUser(mySql, "user_" + (i + 1), "password");
         }
-        int numUsers = UserQueryExecutor.findNumUsers(IS_TEST);
+        int numUsers = UserQueryExecutor.findNumUsers();
         assertEquals("findNumUsers did not return expected amount for DB with 3 users", 3, numUsers);
     }
 
@@ -105,7 +105,7 @@ public class UserQueryExecutorTest {
     @Test
     public void findNumUsers_Test_Empty() {
         DbTestHelper.prepareTestTables();
-        int numUsers = UserQueryExecutor.findNumUsers(IS_TEST);
+        int numUsers = UserQueryExecutor.findNumUsers();
         assertEquals("findNumUsers did not return 0 for empty DB", 0, numUsers);
     }
 }

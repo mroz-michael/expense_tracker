@@ -1,9 +1,6 @@
 import com.expense_tracker.utils.InputValidator;
 import org.junit.Test;
 
-import java.time.LocalDate;
-import java.util.Date;
-
 import static org.junit.Assert.*;
 
 public class InputValidatorTest {
@@ -77,26 +74,5 @@ public class InputValidatorTest {
         String invalidInt = "42";
         boolean isValid = InputValidator.validInt(invalidInt, 31, 41);
         assertFalse("42 should be recognized as invalid if range accepted is [31, 41]", isValid);
-    }
-
-    //todo: add these
-    @Test
-    public void validCommand_Test_Valid() {
-
-    }
-
-    @Test
-    public void validCommand_Test_Invalid() {
-
-    }
-
-    @Test
-    public void validQuery_Test_Valid() {
-
-    }
-
-    @Test
-    public void validQuery_Test_Invalid() {
-
     }
 }

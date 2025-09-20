@@ -11,11 +11,16 @@ import java.util.Scanner;
 
 public class TransactionInterface {
 
-    private final static boolean NOT_TEST = false; //TransactionInterface not used for test methods
     private static final String[] EXPENSE_CATEGORIES = {"Restaurants", "Entertainment", "Shopping", "Rent", "Groceries",
             "Tuition", "Bills", "Transportation", "Investing", "Miscellaneous"};
 
-    public static void createTransaction(int userId) {
+    private TransactionService transactionService;
+
+    public TransactionInterface(TransactionService service) {
+        this.transactionService = service;
+    }
+
+    public void createTransaction(int userId) {
 
         Scanner scanner = new Scanner(System.in);
 
@@ -33,6 +38,7 @@ public class TransactionInterface {
                 inputAmount = scanner.nextLine().trim();
 
                 if (cancelRequest(inputAmount)) {
+                    scanner.close();
                     return;
                 }
 
@@ -56,6 +62,7 @@ public class TransactionInterface {
                 catNumber = scanner.nextLine().trim();
 
                 if (cancelRequest(catNumber)) {
+                    scanner.close();
                     return;
                 }
 
@@ -65,12 +72,13 @@ public class TransactionInterface {
             int categoryIndex = Integer.valueOf(catNumber) - 1;
             if (categoryIndex < 0 || categoryIndex >= EXPENSE_CATEGORIES.length || date == null) {
                 System.out.println("Input validation error, aborting.");
+                scanner.close();
                 return;
             }
 
             String category = EXPENSE_CATEGORIES[categoryIndex];
 
-            TransactionService.createTransaction( amount, description, category, userId, date, NOT_TEST);
+            transactionService.createTransaction( amount, description, category, userId, date);
 
             System.out.println("Transaction added successfully!");
         } catch (Exception e) {
@@ -86,8 +94,8 @@ public class TransactionInterface {
         }
     }
 
-    public static void displayAllTransactions(int userId) {
-            List<Transaction> transactions = TransactionService.getAllTransactions(userId, NOT_TEST);
+    public void displayAllTransactions(int userId) {
+            List<Transaction> transactions = transactionService.getAllTransactions(userId);
 
             if (transactions.isEmpty()) {
                 System.out.println("No transactions found.");
@@ -101,7 +109,7 @@ public class TransactionInterface {
             }
     }
 
-    public static void displayTransactionsByCategory(int userId) {
+    public void displayTransactionsByCategory(int userId) {
         Scanner inputScan = new Scanner(System.in);
         System.out.println("Please select the category number of the transactions you want to display:");
         printCategories();
@@ -114,6 +122,7 @@ public class TransactionInterface {
             inputInt = inputScan.nextLine().trim();
 
             if (cancelRequest(inputInt)) {
+                inputScan.close();
                 return;
             }
             validInt = InputValidator.validInt(inputInt, 1, EXPENSE_CATEGORIES.length);
@@ -124,10 +133,11 @@ public class TransactionInterface {
             category = EXPENSE_CATEGORIES[categoryIndex];
         } catch (IndexOutOfBoundsException e) {
             System.out.println("Input Validation error, aborting.");
+            inputScan.close();
             return;
         }
 
-        List<Transaction> transactions = TransactionService.getTransactionsByCategory(userId, category, NOT_TEST);
+        List<Transaction> transactions = transactionService.getTransactionsByCategory(userId, category);
 
         if (transactions.isEmpty()) {
             System.out.println("No transactions in the " + category + " category were found ");
@@ -140,7 +150,7 @@ public class TransactionInterface {
         }
     }
 
-    public static void displayTransactionsByAmount(int userId) {
+    public  void displayTransactionsByAmount(int userId) {
         Scanner inputScan = new Scanner(System.in);
         System.out.println("Please enter the minimum amount of the transactions you want to display:");
         String inputMin = inputScan.next();
@@ -186,7 +196,7 @@ public class TransactionInterface {
             System.out.println("Input Validation error, aborting.");
         }
 
-        List<Transaction> transactions = TransactionService.getTransactionsByAmount(userId, min, max, NOT_TEST);
+        List<Transaction> transactions = transactionService.getTransactionsByAmount(userId, min, max);
 
         if (transactions.isEmpty()) {
             System.out.println("No transactions were found within that amount range.");
@@ -199,7 +209,7 @@ public class TransactionInterface {
         }
     }
 
-    public static void displayTransactionsByDate(int userId) {
+    public void displayTransactionsByDate(int userId) {
         String startPrompt= "Enter the starting date for transactions you want to view: ";
         LocalDate startDate = getDateFromInput(startPrompt);
         String endPrompt = "Enter the ending date for transactions you want to view: ";
@@ -209,7 +219,7 @@ public class TransactionInterface {
             return;
         }
 
-        List<Transaction> transactions = TransactionService.getTransactionsByDate(userId, startDate, endDate, NOT_TEST);
+        List<Transaction> transactions = transactionService.getTransactionsByDate(userId, startDate, endDate);
 
         if (transactions.isEmpty()) {
             System.out.println("No transactions were found between those dates.");
@@ -222,7 +232,7 @@ public class TransactionInterface {
         }
     }
 
-    public static void updateTransactionFromInput() {
+    public  void updateTransactionFromInput() {
         Scanner scanner = new Scanner(System.in);
 
         System.out.println("Please enter the ID of the transaction you wish to update.");
@@ -236,7 +246,7 @@ public class TransactionInterface {
 
         int transactionId = Integer.parseInt(transactionIdString);
 
-        Transaction transaction = TransactionService.getTransaction(transactionId, NOT_TEST);
+        Transaction transaction = transactionService.getTransaction(transactionId);
 
         if (transaction == null) {
             System.out.println("Could not find a transaction with that ID");
@@ -281,13 +291,13 @@ public class TransactionInterface {
             return;
         }
 
-        boolean updateSuccessful = TransactionService.updateTransaction(transaction, NOT_TEST);
+        boolean updateSuccessful = transactionService.updateTransaction(transaction);
 
         String result = updateSuccessful ? "Transaction updated successfully" : "Error updating transaction";
         System.out.println(result);
     }
     
-    public static void deleteTransactionFromInput() {
+    public void deleteTransactionFromInput() {
         Scanner scanner = new Scanner(System.in);
 
         try {
@@ -312,7 +322,7 @@ public class TransactionInterface {
                 return;
             }
 
-            boolean deleted = TransactionService.deleteTransaction(tId, NOT_TEST);
+            boolean deleted = transactionService.deleteTransaction(tId);
             String res = deleted ? "Transaction deleted successfully" : "Transaction with given ID could not be deleted";
             System.out.println(res);
         } catch (Exception e) {
@@ -330,7 +340,7 @@ public class TransactionInterface {
         return formattedInput.equals("cancel") || formattedInput.equals("'cancel'");
     }
 
-    private static LocalDate getDateFromInput(String promptMessage) {
+    private LocalDate getDateFromInput(String promptMessage) {
         Scanner scanner = new Scanner(System.in);
         System.out.print(promptMessage);
         System.out.println("\nPlease enter in format: YYYY MM DD");
@@ -342,6 +352,7 @@ public class TransactionInterface {
             inputDate = scanner.nextLine().trim();
 
             if (cancelRequest(inputDate)) {
+                scanner.close();
                 return null;
             }
 
@@ -350,14 +361,16 @@ public class TransactionInterface {
 
         try {
             LocalDate date = LocalDate.parse(inputDate, InputValidator.DATE_FORMATTER);
+            scanner.close();
             return date;
         } catch (DateTimeException e) {
             System.out.println(e.getMessage());
+            scanner.close();
             return null;
         }
     }
 
-    public static boolean updateAmount(Transaction t) {
+    public boolean updateAmount(Transaction t) {
         System.out.println("Enter the updated amount for this transaction.");
         Scanner scanner = new Scanner(System.in);
         String amountInput = scanner.next();
@@ -372,7 +385,7 @@ public class TransactionInterface {
         return isValid;
     }
 
-    public static boolean updateDescription(Transaction t) {
+    public boolean updateDescription(Transaction t) {
         System.out.println("Enter the updated description for this transaction. Hit Enter when done.");
         Scanner scanner = new Scanner(System.in);
         String newDescription = scanner.nextLine();
@@ -380,7 +393,7 @@ public class TransactionInterface {
         return true;
     }
 
-    public static boolean updateCategory(Transaction t) {
+    public boolean updateCategory(Transaction t) {
         System.out.println("Select the number of the updated category for this transaction.");
         printCategories();
         Scanner scanner = new Scanner(System.in);
@@ -396,7 +409,7 @@ public class TransactionInterface {
         return isValid;
     }
 
-    public static boolean updateDate(Transaction t) {
+    public boolean updateDate(Transaction t) {
         LocalDate date = getDateFromInput("Please enter the updated date for this transaction");
         if (date != null) {
             t.setDate(date);

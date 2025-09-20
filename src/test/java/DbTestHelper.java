@@ -5,15 +5,21 @@ import java.sql.SQLException;
 
 public class DbTestHelper {
 
+    /**
+     * create the tables needed for the unit tests
+     * @return a Connection to the Test database
+     */
     public static Connection prepareTestTables() {
         try {
             Connection mySql = DBConnectorTest.connectToDB();
-            PreparedStatement dropTransactionsTable = mySql.prepareStatement("drop table if exists transactions_test");
-            PreparedStatement dropUsersTable = mySql.prepareStatement("drop table if exists users_test;");
+            //The testing DB doesn't use _test suffix for table names
+            PreparedStatement dropTransactionsTable = mySql.prepareStatement("drop table if exists transactions");
+            PreparedStatement dropUsersTable = mySql.prepareStatement("drop table if exists users;");
             dropTransactionsTable.executeUpdate();
             dropUsersTable.executeUpdate();
+            
             PreparedStatement createUsersTable = mySql.prepareStatement("" +
-                    "    CREATE TABLE IF NOT EXISTS users_test (" +
+                    "    CREATE TABLE IF NOT EXISTS users (" +
                     "    id INT AUTO_INCREMENT PRIMARY KEY," +
                     "    username VARCHAR(255)," +
                     "    password_hash VARCHAR(255)," +
@@ -21,14 +27,14 @@ public class DbTestHelper {
                     "    role VARCHAR(50) DEFAULT 'user'" +
                     ");");
             PreparedStatement createTransactionsTable = mySql.prepareStatement("" +
-                    "    CREATE TABLE IF NOT EXISTS transactions_test (" +
+                    "    CREATE TABLE IF NOT EXISTS transactions (" +
                     "    id INT AUTO_INCREMENT PRIMARY KEY," +
                     "    description VARCHAR(255) default ''," +
                     "    amount DECIMAL(10,2) default 0.00," +
                     "    date TIMESTAMP DEFAULT CURRENT_TIMESTAMP," +
                     "    user_id int," +
                     "    category VARCHAR(50) DEFAULT 'Miscellaneous'," +
-                    "    FOREIGN KEY (user_id) REFERENCES users_test(id) on delete cascade);");
+                    "    FOREIGN KEY (user_id) REFERENCES users(id) on delete cascade);");
             createUsersTable.executeUpdate();
             createTransactionsTable.executeUpdate();
             return mySql;
@@ -40,7 +46,7 @@ public class DbTestHelper {
     public static void insertTestUser(Connection mySql, String username, String pw) {
 
         try {
-            PreparedStatement addUser = mySql.prepareStatement("insert into users_test (username, password_hash) values( ?, ? );");
+            PreparedStatement addUser = mySql.prepareStatement("insert into users (username, password_hash) values( ?, ? );");
             addUser.setString(1, username);
             addUser.setString(2, AuthenticationService.generateHash(pw));
             addUser.executeUpdate();
@@ -52,7 +58,7 @@ public class DbTestHelper {
     public static void insertTestTransaction(Connection mySql, double amnt, String description){
         try {
             PreparedStatement addUser = mySql.prepareStatement(
-                    "insert into transactions_test (amount, description) values( ?, ? );");
+                    "insert into transactions (amount, description) values( ?, ? );");
             addUser.setDouble(1, amnt);
             addUser.setString(2, description);
             addUser.executeUpdate();

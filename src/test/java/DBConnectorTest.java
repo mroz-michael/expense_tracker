@@ -5,14 +5,15 @@ import java.io.IOException;
 import java.sql.*;
 import org.junit.Test;
 
-import com.expense_tracker.db.DBConnector;
+import com.expense_tracker.db.TestDBConnector;
 
     public class DBConnectorTest {
 
 
+        //Connect to the Test Database
         public static Connection connectToDB() {
             try {
-                Connection mySql = DBConnector.connect();
+                Connection mySql = TestDBConnector.connect();
                 return mySql;
             } catch (IOException | SQLException e) {
                 System.out.println(e.getMessage());

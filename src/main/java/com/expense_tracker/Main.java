@@ -3,6 +3,8 @@ package com.expense_tracker;
 import com.expense_tracker.controllers.TransactionInterface;
 import com.expense_tracker.controllers.UserInterface;
 import com.expense_tracker.db.DBConnector;
+import com.expense_tracker.db.TransactionQueryExecutor;
+import com.expense_tracker.db.UserQueryExecutor;
 import com.expense_tracker.utils.InputValidator;
 
 import java.sql.*;
@@ -35,6 +37,17 @@ public class Main {
     public static void executeMainLoop(User user) {
             int userId = user.getId();
             Scanner input = new Scanner(System.in);
+
+            //build each layer bottom up
+            Connection connection = DBConnector.connect();
+
+            TransactionQueryExecutor transactionExecutor = new TransactionQueryExecutor(connection);
+
+            //todo: brainstorm a less-daunting name
+            UserQueryExecutor userExecutor = new UserQueryExecutor(connection);
+
+            
+
             UserInterface.displayMainMenu();
         while (true) {
 
@@ -51,7 +64,7 @@ public class Main {
             //UserInterface.COMMAND_LIST is mapping of numbers to commands
             switch (cmd) {
                 case "1": //create transaction
-                    TransactionInterface.createTransaction(userId);
+                    transactionInterface.createTransaction(userId);
                     break;
                 case "2": //get transactions based on query
                     UserInterface.promptTransactionQuery(userId);

@@ -3,48 +3,53 @@ package com.expense_tracker.services;
 import com.expense_tracker.Transaction;
 import com.expense_tracker.db.TransactionQueryExecutor;
 
-import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
 
 //perform CRUD operations on transactions by calling Query Executor
 public class TransactionService {
 
-    public static Transaction createTransaction(double amount, String description, String category, int userId, LocalDate date, boolean isTest) {
-        return TransactionQueryExecutor.createTransaction(amount, description, category, userId, date, isTest);
+    private TransactionQueryExecutor queryExecutor;
+
+    public TransactionService(TransactionQueryExecutor executor) {
+        this.queryExecutor = executor;
     }
 
-    public static Transaction createTransaction(double amount, String description, String category, int userId, boolean isTest) {
+    public Transaction createTransaction(double amount, String description, String category, int userId, LocalDate date) {
+        return queryExecutor.createTransaction(amount, description, category, userId, date );
+    }
+
+    public Transaction createTransaction(double amount, String description, String category, int userId) {
         LocalDate date = LocalDate.now();
-        return createTransaction(amount, description, category, userId, date, isTest);
+        return createTransaction(amount, description, category, userId, date);
     }
 
-    public static Transaction getTransaction(int id, boolean isTest) {
-        return TransactionQueryExecutor.getTransaction(id, isTest);
+    public Transaction getTransaction(int id) {
+        return queryExecutor.getTransaction(id);
     }
 
-    public static List<Transaction> getAllTransactions(int userId, boolean isTest) {
-        return TransactionQueryExecutor.getAllTransactions(userId, isTest);
+    public List<Transaction> getAllTransactions(int userId) {
+        return queryExecutor.getAllTransactions(userId);
     }
     
-    public static List<Transaction> getTransactionsByAmount(int userId, double min, double max, boolean isTest) {
-        return TransactionQueryExecutor.getTransactionsByAmount(userId, min, max, isTest);
+    public  List<Transaction> getTransactionsByAmount(int userId, double min, double max) {
+        return queryExecutor.getTransactionsByAmount(userId, min, max);
     }
 
-    public static List<Transaction> getTransactionsByCategory(int userId, String category, boolean isTest) {
-        return TransactionQueryExecutor.getTransactionsByCategory(userId, category, isTest);
+    public List<Transaction> getTransactionsByCategory(int userId, String category) {
+        return queryExecutor.getTransactionsByCategory(userId, category);
     }
 
 
-    public static List<Transaction> getTransactionsByDate(int userId, LocalDate start, LocalDate end, boolean isTest) {
-        return TransactionQueryExecutor.getTransactionsByDate(userId, start, end, isTest);
+    public List<Transaction> getTransactionsByDate(int userId, LocalDate start, LocalDate end) {
+        return queryExecutor.getTransactionsByDate(userId, start, end);
     }
 
-    public static boolean updateTransaction(Transaction updatedTransaction, boolean isTest) {
-        return TransactionQueryExecutor.updateTransaction(updatedTransaction, isTest);
+    public boolean updateTransaction(Transaction updatedTransaction) {
+        return queryExecutor.updateTransaction(updatedTransaction);
     }
 
-    public static boolean deleteTransaction(int transactionId, boolean isTest) {
-        return TransactionQueryExecutor.deleteTransaction(transactionId, isTest);
+    public boolean deleteTransaction(int transactionId) {
+        return queryExecutor.deleteTransaction(transactionId);
     }
 }

@@ -11,8 +11,7 @@ import java.util.Scanner;
 
 public class UserInterface {
 
-    private final static boolean NOT_TEST = false; //UserInterface not used for test methods
-
+    //map input commands to their menu-description
     private final static Map<String, String> COMMAND_LIST = Map.of(
             "1", "Enter a Transaction",
             "2", "View Existing Transactions",
@@ -27,6 +26,12 @@ public class UserInterface {
     );
 
     private static final String[] VALID_QUERIES = {"all", "date", "amount", "category"};
+
+    private TransactionInterface transactionInterface;
+    
+    public UserInterface(TransactionInterface transactionInterface) {
+        this.transactionInterface = transactionInterface;
+    }
 
     public static int numCommands() {
         return COMMAND_LIST.size();
@@ -52,12 +57,15 @@ public class UserInterface {
         String cmd = input.nextLine().toLowerCase().trim();
         while (true) {
             if (cmd.equals("1") || cmd.equals("login")) {
+                input.close();
                 return "login";
             }
             if (cmd.equals("2") || cmd.equals("register")) {
+                input.close();
                 return "register";
             }
             if (cmd.equals("3") || cmd.equals("exit")) {
+                input.close();
                 return "exit";
             }
             printInvalidInputMessage();
@@ -86,7 +94,8 @@ public class UserInterface {
         System.out.print("\nPlease enter your password: ");
         String plainTxtPw = inputScan.next().trim();
         System.out.println();
-        User loggedInUser = AuthenticationService.login(username, plainTxtPw, NOT_TEST);
+        User loggedInUser = AuthenticationService.login(username, plainTxtPw);
+        inputScan.close();
         return loggedInUser;
     }
     public static User register() {
@@ -101,7 +110,8 @@ public class UserInterface {
             unHashedPw = inputScan.nextLine().trim();
         }
         System.out.println();
-        return AuthenticationService.createUser(username, unHashedPw, NOT_TEST);
+        inputScan.close();
+        return AuthenticationService.createUser(username, unHashedPw);
     }
 
     public static void promptUsernameChange(User user) {
@@ -111,6 +121,7 @@ public class UserInterface {
         String userAgreement = inputScan.next();
         if (! (userAgreement.toUpperCase().equals("Y") || userAgreement.toUpperCase().equals("YES") )) {
             System.out.println("Username change request cancelled by user.");
+            inputScan.close();
             return;
         }
         //send existing and new username to db to confirm uniqueness and update
@@ -118,9 +129,10 @@ public class UserInterface {
         String newUsername = inputScan.next().trim();
         System.out.println("\nProcessing request...");
         user.setUsername(newUsername);
-        boolean userUpdated = UserQueryExecutor.updateUser(user, NOT_TEST);
+        boolean userUpdated = UserQueryExecutor.updateUser(user);
         String res = userUpdated ? "Username changed successfully" : "Error changing username, request cancelled";
         System.out.println(res);
+        inputScan.close();
     }
 
     public static void promptPasswordChange(User user) {
@@ -128,19 +140,20 @@ public class UserInterface {
         Scanner inputScan = new Scanner(System.in);
         String oldPassword = inputScan.next().trim();
         String username = user.getUsername();
-        boolean passwordIsValid = AuthenticationService.validatePassword(username, oldPassword, NOT_TEST);
+        boolean passwordIsValid = AuthenticationService.validatePassword(username, oldPassword);
 
         int attemptsRemaining = 5;
         while (!passwordIsValid && attemptsRemaining > 0) {
             System.out.println("Incorrect password, please try again: ");
             oldPassword = inputScan.next().trim();
-            passwordIsValid = AuthenticationService.validatePassword(username, oldPassword, NOT_TEST);
+            passwordIsValid = AuthenticationService.validatePassword(username, oldPassword);
             attemptsRemaining--;
         }
 
         if (!passwordIsValid) {
             System.out.println("Too many incorrect attempts. Please confirm your password before trying again.");
             //todo: add some sort of account recovery mechanism (email or security question)
+            inputScan.close();
             return;
         }
 
@@ -153,9 +166,10 @@ public class UserInterface {
 
         String newPwHash = AuthenticationService.generateHash(newPw);
         user.setPwHash(newPwHash);
-        boolean userUpdated = UserQueryExecutor.updateUser(user, NOT_TEST);
+        boolean userUpdated = UserQueryExecutor.updateUser(user);
         String response = userUpdated ? "\nPassword updated successfully" : "\nError: Database failed to save new password";
         System.out.println(response);
+        inputScan.close();
     }
 
     public static boolean promptDeleteUser(User user) {
@@ -167,10 +181,10 @@ public class UserInterface {
         if (confirmation.toUpperCase().trim().equals("YES") || confirmation.toUpperCase().trim().equals("Y")) {
             System.out.println("Please enter your password to finalize account deletion");
             String plainPw = scanner.nextLine().trim();
-            boolean pwValid = AuthenticationService.validatePassword(user.getUsername(), plainPw, NOT_TEST);
+            boolean pwValid = AuthenticationService.validatePassword(user.getUsername(), plainPw);
 
             if (pwValid) {
-                wasDeleted = UserQueryExecutor.deleteUser(user, NOT_TEST);
+                wasDeleted = UserQueryExecutor.deleteUser(user);
             }
 
             else {
@@ -178,7 +192,7 @@ public class UserInterface {
             }
 
         }
-
+        scanner.close();
         return wasDeleted;
     }
 
@@ -186,7 +200,7 @@ public class UserInterface {
      * prompt the user to either: view all transactions or filter by date|category|amount
      * @param userId
      */
-    public static void promptTransactionQuery(int userId) {
+    public void promptTransactionQuery(int userId) {
         Scanner scanner = new Scanner(System.in);
         String query = "";
         boolean validQuery = InputValidator.validateQuery(query);
@@ -209,33 +223,40 @@ public class UserInterface {
 
         if (!validQuery) {
             System.out.println("Invalid input, listing all transactions by default");
-            TransactionInterface.displayAllTransactions(userId);
+            transactionInterface.displayAllTransactions(userId);
+            scanner.close();
             return;
         }
 
         if (query.equals("all")) {
             System.out.println("Displaying All Transactions");
-            TransactionInterface.displayAllTransactions(userId);
+            transactionInterface.displayAllTransactions(userId);
+            scanner.close();
             return;
         }
 
         if (query.equals("date")) {
-            TransactionInterface.displayTransactionsByDate(userId);
+            transactionInterface.displayTransactionsByDate(userId);
+            scanner.close();
             return;
         }
 
         if (query.equals("amount")) {
-            TransactionInterface.displayTransactionsByAmount(userId);
+            transactionInterface.displayTransactionsByAmount(userId);
+            scanner.close();
             return;
         }
 
         if (query.equals("category")) {
-            TransactionInterface.displayTransactionsByCategory(userId);
+            transactionInterface.displayTransactionsByCategory(userId);
+            scanner.close();
             return;
         }
 
         System.out.println("An unexpected error occurred, cancelling request to view transactions.");
+        scanner.close();
     }
+
     private static void printInvalidInputMessage() {
         System.out.println("Error: Invalid input");
     }
