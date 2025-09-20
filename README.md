@@ -1,9 +1,22 @@
+## Major Refactoring In Progress
+After ~8 months removed from this project, reviewing it showed me several areas desperate for refactoring. Having all the layers use static methods makes the app incredibly inflexible, and necessitated the 'isTest' boolean being passed through each layer to determine the final DB query.
+
+I'm currently working to polish this project up a bit by refactoring out all those static methods. in the current commit the app isn't functional, but I hope to have the refactoring done relatively soon. 
+
+The most recent commit where the app works is 35cd7c007eb410f06763d22e7e06c3308b08831c 
+
 ## Overview
 This is a personal project to develop and demonstrate skill with Java, Unit Testing, and MySQL in an application that 
 attempts to model a professional code structure.
 
 
+
+
+
 ### Usage 
+
+*note from September 2025: The app is currently being refactored and this current commit will not work. The latest working commit is 
+35cd7c007eb410f06763d22e7e06c3308b08831c
 
 Currently, the application is still a work in progress and as such, does not have a very high portability. Right now,
 in order to use the app locally, the following steps need to be followed:
