@@ -1,16 +1,11 @@
 package com.expense_tracker.utils;
 
 
-import com.expense_tracker.User;
 import com.expense_tracker.controllers.UserInterface;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
-import java.util.InputMismatchException;
-import java.util.Map;
-import java.util.zip.DataFormatException;
 
 public class InputValidator {
 
@@ -61,7 +56,7 @@ public class InputValidator {
         }
 
         try {
-            Date date = formatter.parse(dateInput);
+            formatter.parse(dateInput);
             return true;
         } catch (ParseException e) {
             return false;

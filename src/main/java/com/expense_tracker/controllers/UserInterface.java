@@ -28,9 +28,13 @@ public class UserInterface {
     private static final String[] VALID_QUERIES = {"all", "date", "amount", "category"};
 
     private TransactionInterface transactionInterface;
+    private AuthenticationService authService;
+    private UserQueryExecutor userExecutor;
     
-    public UserInterface(TransactionInterface transactionInterface) {
+    public UserInterface(TransactionInterface transactionInterface, AuthenticationService authService, UserQueryExecutor userExecutor) {
         this.transactionInterface = transactionInterface;
+        this.authService = authService;
+        this.userExecutor = userExecutor;
     }
 
     public static int numCommands() {
@@ -86,7 +90,7 @@ public class UserInterface {
      * find a user based on inputted username and password
      * @return the User found in the database, or null if not found
      */
-    public static User login() {
+    public User login() {
         System.out.println("Logging in: ");
         System.out.print("Please enter your username: ");
         Scanner inputScan = new Scanner(System.in);
@@ -94,11 +98,11 @@ public class UserInterface {
         System.out.print("\nPlease enter your password: ");
         String plainTxtPw = inputScan.next().trim();
         System.out.println();
-        User loggedInUser = AuthenticationService.login(username, plainTxtPw);
+        User loggedInUser = authService.login(username, plainTxtPw);
         inputScan.close();
         return loggedInUser;
     }
-    public static User register() {
+    public User register() {
         Scanner inputScan = new Scanner(System.in);
         System.out.print("Enter the username you'd like: ");
         String username = inputScan.nextLine().trim();
@@ -111,10 +115,10 @@ public class UserInterface {
         }
         System.out.println();
         inputScan.close();
-        return AuthenticationService.createUser(username, unHashedPw);
+        return authService.createUser(username, unHashedPw);
     }
 
-    public static void promptUsernameChange(User user) {
+    public void promptUsernameChange(User user) {
         System.out.print("Are you sure you want to change your username? This is a non-reversible action");
         System.out.println("Type Y or YES to confirm");
         Scanner inputScan = new Scanner(System.in);
@@ -129,24 +133,24 @@ public class UserInterface {
         String newUsername = inputScan.next().trim();
         System.out.println("\nProcessing request...");
         user.setUsername(newUsername);
-        boolean userUpdated = UserQueryExecutor.updateUser(user);
+        boolean userUpdated = userExecutor.updateUser(user);
         String res = userUpdated ? "Username changed successfully" : "Error changing username, request cancelled";
         System.out.println(res);
         inputScan.close();
     }
 
-    public static void promptPasswordChange(User user) {
+    public void promptPasswordChange(User user) {
         System.out.println("To change your password, first enter your current password.");
         Scanner inputScan = new Scanner(System.in);
         String oldPassword = inputScan.next().trim();
         String username = user.getUsername();
-        boolean passwordIsValid = AuthenticationService.validatePassword(username, oldPassword);
+        boolean passwordIsValid = authService.validatePassword(username, oldPassword);
 
         int attemptsRemaining = 5;
         while (!passwordIsValid && attemptsRemaining > 0) {
             System.out.println("Incorrect password, please try again: ");
             oldPassword = inputScan.next().trim();
-            passwordIsValid = AuthenticationService.validatePassword(username, oldPassword);
+            passwordIsValid = authService.validatePassword(username, oldPassword);
             attemptsRemaining--;
         }
 
@@ -166,13 +170,13 @@ public class UserInterface {
 
         String newPwHash = AuthenticationService.generateHash(newPw);
         user.setPwHash(newPwHash);
-        boolean userUpdated = UserQueryExecutor.updateUser(user);
+        boolean userUpdated = userExecutor.updateUser(user);
         String response = userUpdated ? "\nPassword updated successfully" : "\nError: Database failed to save new password";
         System.out.println(response);
         inputScan.close();
     }
 
-    public static boolean promptDeleteUser(User user) {
+    public  boolean promptDeleteUser(User user) {
         System.out.println("Are you sure you want to delete this account? This is a non-recoverable action");
         System.out.println("Please confirm by entering YES or Y");
         Scanner scanner = new Scanner(System.in);
@@ -181,10 +185,10 @@ public class UserInterface {
         if (confirmation.toUpperCase().trim().equals("YES") || confirmation.toUpperCase().trim().equals("Y")) {
             System.out.println("Please enter your password to finalize account deletion");
             String plainPw = scanner.nextLine().trim();
-            boolean pwValid = AuthenticationService.validatePassword(user.getUsername(), plainPw);
+            boolean pwValid = authService.validatePassword(user.getUsername(), plainPw);
 
             if (pwValid) {
-                wasDeleted = UserQueryExecutor.deleteUser(user);
+                wasDeleted = userExecutor.deleteUser(user);
             }
 
             else {

@@ -141,6 +141,7 @@ public class TransactionInterface {
 
         if (transactions.isEmpty()) {
             System.out.println("No transactions in the " + category + " category were found ");
+            inputScan.close();
             return;
         }
 
@@ -148,6 +149,7 @@ public class TransactionInterface {
         for (Transaction t: transactions) {
             System.out.println(t);
         }
+        inputScan.close();
     }
 
     public  void displayTransactionsByAmount(int userId) {
@@ -163,6 +165,7 @@ public class TransactionInterface {
             System.out.println("Or type 'cancel' to go back to the previous menu");
             inputMin = inputScan.nextLine().trim();
             if (cancelRequest(inputMin)) {
+                inputScan.close();
                 return;
             }
             validDouble = InputValidator.validDouble(inputMin);
@@ -173,6 +176,7 @@ public class TransactionInterface {
 
         } catch (NumberFormatException e) {
             System.out.println("Input Validation error, aborting.");
+            inputScan.close();
             return;
         }
 
@@ -185,6 +189,7 @@ public class TransactionInterface {
             System.out.println("Or type 'cancel' to go back to the previous menu");
             inputMax = inputScan.nextLine().trim();
             if (cancelRequest(inputMax)) {
+                inputScan.close();
                 return;
             }
             validDouble = InputValidator.validDouble(inputMax);
@@ -200,6 +205,7 @@ public class TransactionInterface {
 
         if (transactions.isEmpty()) {
             System.out.println("No transactions were found within that amount range.");
+            inputScan.close();
             return;
         }
 
@@ -207,6 +213,7 @@ public class TransactionInterface {
         for (Transaction t: transactions) {
             System.out.println(t);
         }
+        inputScan.close();
     }
 
     public void displayTransactionsByDate(int userId) {
@@ -241,6 +248,7 @@ public class TransactionInterface {
 
         if (!isValidInt) {
             System.out.println("Invalid format for ID given");
+            scanner.close();
             return;
         }
 
@@ -250,6 +258,7 @@ public class TransactionInterface {
 
         if (transaction == null) {
             System.out.println("Could not find a transaction with that ID");
+            scanner.close();
             return;
         }
 
@@ -264,6 +273,7 @@ public class TransactionInterface {
         isValidInt = InputValidator.validInt(updateField, 1, 4);
         if (!isValidInt) {
             System.out.println("Invalid number entered, cancelling update request.");
+            scanner.close();
             return;
         }
 
@@ -288,6 +298,7 @@ public class TransactionInterface {
 
         if (!wasUpdated) {
             //print relevant error message in updateX() methods
+            scanner.close();
             return;
         }
 
@@ -295,6 +306,7 @@ public class TransactionInterface {
 
         String result = updateSuccessful ? "Transaction updated successfully" : "Error updating transaction";
         System.out.println(result);
+        scanner.close();
     }
     
     public void deleteTransactionFromInput() {
@@ -310,6 +322,7 @@ public class TransactionInterface {
                 inputInt = scanner.nextLine().trim();
 
                 if (cancelRequest(inputInt)) {
+                    scanner.close();
                     return;
                 }
 
@@ -319,6 +332,7 @@ public class TransactionInterface {
             int tId = Integer.valueOf(inputInt);
             if (tId < 1) {
                 System.out.println("Input validation error, aborting.");
+                scanner.close();
                 return;
             }
 
@@ -381,7 +395,7 @@ public class TransactionInterface {
             double amount = Double.parseDouble(amountInput);
             t.setAmount(amount);
         }
-
+        scanner.close();
         return isValid;
     }
 
@@ -390,6 +404,7 @@ public class TransactionInterface {
         Scanner scanner = new Scanner(System.in);
         String newDescription = scanner.nextLine();
         t.setDescription(newDescription);
+        scanner.close();
         return true;
     }
 
@@ -405,7 +420,7 @@ public class TransactionInterface {
             int catIndex = Integer.valueOf(catNum) - 1;
             t.setCategory(EXPENSE_CATEGORIES[catIndex]);
         }
-
+        scanner.close();
         return isValid;
     }
 

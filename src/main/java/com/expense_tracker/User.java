@@ -59,12 +59,12 @@ public class User {
             return this.userType;
     }
 
-    public void changePassword() {
-        UserInterface.promptPasswordChange(this);
+    public void changePassword(UserInterface ui) {
+        ui.promptPasswordChange(this);
     }
 
-    public void changeUsername() {
-        UserInterface.promptUsernameChange(this);
+    public void changeUsername(UserInterface ui) {
+        ui.promptUsernameChange(this);
     }
 
     //temp for testing

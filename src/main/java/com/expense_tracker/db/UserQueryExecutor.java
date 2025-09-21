@@ -21,16 +21,11 @@ public class UserQueryExecutor {
     */
 
     private Connection mySql;
+    private TableNameProvider tableProvider;
 
-    public UserQueryExecutor(Connection mysql) {
+    public UserQueryExecutor(Connection mySql, TableNameProvider tableProvider) {
         this.mySql = mySql;
-    }
-
-    private static String getTableName() {
-        ConfigLoader config = ConfigLoader.getInstance();
-        String tableSuffix = config.getTableSuffix();
-        TableNameProvider provider = new TableNameProvider(tableSuffix);
-        return provider.provideUsersTable();
+        this.tableProvider = tableProvider;
     }
 
     /**
@@ -44,7 +39,7 @@ public class UserQueryExecutor {
 
         try {
 
-            String tableName = getTableName();
+            String tableName = tableProvider.provideUsersTable();
             String createUserQuery = "Insert into " + tableName + "(username, password_hash, role) " +
                     "VALUES(?, ?, ?);";
             PreparedStatement newUser = mySql.prepareStatement(createUserQuery, PreparedStatement.RETURN_GENERATED_KEYS);
@@ -70,7 +65,7 @@ public class UserQueryExecutor {
     public User findUserByName(String username) {
         try {
             
-            String tableName = getTableName();
+            String tableName = tableProvider.provideUsersTable();
             String getUserQuery = "SELECT id, username, password_hash, date_created, role from " + tableName + " where username = ? ";
             PreparedStatement fetchUser = mySql.prepareStatement(getUserQuery);
             fetchUser.setString(1, username);
@@ -106,7 +101,7 @@ public class UserQueryExecutor {
 
         try {
             
-            String tableName = getTableName();
+            String tableName = tableProvider.provideUsersTable();
             String getUserQuery = "SELECT id, username, password_hash, date_created, role from " + tableName + " where id = ? ";
             PreparedStatement fetchUser = mySql.prepareStatement(getUserQuery);
             fetchUser.setInt(1, userID);
@@ -143,7 +138,7 @@ public class UserQueryExecutor {
             
             String newUsername = updatedUser.getUsername();
             String newPwHash = updatedUser.getPwHash();
-            String tableName = getTableName();
+            String tableName = tableProvider.provideUsersTable();
             String updateUserQuery = "update " + tableName + " " + "set username = ? , password_hash = ? where id= ?";
             PreparedStatement updateUser = mySql.prepareStatement(updateUserQuery);
             updateUser.setString(1, newUsername);
@@ -163,7 +158,7 @@ public class UserQueryExecutor {
 
         try {
 
-            String tableName = getTableName();
+            String tableName = tableProvider.provideUsersTable();
             String deleteUserQuery = "delete from " + tableName + " where id = ? ";
             PreparedStatement removeUser = mySql.prepareStatement(deleteUserQuery);
             removeUser.setInt(1, toDelete.getId());
@@ -183,7 +178,7 @@ public class UserQueryExecutor {
     public  int findNumUsers() {
         try {
 
-            String tableName = getTableName();
+            String tableName = tableProvider.provideUsersTable();
             String getNumUsersQuery = "select count(*) from " + tableName;
             PreparedStatement getNumUsers = mySql.prepareStatement(getNumUsersQuery);
             ResultSet res = getNumUsers.executeQuery();
