@@ -98,6 +98,7 @@ public class Main {
                     break;
                 case "6", "exit", "'exit'": //logout
                     System.out.println("Exiting the program, goodbye.");
+                    //todo: make a return to main menu possible after logout
                     return;
                 case "7": //change username
                     ui.promptUsernameChange(user);
@@ -108,6 +109,7 @@ public class Main {
                 case "9": //delete account :(
                     boolean userDeleted = ui.promptDeleteUser(user);
                     if (userDeleted) {
+                        //todo: make a return to main menu possible after account deletion
                         return;
                     }
                     System.out.println("Could not validate user deletion, returning to menu.");

@@ -49,7 +49,7 @@ public class TransactionInterface {
 
             System.out.println("Please enter the number of the category that best matches the Transaction: ");
             printCategories();
-            String catNumber = scanner.next();
+            String catNumber = scanner.nextLine();
             boolean numValid = InputValidator.validInt(catNumber, 1, EXPENSE_CATEGORIES.length);
             while (!numValid) {
                 System.out.println("Invalid category number");
@@ -379,7 +379,7 @@ public class TransactionInterface {
         System.out.println("Select the number of the updated category for this transaction.");
         printCategories();
         
-        String catNum = scanner.next();
+        String catNum = scanner.nextLine();
         boolean isValid = InputValidator.validInt(catNum, 1, EXPENSE_CATEGORIES.length);
         if (!isValid) {
             System.out.println("Invalid category number, cancelling transaction update.");

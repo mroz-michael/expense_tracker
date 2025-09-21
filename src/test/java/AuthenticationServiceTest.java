@@ -2,12 +2,10 @@ import com.expense_tracker.User;
 import com.expense_tracker.db.TableNameProvider;
 import com.expense_tracker.db.UserQueryExecutor;
 import com.expense_tracker.services.AuthenticationService;
-import com.expense_tracker.utils.ConfigLoader;
 
 import org.junit.Test;
 import org.junit.Before;
 
-import java.io.ObjectInputFilter.Config;
 import java.sql.Connection;
 
 import static org.junit.Assert.*;

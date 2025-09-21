@@ -97,9 +97,9 @@ public class UserInterface {
     public User login() {
         System.out.println("Logging in: ");
         System.out.print("Please enter your username: ");
-        String username = scanner.next().trim();
+        String username = scanner.nextLine().trim();
         System.out.print("\nPlease enter your password: ");
-        String plainTxtPw = scanner.next().trim();
+        String plainTxtPw = scanner.nextLine().trim();
         System.out.println();
         User loggedInUser = authService.login(username, plainTxtPw);
 
@@ -123,14 +123,14 @@ public class UserInterface {
         System.out.print("Are you sure you want to change your username? This is a non-reversible action");
         System.out.println("Type Y or YES to confirm");
         
-        String userAgreement = scanner.next();
+        String userAgreement = scanner.nextLine();
         if (! (userAgreement.toUpperCase().equals("Y") || userAgreement.toUpperCase().equals("YES") )) {
             System.out.println("Username change request cancelled by user.");
             return;
         }
         //send existing and new username to db to confirm uniqueness and update
         System.out.print("Please enter your new username: ");
-        String newUsername = scanner.next().trim();
+        String newUsername = scanner.nextLine().trim();
         System.out.println("\nProcessing request...");
         user.setUsername(newUsername);
         boolean userUpdated = userExecutor.updateUser(user);
@@ -140,14 +140,14 @@ public class UserInterface {
 
     public void promptPasswordChange(User user) {
         System.out.println("To change your password, first enter your current password.");
-        String oldPassword = scanner.next().trim();
+        String oldPassword = scanner.nextLine().trim();
         String username = user.getUsername();
         boolean passwordIsValid = authService.validatePassword(username, oldPassword);
 
         int attemptsRemaining = 5;
         while (!passwordIsValid && attemptsRemaining > 0) {
             System.out.println("Incorrect password, please try again: ");
-            oldPassword = scanner.next().trim();
+            oldPassword = scanner.nextLine().trim();
             passwordIsValid = authService.validatePassword(username, oldPassword);
             attemptsRemaining--;
         }
@@ -159,10 +159,10 @@ public class UserInterface {
         }
 
         System.out.print("Please enter your new password: ");
-        String newPw = scanner.next().trim();
+        String newPw = scanner.nextLine().trim();
         while (newPw.length() < 4) {
             System.out.print("\nPlease enter a longer password (4 characters minimum)");
-            newPw = scanner.next().trim();
+            newPw = scanner.nextLine().trim();
         }
 
         String newPwHash = AuthenticationService.generateHash(newPw);
@@ -210,7 +210,7 @@ public class UserInterface {
         System.out.println("3: View Transactions by Amount");
         System.out.println("4: View Transactions by Category");
         String[] VALID_QUERIES = getValidQueries();
-        query = scanner.nextLine();
+        query = scanner.nextLine().trim();
         switch(query) {
             case "1", "2", "3", "4":
                 query = VALID_QUERIES[Integer.valueOf(query) -1];
