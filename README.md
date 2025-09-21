@@ -48,7 +48,6 @@ in order to use the app locally, the following steps need to be followed:
    - table_suffix = (_test if using dummy data, leave blank for data you care about)
    Note this config.properties file should be added to .gitignore. 
 
-(step 4 added September 2025)
 4) create a test_config.properties file in the db/resources directory with the same lines as config.properties, but always leave table_suffix blank (since its a test db to begin with, _test would be redundant)
 
   This test_config.properties file should also be added to .gitignore
