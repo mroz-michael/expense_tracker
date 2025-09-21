@@ -80,16 +80,16 @@ public class Main {
             //UserInterface.COMMAND_LIST is mapping of numbers to commands
             switch (cmd) {
                 case "1": //create transaction
-                    transactionInterface.createTransaction(userId);
+                    transactionInterface.createTransaction(userId, ui.getScanner());
                     break;
                 case "2": //get transactions based on query
                     ui.promptTransactionQuery(userId);
                     break;
                 case "3": //update transaction
-                    transactionInterface.updateTransactionFromInput();
+                    transactionInterface.updateTransactionFromInput(ui.getScanner());
                     break;
                 case "4": //delete transaction
-                    transactionInterface.deleteTransactionFromInput();
+                    transactionInterface.deleteTransactionFromInput(ui.getScanner());
                     break;
                 case "5": //view account details
                     System.out.println("*** Account Details ***");

@@ -39,6 +39,11 @@ public class UserInterface {
         this.scanner = new Scanner(System.in);
     }
 
+    //needed for a few transactionInterface calls in Main
+    public Scanner getScanner() {
+        return this.scanner;
+    }
+
     public static int numCommands() {
         return COMMAND_LIST.size();
     }
@@ -227,17 +232,17 @@ public class UserInterface {
         }
 
         if (query.equals("date")) {
-            transactionInterface.displayTransactionsByDate(userId);
+            transactionInterface.displayTransactionsByDate(userId, scanner);
             return;
         }
 
         if (query.equals("amount")) {
-            transactionInterface.displayTransactionsByAmount(userId);
+            transactionInterface.displayTransactionsByAmount(userId, scanner);
             return;
         }
 
         if (query.equals("category")) {
-            transactionInterface.displayTransactionsByCategory(userId);
+            transactionInterface.displayTransactionsByCategory(userId, scanner);
             return;
         }
 
