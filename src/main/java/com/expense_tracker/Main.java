@@ -11,7 +11,6 @@ import com.expense_tracker.services.TransactionService;
 import com.expense_tracker.utils.ConfigLoader;
 import com.expense_tracker.utils.InputValidator;
 
-import java.io.IOException;
 import java.sql.*;
 import java.util.Scanner;
 
@@ -42,7 +41,7 @@ public class Main {
             User currUser = null;
             while (currUser == null) {
                 UserInterface.displayLoginScreen();
-                String cmd = UserInterface.getLoginPrompt();
+                String cmd = ui.getLoginPrompt();
                 if (cmd.equals("exit")) {
                     return;
                 }
@@ -99,7 +98,6 @@ public class Main {
                     break;
                 case "6", "exit", "'exit'": //logout
                     System.out.println("Exiting the program, goodbye.");
-                    input.close();
                     return;
                 case "7": //change username
                     ui.promptUsernameChange(user);
@@ -110,7 +108,6 @@ public class Main {
                 case "9": //delete account :(
                     boolean userDeleted = ui.promptDeleteUser(user);
                     if (userDeleted) {
-                        input.close();
                         return;
                     }
                     System.out.println("Could not validate user deletion, returning to menu.");
@@ -118,6 +115,5 @@ public class Main {
                 default: break;
             }
         }
-        
     }
 }
